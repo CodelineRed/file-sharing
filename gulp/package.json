@@ -1,0 +1,56 @@
+{
+    "name": "gulp-templating",
+    "version": "3.0.0",
+    "description": "Gulp Templating",
+    "keywords": [
+        "gulp",
+        "templating",
+        "skeleton",
+        "boilerplate",
+        "bootstrap",
+        "fontawesome",
+        "slick",
+        "carousel",
+        "lazyload",
+        "css user agent",
+        "cssua",
+        "cookieconsent",
+        "cookie",
+        "jquery"
+    ],
+    "author": {
+        "name": "InsanityMeetsHH",
+        "email": "software@insanitymeetshh.net"
+    },
+    "bugs": {
+        "url": "https://github.com/InsanityMeetsHH/gulp-templating/issues"
+    },
+    "license": "ISC",
+    "homepage": "http://gulp.insanitymeetshh.net",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/InsanityMeetsHH/gulp-templating.git"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.24.4",
+        "del": "^3.0.0",
+        "gulp": "^3.9.1",
+        "gulp-clean-css": "^3.9.4",
+        "gulp-concat": "^2.6.1",
+        "gulp-imagemin": "^4.1.0",
+        "gulp-sass": "^4.0.1",
+        "gulp-sourcemaps": "^2.6.4",
+        "gulp-uglify": "^3.0.0"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.1.0",
+        "@fortawesome/free-brands-svg-icons": "^5.1.0",
+        "@fortawesome/free-regular-svg-icons": "^5.1.0",
+        "@fortawesome/free-solid-svg-icons": "^5.1.0",
+        "bootstrap": "^4.1.1",
+        "cssuseragent": "^2.1.31",
+        "jquery": "^3.3.1",
+        "slick-carousel": "^1.8.1",
+        "vanilla-lazyload": "^8.7.1"
+    }
+}

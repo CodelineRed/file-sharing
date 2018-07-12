@@ -1,0 +1,35 @@
+{# lk = locale key #}
+{% set lk = language() %}
+{# ns = naviagtion suffix #}
+{% set ns = '-label' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>File Sharing - InsanityMeetsHH</title>
+        {# Favicon sizes 16, 32, 36, 48, 70, 72, 96, 144, 150, 180, 192, 256, 310, 310x150, 384, 512, SVG, ICO #}
+        <link rel="apple-touch-icon" href="img/favicons/favicon-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/png" href="img/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="img/favicons/favicon-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="img/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="img/favicons/manifest.json">
+        <link rel="mask-icon" href="img/favicons/favicon.svg" color="#000000">
+        <meta name="msapplication-TileColor" content="#000000">
+        <meta name="msapplication-TileImage" content="img/favicons/favicon-144x144.png">
+        <meta name="msapplication-config" content="img/favicons/browserconfig.xml">
+        <meta name="theme-color" content="#000000">
+        <link rel="shortcut icon" href="img/favicons/favicon.ico">
+        <link href="//fonts.googleapis.com/css?family=Lato:300" rel="stylesheet" type="text/css">
+        <link href="{{ base_url() }}/css/styles.css" rel="stylesheet" type="text/css">
+        
+    </head>
+    <body>
+        {# include('partials/langswitch.html.twig') #}
+        {# include('partials/navigation.html.twig') #}
+        
+        {% block content %}{% endblock %}
+        
+        <script src="{{ base_url() }}/js/scripts.js"></script>
+    </body>
+</html>
+
