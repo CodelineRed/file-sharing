@@ -21,10 +21,19 @@ return [
         'public_path' => '/',
         
         // Cache settings
-        'cache_path'  => __DIR__ . '/../cache/',
+        'cache_path' => __DIR__ . '/../cache/',
         
         // config path
-        'config_path'  => __DIR__ . '/../config/',
+        'config_path' => __DIR__ . '/../config/',
+        
+        // upload settings
+        'upload' => [
+            'path' => __DIR__ . '/../public/upload/',
+            'whitelist' => [
+                '.jpg', '.jpeg', '.gif', '.svg', '.pdf', '.zip', '.rar', '.txt',
+                '.xls', '.doc', '.ppt', '.xlsx', '.docx', '.pptx', '.ico'
+            ],
+        ],
         
         // Locale settings
         'locale' => [

@@ -8,9 +8,9 @@
 
                 {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) and user.id == current_user() %}
                     {% if user.hasTwoFactor %}
-                        <button type="button" class="btn btn-primary btn-lg"><i class="fas fa-lock mr-2"></i> {{ '2fa-enabled'|trans }}</button>
+                        <button type="button" class="btn btn-primary"><i class="fas fa-lock mr-2"></i> {{ '2fa-enabled'|trans }}</button>
                     {% else %}
-                        <a href="{{ path_for('user-enable-two-factor' ~ lk) }}" class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-lock mr-2"></i> {{ trans('user-two-factor' ~ ns) }}</a>
+                        <a href="{{ path_for('user-enable-two-factor' ~ lk) }}" class="btn btn-success" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-lock mr-2"></i> {{ trans('user-two-factor' ~ ns) }}</a>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -18,10 +18,17 @@
         <div class="col-12 mb-3">
             {% if user %}
                 <h2>Upload file</h2>
-                <form action="{{ path_for('user-login-validate' ~ lk) }}" method="post">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+                <form action="{{ path_for('file-upload' ~ lk) }}" method="post" enctype="multipart/form-data">
+                    <div class="form-row align-items-center justify-content-center">
+                        <div class="col-8">
+                            <div class="custom-file">
+                                <input type="file" name="upload" class="custom-file-input" id="file-upload">
+                                <label class="custom-file-label" for="file-upload">Choose file</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">{{ 'submit'|trans }}</button>
+                        </div>
                     </div>
                 </form>
             {% endif %}
@@ -31,7 +38,12 @@
                 {# loop through database records #}
                 {% if files|length > 0 %}
                     {% for file in files %}
-                        {{ file.id }} {{ file.name }} <br/>
+                        {% if file.public %}
+                            <a href="{{ path_for('file-public' ~ lk, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="Lock file"><i class="fas fa-unlock"></i></a>
+                        {% else %}
+                            <a href="{{ path_for('file-public' ~ lk, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="Unlock file"><i class="fas fa-lock"></i></a>
+                        {% endif %}
+                        {{ file.name ~ file.extension }}<br/>
                     {% endfor %}
                 {% else %}
                     No files where found

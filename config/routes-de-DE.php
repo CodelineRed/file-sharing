@@ -2,6 +2,20 @@
 return [
     // localized routing (e.g. CONTROLLER-ACTION)
     'routes' => [
+        'file-upload' => [
+            'route'      => '/de/upload',
+            'method'     => 'App\Controller\FileController:upload',
+            'methods'    => ['POST'],
+            'rolesAllow' => ['member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-public' => [
+            'route'      => '/de/public/{uuid}',
+            'method'     => 'App\Controller\FileController:togglePublic',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
         'user-enable-two-factor' => [
             'route'      => '/de/zwei-faktor-aktivieren',
             'method'     => 'App\Controller\UserController:enableTwoFactor',

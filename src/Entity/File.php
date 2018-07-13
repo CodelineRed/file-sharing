@@ -46,7 +46,7 @@ class File extends \App\MappedSuperclass\Base
     /**
      * @ORM\Column(type="boolean")
      */
-    private $public;
+    private $public = 0;
     
     /**
      * Get $user

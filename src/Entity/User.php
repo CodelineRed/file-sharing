@@ -36,7 +36,7 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
     /**
      * @ORM\Column(type="boolean", name="two_factor")
      */
-    private $twoFactor;
+    private $twoFactor = 0;
     
     /**
      * @ORM\Column(type="string", name="two_factor_secret")
