@@ -36,13 +36,14 @@ class UserController extends BaseController {
         } else {
             // if user is not logged in
             $this->logger->info("User not logged in - UserController:show");
-            return $response->withRedirect($this->router->pathFor('user-login-' . $this->currentLocale));
+            return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
         }
         
         // Render view
         return $this->view->render($response, 'user/show.html.twig', array_merge($args, 
             [
                 'user' => $user,
+                'files' => $user->getFiles(),
             ]
         ));
     }
@@ -114,7 +115,7 @@ class UserController extends BaseController {
         $_SESSION['currentRole'] = 'guest';
         unset($_SESSION['currentUser']);
         $this->logger->info("User " . $this->currentUser . " logged out - UserController:logout");
-        return $response->withRedirect($this->router->pathFor('user-login-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
     }
     
     /**
@@ -206,7 +207,7 @@ class UserController extends BaseController {
         return $this->view->render($response, 'user/enable-two-factor.html.twig', array_merge($args, 
             [
                 'secret' => $secret,
-                'qr' => $ga->getQRCodeGoogleUrl($user->getName(), $secret, 'Slim Skeleton'),
+                'qr' => $ga->getQRCodeGoogleUrl($user->getName(), $secret, 'fs.imhh.me'),
                 'passValid' => $passValid,
                 'passCode' => isset($_SESSION['pass_code']) ? $_SESSION['pass_code'] : '',
             ]

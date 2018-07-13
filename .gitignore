@@ -1,19 +1,18 @@
 /vendor/
 /logs/*
 !/logs/README.md
-/src/additional-settings.php
-/composer.lock
-/composer.phar
-/config/additional-settings.php
 /cache/
 /public/svg/
 /public/img/
 /public/css/styles.css
-/public/css/styles.css.map
 /public/js/scripts.js
-/public/js/scripts.js.map
 /public/font/
-/gulp/package-lock.json
+styles.css.map
+scripts.js.map
+package-lock.json
+composer.lock
+composer.phar
+additional-settings.php
 
 ### Node ###
 # Logs

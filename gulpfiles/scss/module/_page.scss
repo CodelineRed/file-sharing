@@ -5,6 +5,10 @@ body {
 
 a {
     color: $lightblue;
+    
+    &.current {
+        color: $grey;
+    }
 }
 
 h1 {

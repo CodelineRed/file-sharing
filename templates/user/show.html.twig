@@ -1,20 +1,42 @@
 {% extends "layouts/layout.html.twig" %}
 
 {% block content %}
-    {% if user %}
-        <br/>
-        {{ 'id'|trans }}: {{ user.id }}<br/>
-        {{ 'name'|trans }}: {{ user.name }}<br/>
-        {{ 'role'|trans }}: {{ user.role.name|trans }}<br/>
-        {{ 'created-at'|trans }} {{ user.createdAt|date('datetime'|trans) }}<br/>
-        {{ 'updated-at'|trans }} {{ user.updatedAt|date('datetime'|trans) }}<br/>
-        
-        {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) and user.id == current_user() %}
-            {% if user.hasTwoFactor %}
-                {{ '2fa-enabled'|trans }}
-            {% else %}
-                <a href="{{ path_for('user-enable-two-factor' ~ lk) }}">{{ trans('user-two-factor' ~ ns) }}</a>
+    <div class="row">
+        <div class="col-12 mb-3">
+            {% if user %}
+                <h1>{{ user.name }}</h1>
+
+                {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) and user.id == current_user() %}
+                    {% if user.hasTwoFactor %}
+                        <button type="button" class="btn btn-primary btn-lg"><i class="fas fa-lock mr-2"></i> {{ '2fa-enabled'|trans }}</button>
+                    {% else %}
+                        <a href="{{ path_for('user-enable-two-factor' ~ lk) }}" class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-lock mr-2"></i> {{ trans('user-two-factor' ~ ns) }}</a>
+                    {% endif %}
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endif %}
+        </div>
+        <div class="col-12 mb-3">
+            {% if user %}
+                <h2>Upload file</h2>
+                <form action="{{ path_for('user-login-validate' ~ lk) }}" method="post">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+        <div class="col-12">
+            {% if user %}
+                {# loop through database records #}
+                {% if files|length > 0 %}
+                    {% for file in files %}
+                        {{ file.id }} {{ file.name }} <br/>
+                    {% endfor %}
+                {% else %}
+                    No files where found
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

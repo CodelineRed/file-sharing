@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="imhhfs_user")
  */
 class User extends \App\MappedSuperclass\LowerCaseUniqueName
 {
@@ -19,20 +19,14 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
     private $role;
     
     /**
-     * One User has many RecoveryCodes.
-     * 
      * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user")
      */
     private $recoveryCodes;
-
+    
     /**
-     * Get $recoveryCodes
-     * 
-     * @return ArrayCollection
+     * @ORM\OneToMany(targetEntity="File", mappedBy="user")
      */
-    public function getRecoveryCodes() {
-        return $this->recoveryCodes;
-    }
+    private $files;
     
     /**
      * @ORM\Column(type="string")
@@ -51,6 +45,25 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
 
     public function __construct() {
         $this->recoveryCodes = new ArrayCollection();
+        $this->files = new ArrayCollection();
+    }
+
+    /**
+     * Get $recoveryCodes
+     * 
+     * @return ArrayCollection
+     */
+    public function getRecoveryCodes() {
+        return $this->recoveryCodes;
+    }
+
+    /**
+     * Get $files
+     * 
+     * @return ArrayCollection
+     */
+    public function getFiles() {
+        return $this->files;
     }
 
     /**

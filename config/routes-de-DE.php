@@ -79,13 +79,6 @@ return [
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
-        'page-example' => [
-            'route'      => '/de/beispiel',
-            'method'     => 'App\Controller\PageController:example',
-            'methods'    => ['GET'],
-            'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
-            'rolesDeny'  => [],
-        ],
         'page-index' => [
             'route'      => '/de/',
             'method'     => 'App\Controller\PageController:index',
