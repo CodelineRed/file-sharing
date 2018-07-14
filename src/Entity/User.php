@@ -24,11 +24,6 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
     private $recoveryCodes;
     
     /**
-     * @ORM\OneToMany(targetEntity="File", mappedBy="user")
-     */
-    private $files;
-    
-    /**
      * @ORM\Column(type="string")
      */
     private $pass;
@@ -42,6 +37,11 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
      * @ORM\Column(type="string", name="two_factor_secret")
      */
     private $twoFactorSecret = '';
+    
+    /**
+     * @ORM\OneToMany(targetEntity="File", mappedBy="user")
+     */
+    private $files;
 
     public function __construct() {
         $this->recoveryCodes = new ArrayCollection();

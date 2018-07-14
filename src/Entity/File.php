@@ -34,7 +34,8 @@ class File extends \App\MappedSuperclass\Base
     private $hashName;
     
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="FileExtension", inversedBy="files")
+     * @ORM\JoinColumn(name="extension", referencedColumnName="id")
      */
     private $extension;
     
@@ -116,7 +117,7 @@ class File extends \App\MappedSuperclass\Base
     /**
      * Get $extension
      * 
-     * @return string
+     * @return FileExtension
      */
     function getExtension() {
         return $this->extension;
@@ -125,7 +126,7 @@ class File extends \App\MappedSuperclass\Base
     /**
      * Set $extension
      * 
-     * @param string $extension
+     * @param FileExtension $extension
      */
     function setExtension($extension) {
         $this->extension = $extension;

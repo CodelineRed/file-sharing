@@ -18,8 +18,12 @@ class FileController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function show($request, $response, $args) {
+        $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
+        
         // Render view
-        return $this->view->render($response, 'file/show.html.twig', array_merge($args, []));
+        return $this->view->render($response, 'file/show.html.twig', array_merge($args, [
+            'file' => $file,
+        ]));
     }
     
     /**
@@ -41,11 +45,11 @@ class FileController extends BaseController {
                 if ($upload->getError() === UPLOAD_ERR_OK) {
                     $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
                     $uploadFileName = $upload->getClientFilename();
-                    $extension = strtolower(substr($uploadFileName, strrpos($uploadFileName, '.')));
+                    $extension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => strtolower(substr($uploadFileName, strrpos($uploadFileName, '.'))), 'active' => 1]);
                     
-                    if (in_array($extension, $settings['upload']['whitelist'])) {
+                    if ($extension instanceof \App\Entity\FileExtension) {
                         $uploadFileHashName = GeneralUtility::generateCode(10) . substr(md5($uploadFileName), 0, 10);
-                        $upload->moveTo($settings['upload']['path'] . $uploadFileHashName . $extension);
+                        $upload->moveTo($settings['upload']['path'] . $uploadFileHashName . $extension->getName());
                         
                         $file = new File();
                         $file->setName($uploadFileName)
@@ -104,7 +108,7 @@ class FileController extends BaseController {
         
         // if current user is owner of file
         if ($files->contains($file)) {
-            unlink($settings['upload']['path'] . $file->getName() . $file->getExtension());
+            unlink($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
             $this->em->remove($file);
             $this->em->flush();
         }

@@ -2,9 +2,23 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 text-center">
             {% if file %}
-                
+                {% if file.public or file.user.id == current_user() %}
+                    <h1 class="mb-3">{{ file.name }} <a href="#" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-download fa-fw"></i></a></h1>
+
+                    {% if file.extension.fileType.name == 'image' %}
+                        <img src="{{ base_url() }}/upload/{{ file.hashName ~ file.extension.name }}" class="img-fluid" />
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        File is not accessible.
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    File doesn't exists.
+                </div>
             {% endif %}
         </div>
     </div>

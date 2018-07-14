@@ -100,6 +100,13 @@ return [
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
+        'file-show' => [
+            'route'      => '/de/{uuid}',
+            'method'     => 'App\Controller\FileController:show',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
         'page-index' => [
             'route'      => '/de/',
             'method'     => 'App\Controller\PageController:index',
