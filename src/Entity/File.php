@@ -29,6 +29,11 @@ class File extends \App\MappedSuperclass\Base
     private $name;
     
     /**
+     * @ORM\Column(type="string", name="hash_name")
+     */
+    private $hashName;
+    
+    /**
      * @ORM\Column(type="string")
      */
     private $extension;
@@ -84,6 +89,26 @@ class File extends \App\MappedSuperclass\Base
      */
     function setName($name) {
         $this->name = $name;
+        
+        return $this;
+    }
+    
+    /**
+     * Get $hashName
+     * 
+     * @return string
+     */
+    function getHashName() {
+        return $this->hashName;
+    }
+
+    /**
+     * Set $hashName
+     * 
+     * @param string $hashName
+     */
+    function setHashName($hashName) {
+        $this->hashName = $hashName;
         
         return $this;
     }

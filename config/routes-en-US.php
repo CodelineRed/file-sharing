@@ -3,7 +3,7 @@ return [
     // localized routing (e.g. CONTROLLER-ACTION)
     'routes' => [
         'file-upload' => [
-            'route'      => '/upload',
+            'route'      => '/upload/',
             'method'     => 'App\Controller\FileController:upload',
             'methods'    => ['POST'],
             'rolesAllow' => ['member', 'admin', 'superadmin'],
@@ -12,6 +12,13 @@ return [
         'file-public' => [
             'route'      => '/public/{uuid}',
             'method'     => 'App\Controller\FileController:togglePublic',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-remove' => [
+            'route'      => '/remove/{uuid}',
+            'method'     => 'App\Controller\FileController:remove',
             'methods'    => ['GET'],
             'rolesAllow' => ['member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
@@ -44,13 +51,6 @@ return [
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
-        'user-login-success' => [
-            'route'      => '/success',
-            'method'     => 'App\Controller\UserController:loginSuccess',
-            'methods'    => ['GET'],
-            'rolesAllow' => ['member', 'admin', 'superadmin'],
-            'rolesDeny'  => [],
-        ],
         'user-login-validate' => [
             'route'      => '/validate',
             'method'     => 'App\Controller\UserController:loginValidate',
@@ -63,6 +63,13 @@ return [
             'method'     => 'App\Controller\UserController:show',
             'methods'    => ['GET'],
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'user-create' => [
+            'route'      => '/create',
+            'method'     => 'App\Controller\UserController:create',
+            'methods'    => ['GET', 'POST'],
+            'rolesAllow' => ['superadmin'],
             'rolesDeny'  => [],
         ],
         'error-bad-request' => [

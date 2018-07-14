@@ -2,12 +2,53 @@
 namespace App\Controller;
 
 use App\Entity\RecoveryCode;
+use App\Entity\User;
 use App\Utility\GeneralUtility;
 
 /**
  * UserController is used for pages in context of user
  */
 class UserController extends BaseController {
+    
+    /**
+     * create Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function create($request, $response, $args) {
+        $user = $request->getParam('user_name');
+        $pass = $request->getParam('user_pass');
+        $message = 0;
+        
+        // if is other user and current user is alowed show_user_other
+        if (is_string($pass) && is_string($user)) {
+            $userSearch = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $user]);
+            
+            // if user exists
+            if ($userSearch instanceof \App\Entity\User) {
+                $message = 2;
+            } else {
+                $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
+                $newUser = new User();
+                $newUser->setName($user)
+                    ->setPass($pass)
+                    ->setRole($role);
+                $this->em->persist($newUser);
+                $this->em->flush();
+                $message = 1;
+            }
+        }
+        
+        // Render view
+        return $this->view->render($response, 'user/create.html.twig', array_merge($args, 
+            [
+                'message' => $message,
+            ]
+        ));
+    }
     
     /**
      * Show Action
@@ -81,6 +122,7 @@ class UserController extends BaseController {
                 return $response->withRedirect($this->router->pathFor('user-two-factor-' . $this->currentLocale));
             } else {
                 $this->logger->info("User " . $user->getId() . " wrong password - UserController:loginValidate");
+//                die('wrong pass - ' . $request->getParam('user_pass') . ' - ' . $user->getPass());
             }
         } else {
             $this->logger->info("User '" . $request->getParam('user_name') . "' not found - UserController:loginValidate");
@@ -88,19 +130,6 @@ class UserController extends BaseController {
         
         // user or password not valid - redirect to login
         return $response->withRedirect($this->router->pathFor('user-login-' . $this->currentLocale));
-    }
-    
-    /**
-     * Login Success Action
-     * 
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param array $args
-     * @return \Slim\Http\Response
-     */
-    public function loginSuccess($request, $response, $args) {
-        // Render view
-        return $this->view->render($response, 'user/login-success.html.twig', array_merge($args, []));
     }
     
     /**

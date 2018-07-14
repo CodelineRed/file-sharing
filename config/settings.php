@@ -31,7 +31,7 @@ return [
             'path' => __DIR__ . '/../public/upload/',
             'whitelist' => [
                 '.jpg', '.jpeg', '.gif', '.svg', '.pdf', '.zip', '.rar', '.txt',
-                '.xls', '.doc', '.ppt', '.xlsx', '.docx', '.pptx', '.ico'
+                '.xls', '.doc', '.ppt', '.xlsx', '.docx', '.pptx', '.ico', '.png'
             ],
         ],
         

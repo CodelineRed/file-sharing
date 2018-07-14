@@ -1,0 +1,50 @@
+{% extends "layouts/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            {% if message == 1 %}
+                <div class="alert alert-success" role="alert">
+                    User was created.
+                </div>
+            {% endif %}
+            {% if message == 2 %}
+                <div class="alert alert-danger" role="alert">
+                    User already exists.
+                </div>
+            {% endif %}
+            <h1 class="text-center mb-3">Create User</h1>
+            <form action="{{ path_for('user-create' ~ lk) }}" method="post">
+                <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+                <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+                <div class="form-row align-items-center justify-content-center">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="sr-only" for="user_name">{{ 'user'|trans }}</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-user fa-fw"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" name="user_name" id="user_name" placeholder="{{ 'user'|trans }}" autofocus="autofocus" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="sr-only" for="user_pass">{{ 'password'|trans }}</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-key fa-fw"></i></div>
+                                    </div>
+                                    <input type="password" class="form-control" name="user_pass" id="user_pass" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
