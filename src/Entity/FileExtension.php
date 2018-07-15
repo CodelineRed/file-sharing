@@ -2,18 +2,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_file_extension")
  */
-class FileExtension extends \App\MappedSuperclass\Base
+class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
 {
-    
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $name;
     
     /**
      * @ORM\ManyToOne(targetEntity="FileType", inversedBy="fileExtensions")
@@ -24,7 +20,7 @@ class FileExtension extends \App\MappedSuperclass\Base
     /**
      * @ORM\Column(type="boolean")
      */
-    private $active = 1;
+    private $active = 0;
     
     /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="extension")
@@ -36,27 +32,7 @@ class FileExtension extends \App\MappedSuperclass\Base
     }
     
     /**
-     * Get $name
-     * 
-     * @return string
-     */
-    function getName() {
-        return $this->name;
-    }
-
-    /**
-     * Set $name
-     * 
-     * @param string $name
-     */
-    function setName($name) {
-        $this->name = $name;
-        
-        return $this;
-    }
-    
-    /**
-     * Has $active
+     * Is $active
      * 
      * @return boolean
      */

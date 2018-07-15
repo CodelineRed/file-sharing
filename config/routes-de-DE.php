@@ -3,24 +3,59 @@ return [
     // localized routing (e.g. CONTROLLER-ACTION)
     'routes' => [
         'file-upload' => [
-            'route'      => '/de/upload/',
+            'route'      => '/de/file-upload/',
             'method'     => 'App\Controller\FileController:upload',
             'methods'    => ['POST'],
             'rolesAllow' => ['member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
         'file-public' => [
-            'route'      => '/de/public/{uuid}',
+            'route'      => '/de/file-public/{uuid}',
             'method'     => 'App\Controller\FileController:togglePublic',
             'methods'    => ['GET'],
             'rolesAllow' => ['member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
         'file-remove' => [
-            'route'      => '/de/remove/{uuid}',
+            'route'      => '/de/file-remove/{uuid}',
             'method'     => 'App\Controller\FileController:remove',
             'methods'    => ['GET'],
             'rolesAllow' => ['member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-download' => [
+            'route'      => '/de/download/{uuid}',
+            'method'     => 'App\Controller\FileController:download',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-create' => [
+            'route'      => '/de/file-extension/create',
+            'method'     => 'App\Controller\FileExtensionController:create',
+            'methods'    => ['GET', 'POST'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-show' => [
+            'route'      => '/de/file-extensions',
+            'method'     => 'App\Controller\FileExtensionController:show',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-active' => [
+            'route'      => '/de/file-extensions/active/{id}',
+            'method'     => 'App\Controller\FileExtensionController:toggleActive',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-remove' => [
+            'route'      => '/de/file-extension-remove/{id}',
+            'method'     => 'App\Controller\FileExtensionController:remove',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
             'rolesDeny'  => [],
         ],
         'user-enable-two-factor' => [

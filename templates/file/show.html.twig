@@ -5,10 +5,31 @@
         <div class="col-12 text-center">
             {% if file %}
                 {% if file.public or file.user.id == current_user() %}
-                    <h1 class="mb-3">{{ file.name }} <a href="#" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-download fa-fw"></i></a></h1>
+                    <h1 class="mb-3">{{ file.name }} <a href="{{ path_for('file-download' ~ lk, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-download fa-fw"></i></a></h1>
+                    <div class='mb-3'>
+                        <span data-toggle="tooltip" data-placement="top" title="Owner"><i class="fas fa-user"></i> <a href="{{ path_for('user-show' ~ lk, { 'name': file.user.name }) }}">{{ file.user.name }}</a></span> &#124;
+                        <span data-toggle="tooltip" data-placement="top" title="File size"><i class="fas fa-database"></i> {{ (file.size / 1000)|number_format(2, 'dp'|trans, 'ts'|trans) }} KB</span> &#124;
+                        <span data-toggle="tooltip" data-placement="top" title="Uploaded at"><i class="fas fa-clock"></i> {{ file.createdAt|date('datetime'|trans) }}</span>
+                    </div>
 
                     {% if file.extension.fileType.name == 'image' %}
                         <img src="{{ base_url() }}/upload/{{ file.hashName ~ file.extension.name }}" class="img-fluid" />
+                    {% endif %}
+                    
+                    {% if file.extension.fileType.name == 'audio' %}
+                        <audio controls>
+                            <source src="{{ base_url() }}/upload/{{ file.hashName ~ file.extension.name }}" type="{{ file.mimeType }}">
+                            Your browser does not support the audio element.
+                        </audio>
+                    {% endif %}
+                    
+                    {% if file.extension.fileType.name == 'video' %}
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video class="embed-responsive-item" controls>
+                                <source src="{{ base_url() }}/upload/{{ file.hashName ~ file.extension.name }}" type="{{ file.mimeType }}">
+                                Your browser does not support the video tag.
+                            </video> 
+                        </div>
                     {% endif %}
                 {% else %}
                     <div class="alert alert-danger" role="alert">

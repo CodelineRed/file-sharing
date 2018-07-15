@@ -59,6 +59,13 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function show($request, $response, $args) {
+        $flashMessage = $this->flash->getMessage('message');
+        $message = $alert = '';
+        
+        if (is_array($flashMessage)) {
+            list($message, $alert) = explode(';', $flashMessage[0]);
+        }
+        
         // if is other user and current user is alowed show_user_other
         if (isset($args['name']) && $this->aclRepository->isAllowed($this->currentRole, 'show_user_other')) {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name'], 'deleted' => 0]);
@@ -81,12 +88,12 @@ class UserController extends BaseController {
         }
         
         // Render view
-        return $this->view->render($response, 'user/show.html.twig', array_merge($args, 
-            [
-                'user' => $user,
-                'files' => $user->getFiles(),
-            ]
-        ));
+        return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
+            'message' => $message,
+            'alert' => $alert,
+            'user' => $user,
+            'files' => $user->getFiles(),
+        ]));
     }
     
     /**
