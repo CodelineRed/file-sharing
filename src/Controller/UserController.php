@@ -238,12 +238,11 @@ class UserController extends BaseController {
 
                     // save all changes
                     $this->em->flush();
+                    $this->flash->addMessage('message', LanguageUtility::trans('2fa-enabled') . ';' . self::STYLE_SUCCESS);
 
-                    return $this->view->render($response, 'user/recovery-codes.html.twig', array_merge($args, 
-                        [
-                            'recoveryCodes' => $recoveryCodes,
-                        ]
-                    ));
+                    return $this->view->render($response, 'user/recovery-codes.html.twig', array_merge($args, [
+                        'recoveryCodes' => $recoveryCodes,
+                    ]));
                 }
             }
         }
