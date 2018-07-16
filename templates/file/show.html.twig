@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12 text-center">
+        <div class="col-12 text-center mb-5">
             {% if file %}
                 {% if file.public or file.user.id == current_user() %}
                     <h1 class="mb-3">{{ file.name }} <a href="{{ path_for('file-download' ~ lk, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'download'|trans }}"><i class="fas fa-download fa-fw"></i></a></h1>
@@ -13,12 +13,12 @@
                     </div>
 
                     {% if file.extension.fileType.name == 'image' %}
-                        <img src="{{ base_url() }}/upload/{{ file.hashName ~ file.extension.name }}" class="img-fluid" />
+                        <img src="{{ base64Source }}" class="img-fluid" />
                     {% endif %}
                     
                     {% if file.extension.fileType.name == 'audio' %}
                         <audio controls>
-                            <source src="{{ base_url() }}/upload/{{ file.hashName ~ file.extension.name }}" type="{{ file.mimeType }}">
+                            <source src="{{ base64Source }}" type="{{ file.mimeType }}">
                             {{ 'no-audio-support'|trans }}
                         </audio>
                     {% endif %}
@@ -26,7 +26,7 @@
                     {% if file.extension.fileType.name == 'video' %}
                         <div class="embed-responsive embed-responsive-16by9">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ base_url() }}/upload/{{ file.hashName ~ file.extension.name }}" type="{{ file.mimeType }}">
+                                <source src="{{ base64Source }}" type="{{ file.mimeType }}">
                                 {{ 'no-video-support'|trans }}
                             </video> 
                         </div>
