@@ -5,6 +5,10 @@ body {
 
 a {
     color: $lightblue;
+    
+    &.current {
+        color: $grey;
+    }
 }
 
 h1 {
@@ -15,3 +19,6 @@ h1 {
     }
 }
 
+.btn .svg-inline--fa {
+    margin-top: -5px;
+}

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="role")
+ * @ORM\Table(name="imhhfs_role")
  */
 class Role extends \App\MappedSuperclass\LowerCaseUniqueName
 {

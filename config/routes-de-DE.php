@@ -2,6 +2,69 @@
 return [
     // localized routing (e.g. CONTROLLER-ACTION)
     'routes' => [
+        'file-upload' => [
+            'route'      => '/de/datei/hochladen/',
+            'method'     => 'App\Controller\FileController:upload',
+            'methods'    => ['POST'],
+            'rolesAllow' => ['member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-public' => [
+            'route'      => '/de/datei/oeffentlich/{uuid}',
+            'method'     => 'App\Controller\FileController:togglePublic',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-remove' => [
+            'route'      => '/de/datei/loeschen/{uuid}',
+            'method'     => 'App\Controller\FileController:remove',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-download' => [
+            'route'      => '/de/download/{uuid}',
+            'method'     => 'App\Controller\FileController:download',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-create' => [
+            'route'      => '/de/dateiendung/erstellen',
+            'method'     => 'App\Controller\FileExtensionController:create',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-save' => [
+            'route'      => '/de/dateiendung/speichern',
+            'method'     => 'App\Controller\FileExtensionController:saveCreate',
+            'methods'    => ['POST'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-show' => [
+            'route'      => '/de/dateiendung',
+            'method'     => 'App\Controller\FileExtensionController:show',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-active' => [
+            'route'      => '/de/dateiendung/aktiviert/{id}',
+            'method'     => 'App\Controller\FileExtensionController:toggleActive',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'file-extension-remove' => [
+            'route'      => '/de/dateiendung/loeschen/{id}',
+            'method'     => 'App\Controller\FileExtensionController:remove',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
         'user-enable-two-factor' => [
             'route'      => '/de/zwei-faktor-aktivieren',
             'method'     => 'App\Controller\UserController:enableTwoFactor',
@@ -30,13 +93,6 @@ return [
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
-        'user-login-success' => [
-            'route'      => '/de/erfolg',
-            'method'     => 'App\Controller\UserController:loginSuccess',
-            'methods'    => ['GET'],
-            'rolesAllow' => ['member', 'admin', 'superadmin'],
-            'rolesDeny'  => [],
-        ],
         'user-login-validate' => [
             'route'      => '/de/validate',
             'method'     => 'App\Controller\UserController:loginValidate',
@@ -49,6 +105,20 @@ return [
             'method'     => 'App\Controller\UserController:show',
             'methods'    => ['GET'],
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'user-create' => [
+            'route'      => '/de/user/create',
+            'method'     => 'App\Controller\UserController:create',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'user-save' => [
+            'route'      => '/de/user/save',
+            'method'     => 'App\Controller\UserController:saveCreate',
+            'methods'    => ['POST'],
+            'rolesAllow' => ['superadmin'],
             'rolesDeny'  => [],
         ],
         'error-bad-request' => [
@@ -79,9 +149,9 @@ return [
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
-        'page-example' => [
-            'route'      => '/de/beispiel',
-            'method'     => 'App\Controller\PageController:example',
+        'file-show' => [
+            'route'      => '/de/{uuid}',
+            'method'     => 'App\Controller\FileController:show',
             'methods'    => ['GET'],
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
             'rolesDeny'  => [],

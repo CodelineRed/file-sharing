@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="recovery_code")
+ * @ORM\Table(name="imhhfs_recovery_code")
  */
 class RecoveryCode extends \App\MappedSuperclass\Base
 {

@@ -1,33 +1,67 @@
 {% extends "layouts/layout.html.twig" %}
 
 {% block content %}
-    {% if passValid %}
-        <h2>{{ 'enable-2fa'|trans }}</h2>
-        {{ 'enable-2fa-step1'|trans|raw }}<br/>
-        <br/>
-        {{ 'enable-2fa-step2'|trans|raw }}<br/>
-        <br/>
-        {{ '2fa-secret'|trans }}: {{ secret }}<br/>
-        <img src="{{ qr }}" alt=""/><br/>
-        <br/>
-        {{ 'enable-2fa-step3'|trans|raw }}<br/>
-        <br/>
-        {{ 'auth-code'|trans }}
-        <form action="{{ path_for('user-enable-two-factor' ~ lk) }}" method="post">
-            <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
-            <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
-            <input type="hidden" name="pass_code" value="{{ passCode }}">
-            <input type="text" name="tf_code" placeholder="{{ 'code'|trans }}" autofocus="autofocus" />
-            <input type="submit" name="send" value="{{ 'submit'|trans }}" />
-        </form>
-    {% else %}
-        <br/>
-        {{ 'password'|trans }}
-        <form action="{{ path_for('user-enable-two-factor' ~ lk) }}" method="post">
-            <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
-            <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
-            <input type="password" name="user_pass" autofocus="autofocus" />
-            <input type="submit" name="send" value="{{ 'submit'|trans }}" />
-        </form>
-    {% endif %}
+    <div class="row">
+        <div class="col-12 text-center">
+            {% if passValid %}
+                <h1>{{ 'enable-2fa'|trans }}</h1>
+                {{ 'enable-2fa-step1'|trans|raw }}<br/>
+                <br/>
+                {{ 'enable-2fa-step2'|trans|raw }}<br/>
+                <br/>
+                {{ '2fa-secret'|trans }}: {{ secret }}<br/>
+                <img src="{{ qr }}" alt=""/><br/>
+                <br/>
+                {{ 'enable-2fa-step3'|trans|raw }}<br/>
+                <br/>
+                <form action="{{ path_for('user-enable-two-factor' ~ lk) }}" method="post">
+                    <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+                    <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+                    <input type="hidden" name="pass_code" value="{{ passCode }}">
+                    <div class="form-row align-items-center justify-content-center">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="sr-only" for="tf_code">{{ 'password'|trans }}</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fas fa-key fa-fw"></i></div>
+                                        </div>
+                                        <input type="text" class="form-control" name="tf_code" id="tf_code" placeholder="{{ 'code'|trans }}" autofocus="autofocus" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                <form action="{{ path_for('user-enable-two-factor' ~ lk) }}" method="post">
+                    <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+                    <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+                    <div class="form-row align-items-center justify-content-center">
+                        <div class="col-12 col-md-6">
+                            <h1 class="mb-3">{{ 'password'|trans }}</h1>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="sr-only" for="user_pass">{{ 'password'|trans }}</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fas fa-key fa-fw"></i></div>
+                                        </div>
+                                        <input type="password" class="form-control" name="user_pass" id="user_pass" autofocus="autofocus" />
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

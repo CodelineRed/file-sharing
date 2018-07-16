@@ -3,9 +3,10 @@
 {# ns = naviagtion suffix #}
 {% set ns = '-label' %}
 <!DOCTYPE html>
-<html>
+<html lang="{{ lk|slice(1, 2) }}">
     <head>
         <meta charset="utf-8"/>
+        <base href="{{ base_url() }}/">
         <title>File Sharing - InsanityMeetsHH</title>
         {# Favicon sizes 16, 32, 36, 48, 70, 72, 96, 144, 150, 180, 192, 256, 310, 310x150, 384, 512, SVG, ICO #}
         <link rel="apple-touch-icon" href="img/favicons/favicon-180x180.png" sizes="180x180">
@@ -24,10 +25,11 @@
         
     </head>
     <body>
-        {# include('partials/langswitch.html.twig') #}
-        {# include('partials/navigation.html.twig') #}
-        
-        {% block content %}{% endblock %}
+        <div class="container">
+            {% include('partials/navigation.html.twig') %}
+            {% include('partials/alert.html.twig') %}
+            {% block content %}{% endblock %}
+        </div>
         
         <script src="{{ base_url() }}/js/scripts.js"></script>
     </body>

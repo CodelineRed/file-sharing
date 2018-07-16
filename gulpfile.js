@@ -9,8 +9,8 @@ var browserSync = require('browser-sync').create();
 var del         = require('del');
 
 var localServer = "http://localhost/imhh-fs/public";
-var sourcePath  = "src/";
-var publicPath  = "../public/";
+var sourcePath  = "gulpfiles/";
+var publicPath  = "public/";
 
 // processing scss to css and minify result
 gulp.task('scss', function() {
@@ -47,7 +47,6 @@ gulp.task('js', function() {
 gulp.task('img', function() {
     gulp.src(sourcePath + '{img,icon}/**/*.{png,gif,jpg,jpeg,ico,xml,json}')
         .pipe(imagemin())
-//        .pipe(gulp.dest(systemPath))
         .pipe(gulp.dest(publicPath));
 });
 
@@ -115,5 +114,5 @@ gulp.task('default', ['scss', 'js', 'img', 'font', 'svg', 'watch'], function() {
     });
 
     gulp.watch(publicPath + '**/*.{css,js,jpg,png,svg,ico}').on('change', browserSync.reload);
-    gulp.watch('../templates/**/*.{php,html,phtml,twig}').on('change', browserSync.reload);
+    gulp.watch('{templates,src}/**/*.{php,html,phtml,twig}').on('change', browserSync.reload);
 });

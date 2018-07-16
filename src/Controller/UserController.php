@@ -2,12 +2,69 @@
 namespace App\Controller;
 
 use App\Entity\RecoveryCode;
+use App\Entity\User;
 use App\Utility\GeneralUtility;
+use App\Utility\LanguageUtility;
 
 /**
  * UserController is used for pages in context of user
  */
 class UserController extends BaseController {
+    
+    /**
+     * create Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function create($request, $response, $args) {
+        // Render view
+        return $this->view->render($response, 'user/create.html.twig', array_merge($args, [
+            'message' => GeneralUtility::getFlashMessage(),
+            'alert' => GeneralUtility::getFlashAlert(),
+        ]));
+    }
+    
+    /**
+     * saveCreate Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function saveCreate($request, $response, $args) {
+        $user = $request->getParam('user_name');
+        $pass = $request->getParam('user_pass');
+        
+        // if is other user and current user is alowed show_user_other
+        if (is_string($pass) && is_string($user)) {
+            $userSearch = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $user]);
+            
+            // if user exists
+            if ($userSearch instanceof \App\Entity\User) {
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m1') . ';' . self::STYLE_DANGER);
+            } elseif (strlen($pass) < 6) {
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [6]) . ';' . self::STYLE_DANGER);
+            } else {
+                $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
+                $newUser = new User();
+                $newUser->setName($user)
+                    ->setPass($pass)
+                    ->setRole($role);
+                $this->em->persist($newUser);
+                $this->em->flush();
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [$user]) . ';' . self::STYLE_SUCCESS);
+            }
+        } else {
+            $this->flash->addMessage('message', LanguageUtility::trans('user-save-m4') . ';' . self::STYLE_DANGER);
+        }
+        
+        // Render view
+        return $response->withRedirect($this->router->pathFor('user-create-' . $this->currentLocale));
+    }
     
     /**
      * Show Action
@@ -36,15 +93,16 @@ class UserController extends BaseController {
         } else {
             // if user is not logged in
             $this->logger->info("User not logged in - UserController:show");
-            return $response->withRedirect($this->router->pathFor('user-login-' . $this->currentLocale));
+            return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
         }
         
         // Render view
-        return $this->view->render($response, 'user/show.html.twig', array_merge($args, 
-            [
-                'user' => $user,
-            ]
-        ));
+        return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
+            'message' => GeneralUtility::getFlashMessage(),
+            'alert' => GeneralUtility::getFlashAlert(),
+            'user' => $user,
+            'files' => $user->getFiles(),
+        ]));
     }
     
     /**
@@ -80,6 +138,7 @@ class UserController extends BaseController {
                 return $response->withRedirect($this->router->pathFor('user-two-factor-' . $this->currentLocale));
             } else {
                 $this->logger->info("User " . $user->getId() . " wrong password - UserController:loginValidate");
+//                die('wrong pass - ' . $request->getParam('user_pass') . ' - ' . $user->getPass());
             }
         } else {
             $this->logger->info("User '" . $request->getParam('user_name') . "' not found - UserController:loginValidate");
@@ -87,19 +146,6 @@ class UserController extends BaseController {
         
         // user or password not valid - redirect to login
         return $response->withRedirect($this->router->pathFor('user-login-' . $this->currentLocale));
-    }
-    
-    /**
-     * Login Success Action
-     * 
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param array $args
-     * @return \Slim\Http\Response
-     */
-    public function loginSuccess($request, $response, $args) {
-        // Render view
-        return $this->view->render($response, 'user/login-success.html.twig', array_merge($args, []));
     }
     
     /**
@@ -114,7 +160,7 @@ class UserController extends BaseController {
         $_SESSION['currentRole'] = 'guest';
         unset($_SESSION['currentUser']);
         $this->logger->info("User " . $this->currentUser . " logged out - UserController:logout");
-        return $response->withRedirect($this->router->pathFor('user-login-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
     }
     
     /**
@@ -192,25 +238,22 @@ class UserController extends BaseController {
 
                     // save all changes
                     $this->em->flush();
+                    $this->flash->addMessage('message', LanguageUtility::trans('2fa-enabled') . ';' . self::STYLE_SUCCESS);
 
-                    return $this->view->render($response, 'user/recovery-codes.html.twig', array_merge($args, 
-                        [
-                            'recoveryCodes' => $recoveryCodes,
-                        ]
-                    ));
+                    return $this->view->render($response, 'user/recovery-codes.html.twig', array_merge($args, [
+                        'recoveryCodes' => $recoveryCodes,
+                    ]));
                 }
             }
         }
         
         // Render view
-        return $this->view->render($response, 'user/enable-two-factor.html.twig', array_merge($args, 
-            [
-                'secret' => $secret,
-                'qr' => $ga->getQRCodeGoogleUrl($user->getName(), $secret, 'Slim Skeleton'),
-                'passValid' => $passValid,
-                'passCode' => isset($_SESSION['pass_code']) ? $_SESSION['pass_code'] : '',
-            ]
-        ));
+        return $this->view->render($response, 'user/enable-two-factor.html.twig', array_merge($args, [
+            'secret' => $secret,
+            'qr' => $ga->getQRCodeGoogleUrl($user->getName(), $secret, 'fs.imhh.me'),
+            'passValid' => $passValid,
+            'passCode' => isset($_SESSION['pass_code']) ? $_SESSION['pass_code'] : '',
+        ]));
     }
     
     /**

@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="imhhfs_user")
  */
 class User extends \App\MappedSuperclass\LowerCaseUniqueName
 {
@@ -19,20 +19,9 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
     private $role;
     
     /**
-     * One User has many RecoveryCodes.
-     * 
      * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user")
      */
     private $recoveryCodes;
-
-    /**
-     * Get $recoveryCodes
-     * 
-     * @return ArrayCollection
-     */
-    public function getRecoveryCodes() {
-        return $this->recoveryCodes;
-    }
     
     /**
      * @ORM\Column(type="string")
@@ -42,15 +31,39 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
     /**
      * @ORM\Column(type="boolean", name="two_factor")
      */
-    private $twoFactor;
+    private $twoFactor = 0;
     
     /**
      * @ORM\Column(type="string", name="two_factor_secret")
      */
-    private $twoFactorSecret;
+    private $twoFactorSecret = '';
+    
+    /**
+     * @ORM\OneToMany(targetEntity="File", mappedBy="user")
+     */
+    private $files;
 
     public function __construct() {
         $this->recoveryCodes = new ArrayCollection();
+        $this->files = new ArrayCollection();
+    }
+
+    /**
+     * Get $recoveryCodes
+     * 
+     * @return ArrayCollection
+     */
+    public function getRecoveryCodes() {
+        return $this->recoveryCodes;
+    }
+
+    /**
+     * Get $files
+     * 
+     * @return ArrayCollection
+     */
+    public function getFiles() {
+        return $this->files;
     }
 
     /**

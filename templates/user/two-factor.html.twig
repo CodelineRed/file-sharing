@@ -1,12 +1,31 @@
 {% extends "layouts/layout.html.twig" %}
 
 {% block content %}
-    <br><br>
-    {{ 'auth-code'|trans }}
-    <form action="{{ path_for('user-two-factor' ~ lk) }}" method="post">
-        <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
-        <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
-        <input type="text" name="tf_code" placeholder="{{ 'code'|trans }}" autofocus="autofocus" />
-        <input type="submit" name="send" value="{{ 'submit'|trans }}" />
-    </form>
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center">{{ 'auth-code'|trans }}</h1>
+            <form action="{{ path_for('user-two-factor' ~ lk) }}" method="post">
+                <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+                <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+                <div class="form-row align-items-center justify-content-center">
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="sr-only" for="tf_code">{{ 'password'|trans }}</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-key fa-fw"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" name="tf_code" id="tf_code" placeholder="{{ 'code'|trans }}" autofocus="autofocus" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

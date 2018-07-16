@@ -1,0 +1,9 @@
+{% if message|length > 0 %}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-{{ alert }} text-center" role="alert">
+                {{ message }}
+            </div>
+        </div>
+    </div>
+{% endif %}
