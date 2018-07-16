@@ -3,21 +3,21 @@ return [
     // localized routing (e.g. CONTROLLER-ACTION)
     'routes' => [
         'file-upload' => [
-            'route'      => '/file-upload/',
+            'route'      => '/file/upload/',
             'method'     => 'App\Controller\FileController:upload',
             'methods'    => ['POST'],
             'rolesAllow' => ['member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
         'file-public' => [
-            'route'      => '/file-public/{uuid}',
+            'route'      => '/file/public/{uuid}',
             'method'     => 'App\Controller\FileController:togglePublic',
             'methods'    => ['GET'],
             'rolesAllow' => ['member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
         'file-remove' => [
-            'route'      => '/file-remove/{uuid}',
+            'route'      => '/file/remove/{uuid}',
             'method'     => 'App\Controller\FileController:remove',
             'methods'    => ['GET'],
             'rolesAllow' => ['member', 'admin', 'superadmin'],
@@ -59,7 +59,7 @@ return [
             'rolesDeny'  => [],
         ],
         'file-extension-remove' => [
-            'route'      => '/file-extension-remove/{id}',
+            'route'      => '/file-extension/remove/{id}',
             'method'     => 'App\Controller\FileExtensionController:remove',
             'methods'    => ['GET'],
             'rolesAllow' => ['superadmin'],
