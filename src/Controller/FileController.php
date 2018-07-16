@@ -46,11 +46,20 @@ class FileController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function show($request, $response, $args) {
+        $base64Source = '';
+        $settings = $this->container->get('settings');
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
+        $fileTypeName = $file->getExtension()->getFileType()->getName();
+        
+        if (in_array($fileTypeName, ['image', 'audio', 'video'])) {
+            $source = file_get_contents($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+            $base64Source = 'data:' . $file->getMimeType() . ';base64,' . base64_encode($source);
+        }
         
         // Render view
         return $this->view->render($response, 'file/show.html.twig', array_merge($args, [
             'file' => $file,
+            'base64Source' => $base64Source,
         ]));
     }
     
