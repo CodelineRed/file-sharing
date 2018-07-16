@@ -89,12 +89,14 @@ class FileController extends BaseController {
                         $this->em->persist($file);
                         $this->em->flush();
                         $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m1') . ';' . self::STYLE_SUCCESS);
+                    } else {
+                        $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m2') . ';' . self::STYLE_DANGER);
                     }
                 } else {
-                    $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m2') . ';' . self::STYLE_DANGER);
+                    $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m3', [$upload->getError()]) . ';' . self::STYLE_DANGER);
                 }
             } else {
-                $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m3') . ';' . self::STYLE_DANGER);
+                $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m4') . ';' . self::STYLE_DANGER);
             }
         }
         
@@ -122,7 +124,7 @@ class FileController extends BaseController {
                 $file->setPublic(!$public);
                 $this->em->persist($file);
                 $this->em->flush();
-                $this->flash->addMessage('message', LanguageUtility::trans('file-public-m1') . ';' . self::STYLE_SUCCESS);
+                $this->flash->addMessage('message', LanguageUtility::trans('file-public-m' . intval($public), [$file->getName()]) . ';' . self::STYLE_SUCCESS);
             } else {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m2') . ';' . self::STYLE_DANGER);
             }
@@ -154,7 +156,7 @@ class FileController extends BaseController {
                 unlink($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
                 $this->em->remove($file);
                 $this->em->flush();
-                $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1') . ';' . self::STYLE_SUCCESS);
+                $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);
             } else {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m2') . ';' . self::STYLE_DANGER);
             }

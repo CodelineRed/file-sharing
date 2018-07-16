@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\RecoveryCode;
 use App\Entity\User;
 use App\Utility\GeneralUtility;
+use App\Utility\LanguageUtility;
 
 /**
  * UserController is used for pages in context of user
@@ -19,9 +20,24 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function create($request, $response, $args) {
+        // Render view
+        return $this->view->render($response, 'user/create.html.twig', array_merge($args, [
+            'message' => GeneralUtility::getFlashMessage(),
+            'alert' => GeneralUtility::getFlashAlert(),
+        ]));
+    }
+    
+    /**
+     * saveCreate Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function saveCreate($request, $response, $args) {
         $user = $request->getParam('user_name');
         $pass = $request->getParam('user_pass');
-        $message = 0;
         
         // if is other user and current user is alowed show_user_other
         if (is_string($pass) && is_string($user)) {
@@ -29,7 +45,9 @@ class UserController extends BaseController {
             
             // if user exists
             if ($userSearch instanceof \App\Entity\User) {
-                $message = 2;
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m1') . ';' . self::STYLE_DANGER);
+            } elseif (strlen($pass) < 6) {
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [6]) . ';' . self::STYLE_DANGER);
             } else {
                 $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
                 $newUser = new User();
@@ -38,16 +56,14 @@ class UserController extends BaseController {
                     ->setRole($role);
                 $this->em->persist($newUser);
                 $this->em->flush();
-                $message = 1;
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [$user]) . ';' . self::STYLE_SUCCESS);
             }
+        } else {
+            $this->flash->addMessage('message', LanguageUtility::trans('user-save-m4') . ';' . self::STYLE_DANGER);
         }
         
         // Render view
-        return $this->view->render($response, 'user/create.html.twig', array_merge($args, 
-            [
-                'message' => $message,
-            ]
-        ));
+        return $response->withRedirect($this->router->pathFor('user-create-' . $this->currentLocale));
     }
     
     /**
@@ -59,13 +75,6 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function show($request, $response, $args) {
-        $flashMessage = $this->flash->getMessage('message');
-        $message = $alert = '';
-        
-        if (is_array($flashMessage)) {
-            list($message, $alert) = explode(';', $flashMessage[0]);
-        }
-        
         // if is other user and current user is alowed show_user_other
         if (isset($args['name']) && $this->aclRepository->isAllowed($this->currentRole, 'show_user_other')) {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name'], 'deleted' => 0]);
@@ -89,8 +98,8 @@ class UserController extends BaseController {
         
         // Render view
         return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
-            'message' => $message,
-            'alert' => $alert,
+            'message' => GeneralUtility::getFlashMessage(),
+            'alert' => GeneralUtility::getFlashAlert(),
             'user' => $user,
             'files' => $user->getFiles(),
         ]));
@@ -240,14 +249,12 @@ class UserController extends BaseController {
         }
         
         // Render view
-        return $this->view->render($response, 'user/enable-two-factor.html.twig', array_merge($args, 
-            [
-                'secret' => $secret,
-                'qr' => $ga->getQRCodeGoogleUrl($user->getName(), $secret, 'fs.imhh.me'),
-                'passValid' => $passValid,
-                'passCode' => isset($_SESSION['pass_code']) ? $_SESSION['pass_code'] : '',
-            ]
-        ));
+        return $this->view->render($response, 'user/enable-two-factor.html.twig', array_merge($args, [
+            'secret' => $secret,
+            'qr' => $ga->getQRCodeGoogleUrl($user->getName(), $secret, 'fs.imhh.me'),
+            'passValid' => $passValid,
+            'passCode' => isset($_SESSION['pass_code']) ? $_SESSION['pass_code'] : '',
+        ]));
     }
     
     /**

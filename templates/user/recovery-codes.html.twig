@@ -3,9 +3,9 @@
 {% block content %}
     <div class="row">
         <div class="col-12 text-center">
-            <h1>Recovery Codes</h1>
+            <h1>{{ 'recovery-codes'|trans }}</h1>
             <br/>
-            {{ 'recovery-codes'|trans|raw }}<br/>
+            {{ 'recovery-codes-text'|trans|raw }}<br/>
             <br/>
             {# loop through records #}
             {% if recoveryCodes %}
