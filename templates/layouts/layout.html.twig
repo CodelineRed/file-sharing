@@ -6,6 +6,7 @@
 <html lang="{{ lk|slice(1, 2) }}">
     <head>
         <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <base href="{{ base_url() }}/">
         <title>File Sharing - InsanityMeetsHH</title>
         {# Favicon sizes 16, 32, 36, 48, 70, 72, 96, 144, 150, 180, 192, 256, 310, 310x150, 384, 512, SVG, ICO #}
@@ -21,17 +22,15 @@
         <meta name="theme-color" content="#000000">
         <link rel="shortcut icon" href="img/favicons/favicon.ico">
         <link href="//fonts.googleapis.com/css?family=Lato:300" rel="stylesheet" type="text/css">
-        <link href="{{ base_url() }}/css/styles.css" rel="stylesheet" type="text/css">
-        
+        <link href="{{ base_url() }}/css/styles.css?v=1.2.0" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div class="container">
-            {% include('partials/navigation.html.twig') %}
-            {% include('partials/alert.html.twig') %}
+            {{ include('partials/navigation.html.twig') }}
+            {{ include('partials/alert.html.twig') }}
             {% block content %}{% endblock %}
         </div>
-        
-        <script src="{{ base_url() }}/js/scripts.js"></script>
+        <script src="{{ base_url() }}/js/scripts.js?v=1.2.0"></script>
     </body>
 </html>
 
