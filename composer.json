@@ -1,7 +1,7 @@
 {
     "name": "insanitymeetshh/file-sharing",
     "description": "File Sharing - InsanityMeetsHH",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "keywords": ["microframework", "rest", "router", "psr7", "doctrine", "twig", "localisation", "acl", "login", "csrf", "2fa"],
     "homepage": "http://fs.insanitymeetshh.net",
     "license": "MIT",

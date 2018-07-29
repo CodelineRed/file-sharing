@@ -49,11 +49,14 @@ class FileController extends BaseController {
         $base64Source = '';
         $settings = $this->container->get('settings');
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
-        $fileTypeName = $file->getExtension()->getFileType()->getName();
         
-        if (in_array($fileTypeName, ['image', 'audio', 'video'])) {
-            $source = file_get_contents($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
-            $base64Source = 'data:' . $file->getMimeType() . ';base64,' . base64_encode($source);
+        if ($file instanceof \App\Entity\File) {
+            $fileTypeName = $file->getExtension()->getFileType()->getName();
+
+            if (in_array($fileTypeName, ['image', 'audio', 'video'])) {
+                $source = file_get_contents($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+                $base64Source = 'data:' . $file->getMimeType() . ';base64,' . base64_encode($source);
+            }
         }
         
         // Render view
