@@ -1,0 +1,13 @@
+{% extends "layouts/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 text-center pt-4">
+        {% if users %}
+            {% for user in users %}
+            <a href="{{ path_for('user-show' ~ lk, { 'name': user.name }) }}">{{ user.name }}</a>{% if loop.last %}{% else %} &#124;{% endif %}
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

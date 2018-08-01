@@ -23,7 +23,7 @@ class UserController extends BaseController {
         // Render view
         return $this->view->render($response, 'user/create.html.twig', array_merge($args, [
             'message' => GeneralUtility::getFlashMessage(),
-            'alert' => GeneralUtility::getFlashAlert(),
+            'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }
     
@@ -42,6 +42,7 @@ class UserController extends BaseController {
         // if is other user and current user is alowed show_user_other
         if (is_string($pass) && is_string($user)) {
             $userSearch = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $user]);
+            $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $request->getParam('user_role')]);
             
             // if user exists
             if ($userSearch instanceof \App\Entity\User) {
@@ -49,7 +50,10 @@ class UserController extends BaseController {
             } elseif (strlen($pass) < 6) {
                 $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [6]) . ';' . self::STYLE_DANGER);
             } else {
-                $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
+                if ($role === NULL) {
+                    $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
+                }
+                
                 $newUser = new User();
                 $newUser->setName($user)
                     ->setPass($pass)
@@ -75,6 +79,17 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function show($request, $response, $args) {
+        $postMaxSize = ini_get('post_max_size');
+        $uploadMaxSize = ini_get('upload_max_filesize');
+        
+        if (intval($uploadMaxSize) < intval($postMaxSize)) {
+            $unit = substr($uploadMaxSize, -1);
+            $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit !== 'B' ? $unit . 'B' : $unit);
+        } else {
+            $unit = substr($postMaxSize, -1);
+            $maxFileSize = intval($postMaxSize) . ' ' . ($unit !== 'B' ? $unit . 'B' : $unit);
+        }
+        
         // if is other user and current user is alowed show_user_other
         if (isset($args['name']) && $this->aclRepository->isAllowed($this->currentRole, 'show_user_other')) {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name'], 'deleted' => 0]);
@@ -90,6 +105,11 @@ class UserController extends BaseController {
         } elseif (!is_null($this->currentUser) && !isset($args['name']) && $this->aclRepository->isAllowed($this->currentRole, 'show_user')) {
             // if is logged in user and allowed show_user
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
+            
+            if ($user === NULL) {
+                GeneralUtility::setCurrentUser(NULL);
+                return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
+            }
         } else {
             // if user is not logged in
             $this->logger->info("User not logged in - UserController:show");
@@ -99,10 +119,48 @@ class UserController extends BaseController {
         // Render view
         return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
             'message' => GeneralUtility::getFlashMessage(),
-            'alert' => GeneralUtility::getFlashAlert(),
             'user' => $user,
+            'maxFileSize' => $maxFileSize,
             'files' => $user->getFiles(),
+            'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
+    }
+    
+    /**
+     * showAll Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function showAll($request, $response, $args) {
+        // Render view
+        return $this->view->render($response, 'user/show-all.html.twig', array_merge($args, [
+            'users' => $this->em->getRepository('App\Entity\User')->findAll(),
+        ]));
+    }
+    
+    /**
+     * updateRole Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function updateRole($request, $response, $args) {
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
+        $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $args['role']]);
+        
+        if ($user === NULL || $role === NULL) {
+            return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
+        }
+        
+        $user->setRole($role);
+        $this->em->flush($user);
+        
+        return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale, $args));
     }
     
     /**

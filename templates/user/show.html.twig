@@ -13,6 +13,20 @@
                 {% endif %}
             {% endif %}
         </div>
+        {% if has_role({0: 'superadmin'}) and roles|length > 0 %}
+        <div class="col-12 mb-5">
+            {% for role in roles %}
+                {% set buttonStyle = 'warning' %}
+                {% if user.role.id is same as(role.id) %}
+                    {% set buttonStyle = 'success' %}
+                {% endif %}
+                {% if loop.index > 1 %}
+                <a href="{{ path_for('user-update-role' ~ lk, { 'name': user.name, 'role': role.name }) }}" class="btn btn-{{ buttonStyle }}" tabindex="-1" role="button" aria-disabled="true">{{ role.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {# if is logged in user #}
         {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) and user.id == current_user() %}
         <div class="col-12 mb-5">
             <h2>{{ 'upload-file'|trans }}</h2>
@@ -21,7 +35,7 @@
                     <div class="col-12 col-md-8 mb-2 mb-md-0">
                         <div class="custom-file">
                             <input type="file" name="upload" class="custom-file-input" id="file-upload">
-                            <label class="custom-file-label" for="file-upload">{{ 'choose-file'|trans }}</label>
+                            <label class="custom-file-label" for="file-upload">{{ trans('choose-file', {1: maxFileSize}) }}</label>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -30,8 +44,7 @@
                 </div>
             </form>
         </div>
-        {% endif %}
-        {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) and user.id == current_user() %}
+        
         <div class="col-12">
             {# loop through database records #}
             {% if files|length > 0 %}
@@ -52,7 +65,8 @@
             {% endif %}
         </div>
         {% else %}
-        <div class="col-12">
+        {# if is external request #}
+        <div class="col-12 mb-5">
             {# loop through database records #}
             {% if files|length > 0 %}
                 {% for file in files %}

@@ -28,6 +28,17 @@
                                     <input type="password" class="form-control" name="user_pass" id="user_pass" />
                                 </div>
                             </div>
+                            <div class="col-12 mb-2">
+                                {% if roles|length > 0 %}
+                                <select class="custom-select" name="user_role">
+                                    {% for role in roles %}
+                                        {% if loop.index > 1 %}
+                                        <option value="{{ role.name }}">{{ role.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                {% endif %}
+                            </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }}</button>
                             </div>

@@ -9,6 +9,7 @@
             {% if has_role({0: 'superadmin'}) %}
                 <a class="{% if is_current_path('file-extension-show' ~ lk) %}current{% endif %}" href="{{ path_for('file-extension-show' ~ lk) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'file-extension-show-label'|trans }}"><i class="fas fa-file"></i></a> &#124;
                 <a class="{% if is_current_path('file-extension-create' ~ lk) %}current{% endif %}" href="{{ path_for('file-extension-create' ~ lk) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'file-extension-create-label'|trans }}"><i class="fas fa-file-medical"></i></a> &#124;
+                <a class="{% if is_current_path('user-show-all' ~ lk) %}current{% endif %}" href="{{ path_for('user-show-all' ~ lk) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-all-label'|trans }}"><i class="fas fa-users"></i></a> &#124;
                 <a class="{% if is_current_path('user-create' ~ lk) %}current{% endif %}" href="{{ path_for('user-create' ~ lk) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-create-label'|trans }}"><i class="fas fa-user-plus"></i></a> &#124;
             {% endif %}
             <a class="{% if is_current_path('user-show' ~ lk, { 'name': name }) or is_current_path('user-show' ~ lk) %}current{% endif %}" href="{{ path_for('user-show' ~ lk) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
