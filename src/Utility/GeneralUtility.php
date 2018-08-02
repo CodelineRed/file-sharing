@@ -49,6 +49,15 @@ class GeneralUtility {
     }
     
     /**
+     * Set the current user
+     * 
+     * @param integer $currentUser
+     */
+    static function setCurrentUser($currentUser) {
+        $_SESSION['currentUser'] = $currentUser;
+    }
+    
+    /**
      * Returns current role or 'guest' if user not logged in.
      * 
      * @return string
@@ -57,27 +66,29 @@ class GeneralUtility {
         return isset($_SESSION['currentRole']) ? $_SESSION['currentRole'] : 'guest';
     }
     
+    /**
+     * Set the current role
+     * 
+     * @param string $currentRole
+     */
+    static function setCurrentRole($currentRole) {
+        $_SESSION['currentRole'] = $currentRole;
+    }
+    
+    /**
+     * Returns flash message text.
+     * 
+     * @return string
+     */
     static function getFlashMessage() {
         $flash = AppContainer::getInstance()->getContainer()->get('flash');
         $flashMessage = $flash->getMessage('message');
-        $message = $alert = '';
+        $message = $style = '';
         
         if (is_array($flashMessage)) {
-            list($message, $alert) = explode(';', $flashMessage[0]);
+            list($message, $style) = explode(';', $flashMessage[0]);
         }
         
-        return $message;
-    }
-    
-    static function getFlashAlert() {
-        $flash = AppContainer::getInstance()->getContainer()->get('flash');
-        $flashMessage = $flash->getMessage('message');
-        $message = $alert = '';
-        
-        if (is_array($flashMessage)) {
-            list($message, $alert) = explode(';', $flashMessage[0]);
-        }
-        
-        return $alert;
+        return ['text' => $message, 'style' => $style];
     }
 }

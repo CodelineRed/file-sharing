@@ -107,6 +107,20 @@ return [
             'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
             'rolesDeny'  => [],
         ],
+        'user-show-all' => [
+            'route'      => '/profiles',
+            'method'     => 'App\Controller\UserController:showAll',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
+        'user-update-role' => [
+            'route'      => '/role/{role}/{name}',
+            'method'     => 'App\Controller\UserController:updateRole',
+            'methods'    => ['GET'],
+            'rolesAllow' => ['superadmin'],
+            'rolesDeny'  => [],
+        ],
         'user-create' => [
             'route'      => '/user/create',
             'method'     => 'App\Controller\UserController:create',
