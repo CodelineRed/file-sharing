@@ -80,7 +80,7 @@ return [
     'user-create-label' => 'Create profile',
     'user-two-factor-label' => 'Enable two factor authentication',
     'file-extension-show-label' => 'Show file extensions',
-    'file-extension-create-label' => 'Create file extensions',
+    'file-extension-create-label' => 'Create file extension',
     'langswitch-label' => 'EN',
     'langswitch-image' => '<img src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/us.svg" style="max-height: 20px;">',
     
