@@ -56,7 +56,7 @@ class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
      * 
      * @return FileType
      */
-    function getFileType() {
+    public function getFileType() {
         return $this->fileType;
     }
 
@@ -65,7 +65,7 @@ class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
      * 
      * @param FileType $fileType
      */
-    function setFileType($fileType) {
+    public function setFileType($fileType) {
         $this->fileType = $fileType;
         
         return $this;

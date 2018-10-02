@@ -21,7 +21,7 @@ class FileExtensionController extends BaseController {
     public function create($request, $response, $args) {
         // Render view
         return $this->view->render($response, 'file-extension/create.html.twig', array_merge($args, [
-            'message' => GeneralUtility::getFlashMessage(),
+            'messages' => GeneralUtility::getFlashMessages(),
             'fileTypes' => $this->em->getRepository('App\Entity\FileType')->findAll(),
         ]));
     }
@@ -129,7 +129,7 @@ class FileExtensionController extends BaseController {
         // Render view
         return $this->view->render($response, 'file-extension/show.html.twig', array_merge($args, [
             'fileExtensions' => $fileExtensions,
-            'message' => GeneralUtility::getFlashMessage(),
+            'messages' => GeneralUtility::getFlashMessages(),
         ]));
     }
 }

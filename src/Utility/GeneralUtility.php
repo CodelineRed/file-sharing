@@ -76,19 +76,25 @@ class GeneralUtility {
     }
     
     /**
-     * Returns flash message text.
+     * Returns flash message array.
      * 
-     * @return string
+     * @return array
      */
-    static function getFlashMessage() {
+    static function getFlashMessages() {
         $flash = AppContainer::getInstance()->getContainer()->get('flash');
-        $flashMessage = $flash->getMessage('message');
-        $message = $style = '';
+        $flashMessages = $flash->getMessage('message');
+        $messages = [];
         
-        if (is_array($flashMessage)) {
-            list($message, $style) = explode(';', $flashMessage[0]);
+        if (is_array($flashMessages)) {
+            foreach ($flashMessages as $flashMessage) {
+                list($text, $style) = explode(';', $flashMessage);
+                $messages[] = [
+                    'text' => $text,
+                    'style' => $style,
+                ];
+            }
         }
         
-        return ['text' => $message, 'style' => $style];
+        return $messages;
     }
 }

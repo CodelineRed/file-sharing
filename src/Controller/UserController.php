@@ -22,7 +22,7 @@ class UserController extends BaseController {
     public function create($request, $response, $args) {
         // Render view
         return $this->view->render($response, 'user/create.html.twig', array_merge($args, [
-            'message' => GeneralUtility::getFlashMessage(),
+            'messages' => GeneralUtility::getFlashMessages(),
             'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }
@@ -118,10 +118,10 @@ class UserController extends BaseController {
         
         // Render view
         return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
-            'message' => GeneralUtility::getFlashMessage(),
+            'messages' => GeneralUtility::getFlashMessages(),
             'user' => $user,
             'maxFileSize' => $maxFileSize,
-            'files' => $user->getFiles(),
+            'files' => $user->getFilesIncludedFalse(),
             'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }

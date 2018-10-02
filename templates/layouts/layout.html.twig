@@ -22,7 +22,22 @@
         <meta name="theme-color" content="#000000">
         <link rel="shortcut icon" href="img/favicons/favicon.ico">
         <link href="//fonts.googleapis.com/css?family=Lato:300" rel="stylesheet" type="text/css">
-        <link href="{{ base_url() }}/css/styles.css?v=1.3.1" rel="stylesheet" type="text/css">
+        <link href="{{ base_url() }}/css/styles.css?v=2.0.0" rel="stylesheet" type="text/css">
+        <script>
+            var cookieLayer = {
+                header: '{{ 'cl-header'|trans }}',
+                message: '{{ 'cl-message'|trans }}',
+                allow: '{{ 'cl-allow'|trans }}',
+                dismiss: '{{ 'cl-dismiss'|trans }}',
+                deny: '{{ 'cl-deny'|trans }}',
+                link: '{{ 'cl-link'|trans }}',
+                messageLink: '{{ 'cl-message-link'|trans }}',
+                dismissLink: '{{ 'cl-dismiss-link'|trans }}',
+                allowLink: '{{ 'cl-allow-link'|trans }}',
+                policy: '{{ 'cl-policy'|trans }}',
+                href: '{{ 'cl-href'|trans }}'
+            };
+        </script>
     </head>
     <body>
         <div class="container">
@@ -30,7 +45,7 @@
             {{ include('partials/alert.html.twig') }}
             {% block content %}{% endblock %}
         </div>
-        <script src="{{ base_url() }}/js/scripts.js?v=1.3.1"></script>
+        <script src="{{ base_url() }}/js/scripts.js?v=2.0.0"></script>
     </body>
 </html>
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 use App\Utility\GeneralUtility;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
@@ -40,6 +41,7 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
     
     /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="user")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $files;
 
@@ -64,6 +66,19 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
      */
     public function getFiles() {
         return $this->files;
+    }
+
+    /**
+     * Get files with file_included = FALSE
+     * 
+     * @return ArrayCollection
+     */
+    public function getFilesIncludedFalse() {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('fileIncluded', FALSE))
+            ->orderBy(['createdAt' => Criteria::DESC]);
+        
+        return $this->files->matching($criteria);
     }
 
     /**

@@ -34,9 +34,8 @@ gulp.task('js', function() {
             'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
             'node_modules/@fortawesome/fontawesome-free/js/all.js',
             sourcePath + 'js/lib/**/*.js',
-//            'node_modules/slick-carousel/slick/slick.js',
-//            'node_modules/cssuseragent/cssua.js',
-//            'node_modules/vanilla-lazyload/dist/lazyload.js',
+            'node_modules/cookieconsent/src/cookieconsent.js',
+            'node_modules/cssuseragent/cssua.js',
             sourcePath + 'js/plugin/**/*.js',
             sourcePath + 'js/module/**/*.js',
             sourcePath + 'js/scripts.js'
@@ -69,8 +68,7 @@ gulp.task('img', function() {
 // copy all fonts
 gulp.task('font', function() {
     gulp.src([
-//            'node_modules/@fortawesome/fontawesome-free/webfonts/**',
-//            'node_modules/slick-carousel/slick/fonts/**',
+            'node_modules/@fortawesome/fontawesome-free/webfonts/**',
             sourcePath + 'font/**'
         ])
         .pipe(gulp.dest(publicPath + 'font/'));
