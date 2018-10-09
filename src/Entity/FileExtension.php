@@ -8,8 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_file_extension")
  */
-class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
+class FileExtension extends \App\MappedSuperclass\Base
 {
+    
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    protected $name;
     
     /**
      * @ORM\ManyToOne(targetEntity="FileType", inversedBy="fileExtensions")
@@ -30,23 +35,23 @@ class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
     public function __construct() {
         $this->files = new ArrayCollection();
     }
-    
+
     /**
-     * Is $active
+     * Get $name
      * 
-     * @return boolean
+     * @return string
      */
-    public function isActive() {
-        return $this->active;
+    public function getName() {
+        return $this->name;
     }
     
     /**
-     * Set $active
+     * Set $name
      * 
-     * @param boolean $active
+     * @param string $name
      */
-    public function setActive($active) {
-        $this->active = $active;
+    public function setName($name) {
+        $this->name = strtolower($name);
         
         return $this;
     }
@@ -67,6 +72,26 @@ class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
      */
     public function setFileType($fileType) {
         $this->fileType = $fileType;
+        
+        return $this;
+    }
+    
+    /**
+     * Is $active
+     * 
+     * @return boolean
+     */
+    public function isActive() {
+        return $this->active;
+    }
+    
+    /**
+     * Set $active
+     * 
+     * @param boolean $active
+     */
+    public function setActive($active) {
+        $this->active = $active;
         
         return $this;
     }

@@ -1,13 +1,15 @@
-var gulp        = require('gulp');
-var prefixer    = require('gulp-autoprefixer');
-var sourcemaps  = require('gulp-sourcemaps');
-var sass        = require('gulp-sass');
-var minifyCss   = require('gulp-clean-css');
-var concat      = require('gulp-concat');
-var uglify      = require('gulp-uglify');
-var imagemin    = require('gulp-imagemin');
 var browserSync = require('browser-sync').create();
 var del         = require('del');
+var gulp        = require('gulp');
+var prefixer    = require('gulp-autoprefixer');
+var minifyCss   = require('gulp-clean-css');
+var concat      = require('gulp-concat');
+var eslint      = require('gulp-eslint');
+var imagemin    = require('gulp-imagemin');
+var sass        = require('gulp-sass');
+var sassLint    = require('gulp-sass-lint');
+var sourcemaps  = require('gulp-sourcemaps');
+var uglify      = require('gulp-uglify');
 
 var localServer = "http://localhost/imhh-fs/public";
 var sourcePath  = "gulpfiles/";
@@ -25,6 +27,16 @@ gulp.task('scss', function() {
         .pipe(minifyCss({compatibility: 'ie8'}))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(publicPath + 'css/'));
+});
+
+// lint scss files
+gulp.task('scss-lint', function () {
+    gulp.src([
+            sourcePath + 'scss/**/*.scss'
+        ])
+        .pipe(sassLint(require('./scss-lint.json')))
+        .pipe(sassLint.format())
+        .pipe(sassLint.failOnError());
 });
 
 // concatinate and uglify all js
@@ -47,6 +59,16 @@ gulp.task('js', function() {
         .pipe(gulp.dest(publicPath + 'js/'));
 });
 
+// lint js files
+gulp.task('js-lint', function () {
+    gulp.src([
+            sourcePath + 'js/**/*.js'
+        ])
+        .pipe(eslint(require('./js-lint.json')))
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
 // minify images
 gulp.task('img', function() {
     gulp.src(sourcePath + 'img/**/*.{png,gif,jpg,jpeg,ico,xml,json,svg}')
@@ -61,14 +83,13 @@ gulp.task('img', function() {
                 ]
             })
         ]))
-//        .pipe(gulp.dest(systemPath))
         .pipe(gulp.dest(publicPath + 'img/'));
 });
 
 // copy all fonts
 gulp.task('font', function() {
     gulp.src([
-            'node_modules/@fortawesome/fontawesome-free/webfonts/**',
+//            'node_modules/@fortawesome/fontawesome-free/webfonts/**',
             sourcePath + 'font/**'
         ])
         .pipe(gulp.dest(publicPath + 'font/'));
@@ -79,7 +100,7 @@ gulp.task('svg', function() {
     gulp.src([
 //            'node_modules/@fortawesome/fontawesome-free/svgs/**',
 //            'node_modules/@fortawesome/fontawesome-free/sprites/**',
-            sourcePath + 'svg/**/*.{svg}'
+            sourcePath + 'svg/**/*.svg'
         ])
         .pipe(imagemin([
             imagemin.svgo({
@@ -89,7 +110,6 @@ gulp.task('svg', function() {
                 ]
             })
         ]))
-//        .pipe(gulp.dest(systemPath + 'svg/'))
         .pipe(gulp.dest(publicPath + 'svg/'));
 });
 
@@ -115,9 +135,9 @@ gulp.task('cleanup', function() {
 // add the watcher
 gulp.task('watch', function() {
     // watch scss files
-    gulp.watch(sourcePath + 'scss/**', ['scss']);
+    gulp.watch(sourcePath + 'scss/**', ['scss', 'scss-lint']);
     // watch js files
-    gulp.watch(sourcePath + 'js/**', ['js']);
+    gulp.watch(sourcePath + 'js/**', ['js', 'js-lint']);
     // watch images
     gulp.watch(sourcePath + 'img/**', ['img']);
     // watch fonts
@@ -127,10 +147,10 @@ gulp.task('watch', function() {
 });
 
 // production
-gulp.task('prod', ['scss', 'js', 'img', 'font', 'svg']);
+gulp.task('prod', ['scss', 'scss-lint', 'js', 'js-lint', 'img', 'font', 'svg']);
 
 // default task if just called gulp (incl. Watch)
-gulp.task('default', ['scss', 'js', 'img', 'font', 'svg', 'watch'], function() {
+gulp.task('default', ['scss', 'scss-lint', 'js', 'js-lint', 'img', 'font', 'svg', 'watch'], function() {
     // start browsersync
     browserSync.init({
         proxy: localServer

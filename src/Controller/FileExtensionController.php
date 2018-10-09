@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\FileExtension;
-use App\Utility\GeneralUtility;
+use App\Entity\FileType;
 use App\Utility\LanguageUtility;
 
 /**
@@ -18,10 +18,9 @@ class FileExtensionController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function create($request, $response, $args) {
+    public function createAction($request, $response, $args) {
         // Render view
         return $this->view->render($response, 'file-extension/create.html.twig', array_merge($args, [
-            'messages' => GeneralUtility::getFlashMessages(),
             'fileTypes' => $this->em->getRepository('App\Entity\FileType')->findAll(),
         ]));
     }
@@ -34,7 +33,7 @@ class FileExtensionController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function saveCreate($request, $response, $args) {
+    public function saveCreateAction($request, $response, $args) {
         $extName = $request->getParam('ext_name');
         $fileType = $request->getParam('file_type');
         $extActive = intval($request->getParam('ext_active'));
@@ -46,9 +45,9 @@ class FileExtensionController extends BaseController {
                 $fileType = $this->em->getRepository('App\Entity\FileType')->findOneBy(['name' => $fileType]);
 
                 // if file extension exists
-                if ($fileExtensionSearch instanceof \App\Entity\FileExtension) {
+                if ($fileExtensionSearch instanceof FileExtension) {
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m1') . ';' . self::STYLE_DANGER);
-                } elseif (!($fileType instanceof \App\Entity\FileType)) {
+                } elseif (!($fileType instanceof FileType)) {
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m2') . ';' . self::STYLE_DANGER);
                 } elseif (!preg_match('/^\.[a-z0-9]{2,4}$/i', $extName)) {
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m3') . ';' . self::STYLE_DANGER);
@@ -66,7 +65,7 @@ class FileExtensionController extends BaseController {
             }
         }
         
-        return $response->withRedirect($this->router->pathFor('file-extension-create-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('file-extension-create-' . LanguageUtility::getLocale()));
     }
     
     /**
@@ -77,10 +76,10 @@ class FileExtensionController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function toggleActive($request, $response, $args) {
+    public function toggleActiveAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         
-        if ($fileExtension instanceof \App\Entity\FileExtension) {
+        if ($fileExtension instanceof FileExtension) {
             $active = $fileExtension->isActive();
             $fileExtension->setActive(!$active);
             $this->em->persist($fileExtension);
@@ -90,7 +89,7 @@ class FileExtensionController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-active-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
         
-        return $response->withRedirect($this->router->pathFor('file-extension-show-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('file-extension-show-' . LanguageUtility::getLocale()));
     }
     
     /**
@@ -101,10 +100,10 @@ class FileExtensionController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function remove($request, $response, $args) {
+    public function removeAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         
-        if ($fileExtension instanceof \App\Entity\FileExtension) {
+        if ($fileExtension instanceof FileExtension) {
             $this->em->remove($fileExtension);
             $this->em->flush();
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-remove-m1', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
@@ -112,7 +111,7 @@ class FileExtensionController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-remove-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
         
-        return $response->withRedirect($this->router->pathFor('file-extension-show-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('file-extension-show-' . LanguageUtility::getLocale()));
     }
 
     /**
@@ -123,13 +122,12 @@ class FileExtensionController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function show($request, $response, $args) {
+    public function showAction($request, $response, $args) {
         $fileExtensions = $this->em->getRepository('App\Entity\FileExtension')->findAll();
         
         // Render view
         return $this->view->render($response, 'file-extension/show.html.twig', array_merge($args, [
             'fileExtensions' => $fileExtensions,
-            'messages' => GeneralUtility::getFlashMessages(),
         ]));
     }
 }

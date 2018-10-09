@@ -20,7 +20,7 @@ class FileController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function download($request, $response, $args) {
+    public function downloadAction($request, $response, $args) {
         /** @var \App\Entity\File $file **/
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         $settings = $this->container->get('settings');
@@ -32,7 +32,7 @@ class FileController extends BaseController {
             readfile($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
             exit;
         } else {
-            return $response->withRedirect($this->router->pathFor('file-show-' . $this->currentLocale, $args));
+            return $response->withRedirect($this->router->pathFor('file-show-' . LanguageUtility::getLocale(), $args));
         }
         
         // Render view
@@ -47,7 +47,7 @@ class FileController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function show($request, $response, $args) {
+    public function showAction($request, $response, $args) {
         $source = $childSource = '';
         $settings = $this->container->get('settings');
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
@@ -81,7 +81,7 @@ class FileController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function upload($request, $response, $args) {
+    public function uploadAction($request, $response, $args) {
         if ($request->isPost()) {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
             $files = $request->getUploadedFiles();
@@ -157,7 +157,7 @@ class FileController extends BaseController {
             }
         }
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
     }
     
     /**
@@ -168,11 +168,11 @@ class FileController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function togglePublic($request, $response, $args) {
+    public function togglePublicAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         
-        if ($user instanceof \App\Entity\User) {
+        if ($user instanceof User) {
             $files = $user->getFiles();
 
             // if current user is owner of file
@@ -189,7 +189,7 @@ class FileController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m3') . ';' . self::STYLE_DANGER);
         }
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
     }
     
     /**
@@ -200,7 +200,7 @@ class FileController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function remove($request, $response, $args) {
+    public function removeAction($request, $response, $args) {
         $settings = $this->container->get('settings');
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
@@ -236,6 +236,6 @@ class FileController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m3') . ';' . self::STYLE_DANGER);
         }
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
     }
 }

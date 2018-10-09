@@ -62,7 +62,7 @@ class Setup {
             } else {
                 $arrConfig['database']['dbname'] = $strDbName;
             }
-            $settings .= "$s$s$s$s'dbname' => isset(\$_ENV['APP_DB_NAME']) ? \$_ENV['APP_DB_NAME'] : '" . $arrConfig['database']['dbname'] . "',\n";
+            $settings .= "$s$s$s$s'dbname'   => isset(\$_ENV['APP_DB_NAME']) ? \$_ENV['APP_DB_NAME'] : '" . $arrConfig['database']['dbname'] . "',\n";
 
             // Ask for database host
             echo self::getColoredString("Please enter database host (default: ", 'green') . self::getColoredString("127.0.0.1", 'yellow') . self::getColoredString("): ", 'green');
@@ -77,7 +77,7 @@ class Setup {
             } else {
                 $arrConfig['database']['host'] = $strHost;
             }
-            $settings .= "$s$s$s$s'host' => isset(\$_ENV['APP_DB_HOST']) ? \$_ENV['APP_DB_HOST'] : '" . $arrConfig['database']['host'] . "',\n";
+            $settings .= "$s$s$s$s'host'     => isset(\$_ENV['APP_DB_HOST']) ? \$_ENV['APP_DB_HOST'] : '" . $arrConfig['database']['host'] . "',\n";
 
             // Ask for database port
             echo self::getColoredString("Please enter database port (default: ", 'green') . self::getColoredString("3306", 'yellow') . self::getColoredString("): ", 'green');
@@ -92,7 +92,7 @@ class Setup {
             } else {
                 $arrConfig['database']['port'] = $intPort;
             }
-            $settings .= "$s$s$s$s'port' => isset(\$_ENV['APP_DB_PORT']) ? \$_ENV['APP_DB_PORT'] : " . $arrConfig['database']['port'] . ",\n";
+            $settings .= "$s$s$s$s'port'     => isset(\$_ENV['APP_DB_PORT']) ? \$_ENV['APP_DB_PORT'] : " . $arrConfig['database']['port'] . ",\n";
 
             // Ask for database user
             echo self::getColoredString("Please enter database user (default: ", 'green') . self::getColoredString("root", 'yellow') . self::getColoredString("): ", 'green');
@@ -107,7 +107,7 @@ class Setup {
             } else {
                 $arrConfig['database']['user'] = $strUser;
             }
-            $settings .= "$s$s$s$s'user' => isset(\$_ENV['APP_DB_USER']) ? \$_ENV['APP_DB_USER'] : '" . $arrConfig['database']['user'] . "',\n";
+            $settings .= "$s$s$s$s'user'     => isset(\$_ENV['APP_DB_USER']) ? \$_ENV['APP_DB_USER'] : '" . $arrConfig['database']['user'] . "',\n";
 
             // Ask for database password
             echo self::getColoredString("Please enter database password: ", 'green');
@@ -126,10 +126,8 @@ class Setup {
             $settings .= "$s$s$s],\n$s$s],\n\n";
             
             // Public path
-            $settings .= "$s$s// Relative to domain (e.g. project is in sub directory '/project/public/')\n";
-
             // Ask for public path
-            echo self::getColoredString("Please enter public path (default: ", 'green') . self::getColoredString("/", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Please enter public path (default: ", 'green') . self::getColoredString("dynamic generated", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
@@ -137,19 +135,19 @@ class Setup {
             fclose($strHandle);
 
             if (empty($strPublicPath)) {
-                $settings .= "$s$s'public_path' => '/',\n";
+//                $settings .= "$s$s'public_path' => '/',\n";
             } else {
+                $settings .= "\n$s$s// Relative to domain (e.g. project is in sub directory '/project/public/')\n";
                 $settings .= "$s$s'public_path' => '$strPublicPath',\n";
             }
             
-
-            // write AdditionalConfiguration.php
-            file_put_contents(__DIR__ . "/../../config/additional-settings.php", $settings . "\n    ]\n];");
+            // write additional-settings.php
+            file_put_contents(__DIR__ . "/../../config/additional-settings.php", $settings . "$s],\n];\n");
 
             static::createDatabase($arrConfig['database']);
         } else {
             // Ask for import
-            echo self::getColoredString("Should records be imported to database (default: ", 'green') . self::getColoredString("no", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Should database reset to default records (default: ", 'green') . self::getColoredString("no", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 

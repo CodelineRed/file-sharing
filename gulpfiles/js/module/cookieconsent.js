@@ -23,11 +23,11 @@
             },
             palette: {
                 popup: {
-                    background: '#252e39',
+                    background: '#2c3034',
                     text: '#ffffff'
                 },
                 button: {
-                    background: '#14a7d0',
+                    background: '#2e97bf',
                     text: '#ffffff'
                 }
             },
@@ -57,7 +57,7 @@
                     $('.cc-window').remove();
                 }, 250);
             },
-            onPopupOpen: function(){
+            onPopupOpen: function() {
                 // do something
             },
             onPopupClose: function() {

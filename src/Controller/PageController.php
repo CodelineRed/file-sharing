@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller;
 
+use App\Utility\LanguageUtility;
+
 /**
  * PageController is used for static pages
  */
@@ -14,11 +16,11 @@ class PageController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function index($request, $response, $args) {
+    public function indexAction($request, $response, $args) {
         if ($this->currentUser === NULL) {
             return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
         } else {
-            return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale));
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
         }
         
         // Render view

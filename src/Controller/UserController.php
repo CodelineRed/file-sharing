@@ -19,10 +19,9 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function create($request, $response, $args) {
+    public function createAction($request, $response, $args) {
         // Render view
         return $this->view->render($response, 'user/create.html.twig', array_merge($args, [
-            'messages' => GeneralUtility::getFlashMessages(),
             'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }
@@ -35,7 +34,7 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function saveCreate($request, $response, $args) {
+    public function saveCreateAction($request, $response, $args) {
         $user = $request->getParam('user_name');
         $pass = $request->getParam('user_pass');
         
@@ -45,7 +44,7 @@ class UserController extends BaseController {
             $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $request->getParam('user_role')]);
             
             // if user exists
-            if ($userSearch instanceof \App\Entity\User) {
+            if ($userSearch instanceof User) {
                 $this->flash->addMessage('message', LanguageUtility::trans('user-save-m1') . ';' . self::STYLE_DANGER);
             } elseif (strlen($pass) < 6) {
                 $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [6]) . ';' . self::STYLE_DANGER);
@@ -67,7 +66,7 @@ class UserController extends BaseController {
         }
         
         // Render view
-        return $response->withRedirect($this->router->pathFor('user-create-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('user-create-' . LanguageUtility::getLocale()));
     }
     
     /**
@@ -78,7 +77,7 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function show($request, $response, $args) {
+    public function showAction($request, $response, $args) {
         $postMaxSize = ini_get('post_max_size');
         $uploadMaxSize = ini_get('upload_max_filesize');
         
@@ -91,37 +90,36 @@ class UserController extends BaseController {
         }
         
         // if is other user and current user is alowed show_user_other
-        if (isset($args['name']) && $this->aclRepository->isAllowed($this->currentRole, 'show_user_other')) {
+        if (isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user_other')) {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name'], 'deleted' => 0]);
             
             // if user exists
-            if ($user instanceof \App\Entity\User) {
+            if ($user instanceof User) {
                 $this->logger->info("User '" . $args['name'] . "' found - UserController:show");
             } else {
                 // if user not found
                 $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
-                return $response->withRedirect($this->router->pathFor('error-not-found-' . $this->currentLocale));
+                return $response->withRedirect($this->router->pathFor('error-not-found-' . LanguageUtility::getGenericLocale()));
             }
-        } elseif (!is_null($this->currentUser) && !isset($args['name']) && $this->aclRepository->isAllowed($this->currentRole, 'show_user')) {
+        } elseif (!is_null($this->currentUser) && !isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user')) {
             // if is logged in user and allowed show_user
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
             
             if ($user === NULL) {
                 GeneralUtility::setCurrentUser(NULL);
-                return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
+                return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
             }
         } else {
             // if user is not logged in
             $this->logger->info("User not logged in - UserController:show");
-            return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
+            return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
         }
         
         // Render view
         return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
-            'messages' => GeneralUtility::getFlashMessages(),
             'user' => $user,
             'maxFileSize' => $maxFileSize,
-            'files' => $user->getFilesIncludedFalse(),
+            'files' => $user->getUniqueFiles(),
             'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }
@@ -134,7 +132,7 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function showAll($request, $response, $args) {
+    public function showAllAction($request, $response, $args) {
         // Render view
         return $this->view->render($response, 'user/show-all.html.twig', array_merge($args, [
             'users' => $this->em->getRepository('App\Entity\User')->findAll(),
@@ -149,18 +147,18 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function updateRole($request, $response, $args) {
+    public function updateRoleAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $args['role']]);
         
         if ($user === NULL || $role === NULL) {
-            return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
+            return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
         }
         
         $user->setRole($role);
         $this->em->flush($user);
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale, $args));
+        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
     }
     
     /**
@@ -171,7 +169,7 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function login($request, $response, $args) {
+    public function loginAction($request, $response, $args) {
         // Render view
         return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
     }
@@ -184,16 +182,16 @@ class UserController extends BaseController {
      * @param array $args
      * @return static
      */
-    public function loginValidate($request, $response, $args) {
+    public function loginValidateAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name'), 'deleted' => 0]);
         unset($_SESSION['tempUser']);
         
         // if user exists
-        if ($user instanceof \App\Entity\User) {
+        if ($user instanceof User) {
             // if password valid
             if (password_verify($request->getParam('user_pass'), $user->getPass())) {
                 $_SESSION['tempUser'] = $user->getId();
-                return $response->withRedirect($this->router->pathFor('user-two-factor-' . $this->currentLocale));
+                return $response->withRedirect($this->router->pathFor('user-two-factor-' . LanguageUtility::getLocale()));
             } else {
                 $this->logger->info("User " . $user->getId() . " wrong password - UserController:loginValidate");
 //                die('wrong pass - ' . $request->getParam('user_pass') . ' - ' . $user->getPass());
@@ -203,7 +201,7 @@ class UserController extends BaseController {
         }
         
         // user or password not valid - redirect to login
-        return $response->withRedirect($this->router->pathFor('user-login-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('user-login-' . LanguageUtility::getGenericLocale()));
     }
     
     /**
@@ -214,11 +212,11 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function logout($request, $response, $args) {
+    public function logoutAction($request, $response, $args) {
         $_SESSION['currentRole'] = 'guest';
         unset($_SESSION['currentUser']);
         $this->logger->info("User " . $this->currentUser . " logged out - UserController:logout");
-        return $response->withRedirect($this->router->pathFor('page-index-' . $this->currentLocale));
+        return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
     }
     
     /**
@@ -229,7 +227,7 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function enableTwoFactor($request, $response, $args) {
+    public function enableTwoFactorAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $ga = new \PHPGangsta_GoogleAuthenticator();
         $secret = $user->getTwoFactorSecret();
@@ -237,7 +235,7 @@ class UserController extends BaseController {
         
         if ($user->hasTwoFactor()) {
             unset($_SESSION['pass_code']);
-            return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale));
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
         }
         
         // if empty - generate new secret and update user
@@ -246,7 +244,7 @@ class UserController extends BaseController {
             do {
                 $secret = $ga->createSecret();
                 $userSecret = $this->em->getRepository('App\Entity\User')->findOneBy(['twoFactorSecret' => $secret]);
-            } while ($userSecret instanceof \App\Entity\User);
+            } while ($userSecret instanceof User);
             
             $user->setTwoFactorSecret($secret);
             $this->em->flush($user);
@@ -284,7 +282,7 @@ class UserController extends BaseController {
                         $newEncryptRecoveryCode = GeneralUtility::encryptPassword($newRecoveryCode);
                         $recoveryCode = $this->em->getRepository('App\Entity\RecoveryCode')->findOneBy(['code' => $newEncryptRecoveryCode]);
 
-                        if (!($recoveryCode instanceof \App\Entity\RecoveryCode)) {
+                        if (!($recoveryCode instanceof RecoveryCode)) {
                             $recoveryCode = new RecoveryCode();
                             $recoveryCode->setCode($newEncryptRecoveryCode)
                                     ->setUser($user);
@@ -322,11 +320,11 @@ class UserController extends BaseController {
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function twoFactor($request, $response, $args) {
+    public function twoFactorAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $_SESSION['tempUser']]);
         
         // if user exists
-        if ($user instanceof \App\Entity\User) {
+        if ($user instanceof User) {
             $ga = new \PHPGangsta_GoogleAuthenticator();
             $secret = $user->getTwoFactorSecret();
 
@@ -335,7 +333,7 @@ class UserController extends BaseController {
                 $_SESSION['currentRole'] = $user->getRole()->getName();
                 $_SESSION['currentUser'] = $user->getId();
                 $this->logger->info("User " . $user->getId() . " logged in - UserController:twoFactor");
-                return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale));
+                return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
             }
 
             if ($request->isPost()) {
@@ -363,12 +361,12 @@ class UserController extends BaseController {
                     $_SESSION['currentRole'] = $user->getRole()->getName();
                     $_SESSION['currentUser'] = $user->getId();
                     $this->logger->info("User " . $user->getId() . " logged in - UserController:twoFactor");
-                    return $response->withRedirect($this->router->pathFor('user-show-' . $this->currentLocale));
+                    return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
                 }
             }
         } else {
             $this->logger->info("User '" . $_SESSION['tempUser'] . "' not found - UserController:twoFactor");
-            return $response->withRedirect($this->router->pathFor('user-login-' . $this->currentLocale));
+            return $response->withRedirect($this->router->pathFor('user-login-' . LanguageUtility::getGenericLocale()));
         }
         
         // Render view

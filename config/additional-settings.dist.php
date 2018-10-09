@@ -1,16 +1,26 @@
 <?php
 return [
     'settings' => [
+        'displayErrorDetails' => FALSE, // set to false in production
+        
         // Doctrine settings
         'doctrine' => [
             'connection' => [
-                'dbname'   => '',
-                'user'     => '',
-                'password' => '',
+                'dbname'   => isset($_ENV['APP_DB_NAME']) ? $_ENV['APP_DB_NAME'] : 'imhh_file_sharing',
+                'host'     => isset($_ENV['APP_DB_HOST']) ? $_ENV['APP_DB_HOST'] : '127.0.0.1',
+                'port'     => isset($_ENV['APP_DB_PORT']) ? $_ENV['APP_DB_PORT'] : 3306,
+                'user'     => isset($_ENV['APP_DB_USER']) ? $_ENV['APP_DB_USER'] : '',
+                'password' => isset($_ENV['APP_DB_PASSWORD']) ? $_ENV['APP_DB_PASSWORD'] : '',
             ],
         ],
         
-        // Relative to domain (e.g. project is in sub directory '/project/public/')
-        'public_path' => '/',
+        // Locale settings
+        'locale' => [
+            'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,
+            'active' => [
+                'en-US' => 'imhh-fs.localhost',
+                'de-DE' => 'de.imhh-fs.localhost',
+            ],
+        ],
     ],
 ];

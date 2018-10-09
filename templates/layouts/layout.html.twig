@@ -1,9 +1,9 @@
-{# lk = locale key #}
-{% set lk = language() %}
-{# ns = naviagtion suffix #}
-{% set ns = '-label' %}
+{# lc = locale code #}
+{% set lc = locale() %}
+{# glc = generic locale code #}
+{% set glc = generic_locale() %}
 <!DOCTYPE html>
-<html lang="{{ lk|slice(1, 2) }}">
+<html lang="{{ current_locale() }}" class="locale-process-{{ localeProcess }}">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">

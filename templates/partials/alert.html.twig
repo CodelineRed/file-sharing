@@ -1,5 +1,5 @@
-{% if messages|length > 0 %}
-    {% for message in messages %}
+{% if flashMessages|length > 0 %}
+    {% for message in flashMessages %}
     <div class="row">
         <div class="col-12">
             <div class="alert alert-{{ message.style }} text-center" role="alert">

@@ -10,8 +10,18 @@ use Doctrine\Common\Collections\Criteria;
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_user")
  */
-class User extends \App\MappedSuperclass\LowerCaseUniqueName
+class User extends \App\MappedSuperclass\Base
 {
+    
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    protected $name;
+    
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $pass;
     
     /**
      * @ORM\ManyToOne(targetEntity="Role", inversedBy="users")
@@ -20,19 +30,16 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
     private $role;
     
     /**
+     * One User has many RecoveryCodes.
+     * 
      * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user")
      */
     private $recoveryCodes;
     
     /**
-     * @ORM\Column(type="string")
-     */
-    private $pass;
-    
-    /**
      * @ORM\Column(type="boolean", name="two_factor")
      */
-    private $twoFactor = 0;
+    private $twoFactor = FALSE;
     
     /**
      * @ORM\Column(type="string", name="two_factor_secret")
@@ -48,6 +55,46 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
     public function __construct() {
         $this->recoveryCodes = new ArrayCollection();
         $this->files = new ArrayCollection();
+    }
+
+    /**
+     * Get $name
+     * 
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+    
+    /**
+     * Set $name
+     * 
+     * @param string $name
+     */
+    public function setName($name) {
+        $this->name = strtolower($name);
+        
+        return $this;
+    }
+
+    /**
+     * Get $pass
+     * 
+     * @return string
+     */
+    public function getPass() {
+        return $this->pass;
+    }
+    
+    /**
+     * Set $pass
+     * 
+     * @param string $pass
+     */
+    public function setPass($pass) {
+        $this->pass = GeneralUtility::encryptPassword($pass);
+        
+        return $this;
     }
 
     /**
@@ -73,32 +120,12 @@ class User extends \App\MappedSuperclass\LowerCaseUniqueName
      * 
      * @return ArrayCollection
      */
-    public function getFilesIncludedFalse() {
+    public function getUniqueFiles() {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('fileIncluded', FALSE))
             ->orderBy(['createdAt' => Criteria::DESC]);
         
         return $this->files->matching($criteria);
-    }
-
-    /**
-     * Get $pass
-     * 
-     * @return string
-     */
-    public function getPass() {
-        return $this->pass;
-    }
-    
-    /**
-     * Set $pass
-     * 
-     * @param string $pass
-     */
-    public function setPass($pass) {
-        $this->pass = GeneralUtility::encryptPassword($pass);
-        
-        return $this;
     }
     
     /**

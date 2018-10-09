@@ -4,21 +4,21 @@ body {
 }
 
 a {
-    color: $lightblue;
+    color: $grey;
     
     &.current {
-        color: $grey;
+        color: $brand-color-1;
+    }
+    
+    &:hover {
+        color: $brand-color-1;
     }
 }
 
 h1 {
-    color: $lightblue;
+    color: $brand-color-1;
     
     @include media-breakpoint-down(md) {
         font-size: 2rem;
     }
 }
-
-/*.btn .svg-inline--fa {
-    margin-top: -5px;
-}*/

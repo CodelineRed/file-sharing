@@ -17,8 +17,8 @@
                 {% if users|length > 0 %}
                     {% for user in users %}
                         <tr>
-                            <td><a href="{{ path_for('user-show' ~ lk, { 'name': user.name }) }}">{{ user.name }}</a></td>
-                            <td>{{ user.files|length }}</td>
+                            <td><a href="{{ path_for('user-show-' ~ lc, { 'name': user.name }) }}" class="current">{{ user.name }}</a></td>
+                            <td>{{ user.uniqueFiles|length }}</td>
                             <td>{{ user.createdAt|date('datetime'|trans, 'timezone'|trans) }}</td>
                         </tr>
                     {% endfor %}
