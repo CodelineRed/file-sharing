@@ -9,9 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.1]
 ### Added
 - Access on hidden files for `superadmin`
+- Access on hidden users for `superadmin`
+- Redirect to same user page where "click" happened
+- `nowrap` CSS class to table values
 
 ### Changed
 - `$settings` to `$this->settings` in [`FileController`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
+- Margins in forms
 
 ## [2.1.0] - 2018-10-10
 ### Added

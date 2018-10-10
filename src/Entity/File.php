@@ -60,8 +60,6 @@ class File extends \App\MappedSuperclass\Base
      */
     private $fileIncluded = FALSE;
     
-    
-    
     /**
      * Get $user
      * 

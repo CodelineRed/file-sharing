@@ -180,6 +180,11 @@ class FileController extends BaseController {
                 $file->setHidden(!$hidden);
                 $this->em->persist($file);
                 $this->em->flush();
+                
+                if ($file->getUser()->getId() !== $user->getId()) {
+                    $args['name'] = $file->getUser()->getName();
+                }
+                
                 $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m' . intval($hidden), [$file->getName()]) . ';' . self::STYLE_SUCCESS);
             } else {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m2', [$file->getName()]) . ';' . self::STYLE_DANGER);
@@ -188,7 +193,7 @@ class FileController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m3') . ';' . self::STYLE_DANGER);
         }
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
     }
     
     /**
@@ -225,9 +230,15 @@ class FileController extends BaseController {
                 
                 $this->em->remove($file);
                 $this->em->flush();
+                
                 if (file_exists($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
                     unlink($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
                 }
+                
+                if ($file->getUser()->getId() !== $user->getId()) {
+                    $args['name'] = $file->getUser()->getName();
+                }
+                
                 $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);
             } else {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m2', [$file->getName()]) . ';' . self::STYLE_DANGER);
@@ -236,6 +247,6 @@ class FileController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m3') . ';' . self::STYLE_DANGER);
         }
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
     }
 }
