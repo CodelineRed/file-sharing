@@ -1,6 +1,8 @@
+'use strict';
+
 // jQuery.noConflict();
 (function($) {
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('html').removeClass('no-js');
         $('[data-toggle="tooltip"]').tooltip();
     });

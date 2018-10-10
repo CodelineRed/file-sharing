@@ -1,0 +1,30 @@
+.switch {
+    input {
+        display: none;
+        
+        &:checked {
+            & + label {
+                background-color: $success;
+                color: $white;
+                
+                .fa-times {
+                    display: none;
+                }
+                
+                .fa-check {
+                    display: inline;
+                }
+            }
+        }
+        
+        & + label {
+            background-color: $warning;
+            color: $black;
+            
+            .fa-check {
+                display: none;
+            }
+        }
+        
+    }
+}

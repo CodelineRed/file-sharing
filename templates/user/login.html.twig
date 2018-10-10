@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col">
             <h1 class="text-center my-3">{{ 'login'|trans }}</h1>
-            <form action="{{ path_for('user-login-validate' ~ lk) }}" method="post">
+            <form action="{{ path_for('user-login-validate-' ~ glc) }}" method="post">
                 <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                 <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
                 <div class="form-row align-items-center justify-content-center">

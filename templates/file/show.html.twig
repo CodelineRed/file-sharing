@@ -5,20 +5,24 @@
         <div class="col-12 text-center mb-5">
             {% if file %}
                 {% if file.public or file.user.id == current_user() %}
-                    <h1 class="mb-3">{{ file.name }} <a href="{{ path_for('file-download' ~ lk, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'download'|trans }}"><i class="fas fa-download fa-fw"></i></a></h1>
+                    <h1 class="mb-3">{{ file.name }} <a href="{{ path_for('file-download-' ~ glc, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'download'|trans }}"><i class="fas fa-download fa-fw"></i></a></h1>
                     <div class='mb-3'>
-                        <span data-toggle="tooltip" data-placement="top" title="{{ 'owner'|trans }}"><i class="fas fa-user"></i> <a href="{{ path_for('user-show' ~ lk, { 'name': file.user.name }) }}">{{ file.user.name }}</a></span> &#124;
+                        <span data-toggle="tooltip" data-placement="top" title="{{ 'owner'|trans }}"><i class="fas fa-user"></i> <a href="{{ path_for('user-show-' ~ lc, { 'name': file.user.name }) }}" class="current">{{ file.user.name }}</a></span> &#124;
                         <span data-toggle="tooltip" data-placement="top" title="{{ 'file-size'|trans }}"><i class="fas fa-database"></i> {{ (file.size / 1000)|number_format(2, 'dp'|trans, 'ts'|trans) }} KB</span> &#124;
-                        <span data-toggle="tooltip" data-placement="top" title="{{ 'created-at'|trans }}"><i class="fas fa-clock"></i> {{ file.createdAt|date('datetime'|trans) }}</span>
+                        <span data-toggle="tooltip" data-placement="top" title="{{ 'created-at'|trans }}"><i class="fas fa-clock"></i> {{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span>
                     </div>
 
+                    {% if file.extension.fileType.name == 'text' %}
+                        {{ source|nl2br }}
+                    {% endif %}
+
                     {% if file.extension.fileType.name == 'image' %}
-                        <img src="{{ base64Source }}" class="img-fluid" />
+                        <img src="data:{{ file.mimeType }};base64,{{ source }}" class="img-fluid" />
                     {% endif %}
                     
                     {% if file.extension.fileType.name == 'audio' %}
                         <audio controls>
-                            <source src="{{ base64Source }}" type="{{ file.mimeType }}">
+                            <source src="data:{{ file.mimeType }};base64,{{ source }}" type="{{ file.mimeType }}">
                             {{ 'no-audio-support'|trans }}
                         </audio>
                     {% endif %}
@@ -26,9 +30,15 @@
                     {% if file.extension.fileType.name == 'video' %}
                         <div class="embed-responsive embed-responsive-16by9">
                             <video class="embed-responsive-item" controls>
-                                <source src="{{ base64Source }}" type="{{ file.mimeType }}">
+                                <source src="data:{{ file.mimeType }};base64,{{ source }}" type="{{ file.mimeType }}">
                                 {{ 'no-video-support'|trans }}
                             </video> 
+                        </div>
+                    {% endif %}
+                    
+                    {% if file.file %}
+                        <div class="my-3">
+                            {{ childSource|nl2br }}
                         </div>
                     {% endif %}
                 {% else %}

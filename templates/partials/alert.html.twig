@@ -1,4 +1,5 @@
-{% if message.text|length > 0 %}
+{% if flashMessages|length > 0 %}
+    {% for message in flashMessages %}
     <div class="row">
         <div class="col-12">
             <div class="alert alert-{{ message.style }} text-center" role="alert">
@@ -6,4 +7,5 @@
             </div>
         </div>
     </div>
+    {% endfor %}
 {% endif %}

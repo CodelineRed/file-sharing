@@ -4,22 +4,22 @@
     <div class="row">
         <div class="col-12">
             <h1 class="text-center mb-3">{{ 'file-extension-create-label'|trans }}</h1>
-            <form action="{{ path_for('file-extension-save' ~ lk) }}" method="post">
+            <form action="{{ path_for('file-extension-save-' ~ lc) }}" method="post">
                 <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                 <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
                 <div class="form-row align-items-center justify-content-center">
                     <div class="col-12 col-md-6">
                         <div class="row">
-                            <div class="col-12 mb-2">
+                            <div class="col-12 mb-3">
                                 <label class="sr-only" for="ext_name">{{ 'file-extension'|trans }}</label>
-                                <div class="input-group mb-2">
+                                <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="fas fa-file fa-fw"></i></div>
                                     </div>
                                     <input type="text" class="form-control" name="ext_name" id="ext_name" placeholder="{{ 'file-extension'|trans }}" autofocus="autofocus" />
                                 </div>
                             </div>
-                            <div class="col-12 mb-2">
+                            <div class="col-12 mb-3">
                                 {% if fileTypes|length > 0 %}
                                 <select class="custom-select" name="file_type">
                                     {% for fileType in fileTypes %}
@@ -28,7 +28,7 @@
                                 </select>
                                 {% endif %}
                             </div>
-                            <div class="col-12 mb-2">
+                            <div class="col-12 mb-3">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="ext_active" name="ext_active" value="1">
                                     <label class="custom-control-label" for="ext_active">{{ 'extension-unlocked'|trans }}</label>

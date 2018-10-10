@@ -55,6 +55,19 @@ class File extends \App\MappedSuperclass\Base
     private $public = 0;
     
     /**
+     * @ORM\OneToOne(targetEntity="File")
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id")
+     */
+    private $file = NULL;
+    
+    /**
+     * @ORM\Column(type="boolean", name="file_included")
+     */
+    private $fileIncluded = FALSE;
+    
+    
+    
+    /**
      * Get $user
      * 
      * @return User
@@ -79,7 +92,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @return string
      */
-    function getName() {
+    public function getName() {
         return $this->name;
     }
 
@@ -88,7 +101,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @param string $name
      */
-    function setName($name) {
+    public function setName($name) {
         $this->name = $name;
         
         return $this;
@@ -99,7 +112,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @return string
      */
-    function getHashName() {
+    public function getHashName() {
         return $this->hashName;
     }
 
@@ -108,7 +121,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @param string $hashName
      */
-    function setHashName($hashName) {
+    public function setHashName($hashName) {
         $this->hashName = $hashName;
         
         return $this;
@@ -119,7 +132,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @return FileExtension
      */
-    function getExtension() {
+    public function getExtension() {
         return $this->extension;
     }
 
@@ -128,7 +141,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @param FileExtension $extension
      */
-    function setExtension($extension) {
+    public function setExtension($extension) {
         $this->extension = $extension;
         
         return $this;
@@ -139,7 +152,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @return string
      */
-    function getMimeType() {
+    public function getMimeType() {
         return $this->mimeType;
     }
 
@@ -148,7 +161,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @param string $mimeType
      */
-    function setMimeType($mimeType) {
+    public function setMimeType($mimeType) {
         $this->mimeType = $mimeType;
         
         return $this;
@@ -159,7 +172,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @return integer
      */
-    function getSize() {
+    public function getSize() {
         return $this->size;
     }
 
@@ -168,7 +181,7 @@ class File extends \App\MappedSuperclass\Base
      * 
      * @param integer $size
      */
-    function setSize($size) {
+    public function setSize($size) {
         $this->size = $size;
         
         return $this;
@@ -190,6 +203,46 @@ class File extends \App\MappedSuperclass\Base
      */
     public function setPublic($public) {
         $this->public = $public;
+        
+        return $this;
+    }
+
+    /**
+     * Get $file
+     * 
+     * @return FileFile
+     */
+    public function getFile() {
+        return $this->file;
+    }
+
+    /**
+     * Set $file
+     * 
+     * @param FileFile $file
+     */
+    public function setFile($file) {
+        $this->file = $file;
+        
+        return $this;
+    }
+    
+    /**
+     * Is $fileIncluded
+     * 
+     * @return boolean
+     */
+    public function isFileIncluded() {
+        return $this->fileIncluded;
+    }
+    
+    /**
+     * Set $fileIncluded
+     * 
+     * @param boolean $fileIncluded
+     */
+    public function setFileIncluded($fileIncluded) {
+        $this->fileIncluded = $fileIncluded;
         
         return $this;
     }

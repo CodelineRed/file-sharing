@@ -12,7 +12,7 @@ class GeneralUtility {
     static function encryptPassword($pass) {
         $options = [
             'cost' => 11,
-            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+            'salt' => random_bytes(22),
         ];
         return password_hash($pass, PASSWORD_BCRYPT, $options);
     }
@@ -24,7 +24,7 @@ class GeneralUtility {
      * @return string
      */
     static function generateCode($length = 18) {
-        $chars = "abcdefghijkmnopqrstuvwxyz023456789";
+        $chars = 'abcdefghijkmnopqrstuvwxyz023456789';
         srand((double)microtime()*1000000);
         $i = 0;
         $code = '' ;
@@ -76,19 +76,51 @@ class GeneralUtility {
     }
     
     /**
-     * Returns flash message text.
+     * Returns flash message array.
+     * 
+     * @return array
+     */
+    static function getFlashMessages() {
+        $flash = AppContainer::getInstance()->getContainer()->get('flash');
+        $flashMessages = $flash->getMessage('message');
+        $messages = [];
+        
+        if (is_array($flashMessages)) {
+            foreach ($flashMessages as $flashMessage) {
+                list($text, $style) = explode(';', $flashMessage);
+                $messages[] = [
+                    'text' => $text,
+                    'style' => $style,
+                ];
+            }
+        }
+        
+        return $messages;
+    }
+    
+    /**
+     * Get real user ip
      * 
      * @return string
      */
-    static function getFlashMessage() {
-        $flash = AppContainer::getInstance()->getContainer()->get('flash');
-        $flashMessage = $flash->getMessage('message');
-        $message = $style = '';
-        
-        if (is_array($flashMessage)) {
-            list($message, $style) = explode(';', $flashMessage[0]);
+    static function getUserIP() {
+        // Get real visitor IP behind CloudFlare network
+        if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
+            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
         }
-        
-        return ['text' => $message, 'style' => $style];
+        $client  = @$_SERVER['HTTP_CLIENT_IP'];
+        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $remote  = $_SERVER['REMOTE_ADDR'];
+
+        if (filter_var($client, FILTER_VALIDATE_IP)) {
+            $ip = $client;
+        } elseif(filter_var($forward, FILTER_VALIDATE_IP)) {
+            $ip = $forward;
+        } else {
+            $ip = $remote;
+        }
+
+        return empty(explode(':', explode(',', $forward)[0])[0]) ? $ip : explode(':', explode(',', $forward)[0])[0];
     }
 }

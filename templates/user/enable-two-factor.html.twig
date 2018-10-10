@@ -14,7 +14,7 @@
                 <br/>
                 {{ 'enable-2fa-step3'|trans|raw }}<br/>
                 <br/>
-                <form action="{{ path_for('user-enable-two-factor' ~ lk) }}" method="post">
+                <form action="{{ path_for('user-enable-two-factor-' ~ lc) }}" method="post">
                     <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                     <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
                     <input type="hidden" name="pass_code" value="{{ passCode }}">
@@ -38,7 +38,7 @@
                     </div>
                 </form>
             {% else %}
-                <form action="{{ path_for('user-enable-two-factor' ~ lk) }}" method="post">
+                <form action="{{ path_for('user-enable-two-factor-' ~ lc) }}" method="post">
                     <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                     <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
                     <div class="form-row align-items-center justify-content-center">

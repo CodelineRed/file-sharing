@@ -4,27 +4,23 @@ return [
         'determineRouteBeforeAppMiddleware' => true,
         'displayErrorDetails' => false, // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
+        'public_path' => isset($_ENV['docker']) ? '/' : str_replace('index.php', '', $_SERVER['PHP_SELF']), // Relative to domain (e.g. project is in sub directory '/project/public/')
+        'cache_path'  => __DIR__ . '/../cache/',
+        'config_path' => __DIR__ . '/../config/',
 
         // Renderer settings
         'renderer' => [
+            'debug' => FALSE,
+            'cache' => FALSE, // FALSE or path to cache folder "__DIR__ . '/../cache/'"
             'template_path' => __DIR__ . '/../templates/',
         ],
 
         // Monolog settings
         'logger' => [
-            'name' => 'slim-app',
-            'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
+            'name'  => 'slim-app',
+            'path'  => __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
-        
-        // Relative to domain (e.g. project is in sub directory '/project/public/')
-        'public_path' => '/',
-        
-        // Cache settings
-        'cache_path' => __DIR__ . '/../cache/',
-        
-        // config path
-        'config_path' => __DIR__ . '/../config/',
         
         // upload settings
         'upload' => [
@@ -33,13 +29,15 @@ return [
         
         // Locale settings
         'locale' => [
-            'autoDetect' => TRUE,
-            'code' => 'en-US', // default language
+            'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,
+            'auto_detect' => TRUE,
+            'code' => 'en-US', // default / current language
+            'generic_code' => 'xx-XX', // routes which fits all localizations
             'path' => __DIR__ . '/../locale/',
             'active' => [
-                'de-DE',
-                'en-US',
-            ]
+                'en-US' => 'slim3.insanitymeetshh.net',
+                'de-DE' => 'slim3de.insanitymeetshh.net',
+            ],
         ],
         
         // Doctrine settings
@@ -55,6 +53,7 @@ return [
             'connection' => [
                 'driver'   => 'pdo_mysql',
                 'host'     => '127.0.0.1',
+                'port'     => 3306,
                 'dbname'   => '',
                 'user'     => '',
                 'password' => '',
@@ -63,7 +62,7 @@ return [
         ],
         
         // resources for acl
-        'aclResources' => [
+        'acl_resources' => [
             'create_user' => ['guest', 'admin', 'superadmin'],
             'edit_user' => ['member', 'admin', 'superadmin'], // edit own user information
             'show_user' => ['member', 'admin', 'superadmin'], // show own user information

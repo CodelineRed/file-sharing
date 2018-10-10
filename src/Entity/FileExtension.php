@@ -8,8 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_file_extension")
  */
-class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
+class FileExtension extends \App\MappedSuperclass\Base
 {
+    
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    protected $name;
     
     /**
      * @ORM\ManyToOne(targetEntity="FileType", inversedBy="fileExtensions")
@@ -30,6 +35,46 @@ class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
     public function __construct() {
         $this->files = new ArrayCollection();
     }
+
+    /**
+     * Get $name
+     * 
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+    
+    /**
+     * Set $name
+     * 
+     * @param string $name
+     */
+    public function setName($name) {
+        $this->name = strtolower($name);
+        
+        return $this;
+    }
+
+    /**
+     * Get $fileType
+     * 
+     * @return FileType
+     */
+    public function getFileType() {
+        return $this->fileType;
+    }
+
+    /**
+     * Set $fileType
+     * 
+     * @param FileType $fileType
+     */
+    public function setFileType($fileType) {
+        $this->fileType = $fileType;
+        
+        return $this;
+    }
     
     /**
      * Is $active
@@ -47,26 +92,6 @@ class FileExtension extends \App\MappedSuperclass\LowerCaseUniqueName
      */
     public function setActive($active) {
         $this->active = $active;
-        
-        return $this;
-    }
-
-    /**
-     * Get $fileType
-     * 
-     * @return FileType
-     */
-    function getFileType() {
-        return $this->fileType;
-    }
-
-    /**
-     * Set $fileType
-     * 
-     * @param FileType $fileType
-     */
-    function setFileType($fileType) {
-        $this->fileType = $fileType;
         
         return $this;
     }
