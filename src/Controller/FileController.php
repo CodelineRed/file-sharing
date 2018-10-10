@@ -23,13 +23,14 @@ class FileController extends BaseController {
     public function downloadAction($request, $response, $args) {
         /** @var \App\Entity\File $file **/
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
-        $settings = $this->container->get('settings');
         
         if ($file instanceof File && !$file->isHidden() || $file->getUser()->getId() === $this->currentUser) {
-            header("Content-Type: " . $file->getMimeType());
-            header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
-            flush();
-            readfile($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+            if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
+                header("Content-Type: " . $file->getMimeType());
+                header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
+                flush();
+                readfile($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+            }
             exit;
         } else {
             return $response->withRedirect($this->router->pathFor('file-show-' . LanguageUtility::getLocale(), $args));
@@ -49,19 +50,18 @@ class FileController extends BaseController {
      */
     public function showAction($request, $response, $args) {
         $source = $childSource = '';
-        $settings = $this->container->get('settings');
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         
-        if ($file instanceof File) {
+        if ($file instanceof File && is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
             $fileTypeName = $file->getExtension()->getFileType()->getName();
-            $source = file_get_contents($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+            $source = file_get_contents($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
 
             if (in_array($fileTypeName, ['image', 'audio', 'video'])) {
                 $source = base64_encode($source);
             }
             
-            if ($file->getFile() instanceof File) {
-                $childSource = file_get_contents($settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName());
+            if ($file->getFile() instanceof File && is_readable($this->settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName())) {
+                $childSource = file_get_contents($this->settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName());
             }
         }
         
@@ -89,14 +89,13 @@ class FileController extends BaseController {
             $fileIncluded = (int)$request->getParam('file_included');
             $note = $request->getParam('note');
             $proceedFileUpload = TRUE;
-            $settings = $this->container->get('settings');
             
             // if not empty
             if (!empty($note)) {
                 $noteExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => '.txt']);
                 $noteFileName = 'note-' . GeneralUtility::generateCode(10) . '.txt';
                 $noteHashName = GeneralUtility::generateCode(10) . substr(md5($noteHashName), 0, 10);
-                file_put_contents($settings['upload']['path'] . $noteHashName . $noteExtension->getName(), $note);
+                file_put_contents($this->settings['upload']['path'] . $noteHashName . $noteExtension->getName(), $note);
                 
                 $fileNote = new File();
                 $fileNote->setName($noteFileName)
@@ -116,7 +115,7 @@ class FileController extends BaseController {
                     
                     if ($extension instanceof FileExtension && $user instanceof User) {
                         $uploadFileHashName = GeneralUtility::generateCode(10) . substr(md5($uploadFileName), 0, 10);
-                        $upload->moveTo($settings['upload']['path'] . $uploadFileHashName . $extension->getName());
+                        $upload->moveTo($this->settings['upload']['path'] . $uploadFileHashName . $extension->getName());
                         
                         $file = new File();
                         $file->setName($uploadFileName)

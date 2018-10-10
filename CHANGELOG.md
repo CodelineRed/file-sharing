@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.1.0]
+## [2.1.1]
+### Added
+- Access on hidden files for `superadmin`
+
+### Changed
+- `$settings` to `$this->settings` in [`FileController`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
+
+## [2.1.0] - 2018-10-10
 ### Added
 - `hidden` in [`Base.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/MappedSuperclass/Base.php)
 - [`UserController::toggleHiddenAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L388)
