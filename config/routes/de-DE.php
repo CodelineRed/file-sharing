@@ -18,9 +18,9 @@ return [
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
-    'file-public' => [
-        'route'      => '/de/datei/oeffentlich/{uuid}/',
-        'method'     => 'App\Controller\FileController:togglePublicAction',
+    'file-hidden' => [
+        'route'      => '/de/datei/versteckt/{uuid}/',
+        'method'     => 'App\Controller\FileController:toggleHiddenAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
@@ -113,6 +113,20 @@ return [
         'route'      => '/de/user/save/',
         'method'     => 'App\Controller\UserController:saveCreateAction',
         'methods'    => ['POST'],
+        'rolesAllow' => ['superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'user-hidden' => [
+        'route'      => '/de/user/versteckt/{name}/',
+        'method'     => 'App\Controller\UserController:toggleHiddenAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'user-remove' => [
+        'route'      => '/de/user/remove/{name}/',
+        'method'     => 'App\Controller\UserController:removeAction',
+        'methods'    => ['GET'],
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],

@@ -25,7 +25,7 @@ class FileController extends BaseController {
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         $settings = $this->container->get('settings');
         
-        if ($file instanceof File && $file->isPublic() || $file->getUser()->getId() === $this->currentUser) {
+        if ($file instanceof File && !$file->isHidden() || $file->getUser()->getId() === $this->currentUser) {
             header("Content-Type: " . $file->getMimeType());
             header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
             flush();
@@ -161,14 +161,14 @@ class FileController extends BaseController {
     }
     
     /**
-     * togglePublic Action
+     * toggleHidden Action
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function togglePublicAction($request, $response, $args) {
+    public function toggleHiddenAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         
@@ -176,17 +176,17 @@ class FileController extends BaseController {
             $files = $user->getFiles();
 
             // if current user is owner of file
-            if ($files->contains($file)) {
-                $public = $file->isPublic();
-                $file->setPublic(!$public);
+            if ($files->contains($file) || $this->acl->isAllowed($this->currentRole, 'edit_file_other')) {
+                $hidden = $file->isHidden();
+                $file->setHidden(!$hidden);
                 $this->em->persist($file);
                 $this->em->flush();
-                $this->flash->addMessage('message', LanguageUtility::trans('file-public-m' . intval($public), [$file->getName()]) . ';' . self::STYLE_SUCCESS);
+                $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m' . intval($hidden), [$file->getName()]) . ';' . self::STYLE_SUCCESS);
             } else {
-                $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m2') . ';' . self::STYLE_DANGER);
+                $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m2', [$file->getName()]) . ';' . self::STYLE_DANGER);
             }
         } else {
-            $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m3') . ';' . self::STYLE_DANGER);
+            $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m3') . ';' . self::STYLE_DANGER);
         }
         
         return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
@@ -201,7 +201,6 @@ class FileController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function removeAction($request, $response, $args) {
-        $settings = $this->container->get('settings');
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         
@@ -209,7 +208,7 @@ class FileController extends BaseController {
             $files = $user->getFiles();
 
             // if current user is owner of file
-            if ($files->contains($file)) {
+            if ($files->contains($file) || $this->acl->isAllowed($this->currentRole, 'delete_file_other')) {
                 $childFile = $file->getFile();
                 $file->setFile(NULL);
                 $this->em->persist($file);
@@ -227,10 +226,12 @@ class FileController extends BaseController {
                 
                 $this->em->remove($file);
                 $this->em->flush();
-                unlink($settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+                if (file_exists($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
+                    unlink($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+                }
                 $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);
             } else {
-                $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m2') . ';' . self::STYLE_DANGER);
+                $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m2', [$file->getName()]) . ';' . self::STYLE_DANGER);
             }
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m3') . ';' . self::STYLE_DANGER);

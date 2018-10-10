@@ -89,7 +89,7 @@ gulp.task('img', function() {
 // copy all fonts
 gulp.task('font', function() {
     gulp.src([
-//            'node_modules/@fortawesome/fontawesome-free/webfonts/**',
+            'node_modules/@fortawesome/fontawesome-free/webfonts/**',
             sourcePath + 'font/**'
         ])
         .pipe(gulp.dest(publicPath + 'font/'));

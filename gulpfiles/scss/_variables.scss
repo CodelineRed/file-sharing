@@ -1,11 +1,17 @@
 $brand-color-1: #2e97bf;
 $darkgrey: #212121;
 $grey: #808080;
-$blue: $brand-color-1;
 
+// Fontawesome
 $fa-font-path: '../font';
 
+// Bootstrap
 $custom-file-text: (
   en: 'Browse',
   de: 'Auswählen'
 );
+$blue: $brand-color-1;
+$modal-content-bg: $darkgrey;
+$modal-header-border-color: $grey;
+$close-color: #fff;
+$close-text-shadow: none;

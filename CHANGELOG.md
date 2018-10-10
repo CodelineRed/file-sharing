@@ -6,7 +6,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.0.0]
+## [2.1.0]
+### Added
+- `hidden` in [`Base.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/MappedSuperclass/Base.php)
+- [`UserController::toggleHiddenAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L388)
+- [`UserController::removeAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L412)
+- [`User::getPublicFiles`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php#L136)
+- `cascade={"persist", "remove"}` to [`User::$recoveryCodes`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php#L37)
+- `cascade={"persist", "remove"}` to [`User::$files`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php#L53)
+- `currentUser` in [`GeneralExtension.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/GeneralExtension.php#L26)
+- Cookie policy modal
+- Table to user files (if user is "guest")
+- ACL resources `edit_file_other` and `delete_file_other`
+- Translations
+
+### Changed
+- [`UserController::logoutAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L221)
+- [`UserController::updateRoleAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L151)
+- [`UserController::showAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L80)
+- `FileController::togglePublicAction` is now [`FileController::toggleHiddenAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php#L171)
+- SQL files
+
+### Removed
+- `config/routes-de-DE.php`
+- `config/routes-en-US.php`
+- `public` in [`File.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php)
+
+## [2.0.0] - 2018-10-10
 ### Added
 - Upgrade from [Slim Skeleton Fork 4.3](https://github.com/InsanityMeetsHH/Slim-Skeleton/tree/4.3.0) to [Slim Skeleton Fork 5.0.5](https://github.com/InsanityMeetsHH/Slim-Skeleton/tree/5.0.5)
 - Upgrade from [Gulp Templating 3.0](https://github.com/InsanityMeetsHH/gulp-templating/tree/3.0.0) to [Gulp Templating 3.1](https://github.com/InsanityMeetsHH/gulp-templating/tree/3.1.0)

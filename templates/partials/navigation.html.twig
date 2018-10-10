@@ -1,6 +1,9 @@
 <div class="row my-3 navigation">
     <div class="col-12 col-sm-3 col-lg-6">
         <a class="{% if is_current_path('page-index-' ~ glc) %}current{% endif %}" href="{{ path_for('page-index-' ~ glc) }}"><i class="fas fa-home"></i></a>
+        {% if currentUser %}
+        <a href="{{ path_for('user-show-' ~ lc) }}" class="ml-2 current">{{ currentUser.name }}</a>
+        {% endif %}
     </div>
     <div class="col-12 col-sm-9 col-lg-6 text-sm-right">
         {% include('partials/langswitch.html.twig') %}

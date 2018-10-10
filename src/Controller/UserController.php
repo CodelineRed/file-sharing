@@ -91,7 +91,7 @@ class UserController extends BaseController {
         
         // if is other user and current user is alowed show_user_other
         if (isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user_other')) {
-            $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name'], 'deleted' => 0]);
+            $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name'], 'hidden' => 0]);
             
             // if user exists
             if ($user instanceof User) {
@@ -99,13 +99,15 @@ class UserController extends BaseController {
             } else {
                 // if user not found
                 $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
+                $_SESSION['notFoundRoute'] = $request->getUri()->getPath();
                 return $response->withRedirect($this->router->pathFor('error-not-found-' . LanguageUtility::getGenericLocale()));
             }
         } elseif (!is_null($this->currentUser) && !isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user')) {
             // if is logged in user and allowed show_user
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
             
-            if ($user === NULL) {
+            if ($user === NULL || $user->isHidden()) {
+                GeneralUtility::setCurrentRole('guest');
                 GeneralUtility::setCurrentUser(NULL);
                 return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
             }
@@ -120,6 +122,7 @@ class UserController extends BaseController {
             'user' => $user,
             'maxFileSize' => $maxFileSize,
             'files' => $user->getUniqueFiles(),
+            'publicFiles' => $user->getPublicFiles(),
             'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }
@@ -155,6 +158,10 @@ class UserController extends BaseController {
             return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
         }
         
+        if ($this->currentUser === $user->getId()) {
+            GeneralUtility::setCurrentRole($role->getName());
+        }
+        
         $user->setRole($role);
         $this->em->flush($user);
         
@@ -183,7 +190,7 @@ class UserController extends BaseController {
      * @return static
      */
     public function loginValidateAction($request, $response, $args) {
-        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name'), 'deleted' => 0]);
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name'), 'hidden' => 0]);
         unset($_SESSION['tempUser']);
         
         // if user exists
@@ -194,7 +201,6 @@ class UserController extends BaseController {
                 return $response->withRedirect($this->router->pathFor('user-two-factor-' . LanguageUtility::getLocale()));
             } else {
                 $this->logger->info("User " . $user->getId() . " wrong password - UserController:loginValidate");
-//                die('wrong pass - ' . $request->getParam('user_pass') . ' - ' . $user->getPass());
             }
         } else {
             $this->logger->info("User '" . $request->getParam('user_name') . "' not found - UserController:loginValidate");
@@ -213,8 +219,8 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function logoutAction($request, $response, $args) {
-        $_SESSION['currentRole'] = 'guest';
-        unset($_SESSION['currentUser']);
+        GeneralUtility::setCurrentRole('guest');
+        GeneralUtility::setCurrentUser(NULL);
         $this->logger->info("User " . $this->currentUser . " logged out - UserController:logout");
         return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
     }
@@ -270,7 +276,6 @@ class UserController extends BaseController {
                     // disable old recovery codes
                     $oldRecoveryCodes = $this->em->getRepository('App\Entity\RecoveryCode')->findBy(['user' => $this->currentUser]);
                     foreach ($oldRecoveryCodes as $oldRecoveryCode) {
-                        $oldRecoveryCode->setDeleted(TRUE);
                         $this->em->remove($oldRecoveryCode);
                     }
 
@@ -347,7 +352,6 @@ class UserController extends BaseController {
                         foreach ($userRecoveryCodes as $recoveryCode) {
                             if (password_verify($code, $recoveryCode->getCode())) {
                                 $checkResult = TRUE;
-//                                $recoveryCode->setDeleted(TRUE);
                                 $this->em->remove($recoveryCode);
                                 $this->em->flush();
                                 break;
@@ -371,5 +375,55 @@ class UserController extends BaseController {
         
         // Render view
         return $this->view->render($response, 'user/two-factor.html.twig', array_merge($args, []));
+    }
+    
+    /**
+     * toggleHidden Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function toggleHiddenAction($request, $response, $args) {
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
+        
+        if ($user instanceof User && $user->getId() === $this->currentUser || ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'edit_user_other'))) {
+            $hidden = $user->isHidden();
+            $user->setHidden(!$hidden);
+            $this->em->persist($user);
+            $this->em->flush();
+            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($hidden), [$user->getName()]) . ';' . self::STYLE_SUCCESS);
+        } else {
+            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m2') . ';' . self::STYLE_DANGER);
+        }
+        
+        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+    }
+    
+    /**
+     * remove Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function removeAction($request, $response, $args) {
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
+        
+        if ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'delete_user_other')) {
+            $this->em->remove($user);
+            $this->em->flush();
+            $this->flash->addMessage('message', LanguageUtility::trans('user-remove-m1', [$user->getName()]) . ';' . self::STYLE_SUCCESS);
+        } else {
+            $this->flash->addMessage('message', LanguageUtility::trans('user-remove-m2', [$user->getName()]) . ';' . self::STYLE_DANGER);
+        }
+        
+        if ($this->currentUser === $user->getId()) {
+            return $response->withRedirect($this->router->pathFor('user-logout-' . LanguageUtility::getGenericLocale()));
+        } else {
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+        }
     }
 }

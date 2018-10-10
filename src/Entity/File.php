@@ -50,11 +50,6 @@ class File extends \App\MappedSuperclass\Base
     private $size;
     
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $public = 0;
-    
-    /**
      * @ORM\OneToOne(targetEntity="File")
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id")
      */
@@ -183,26 +178,6 @@ class File extends \App\MappedSuperclass\Base
      */
     public function setSize($size) {
         $this->size = $size;
-        
-        return $this;
-    }
-    
-    /**
-     * Is $public
-     * 
-     * @return boolean
-     */
-    public function isPublic() {
-        return $this->public;
-    }
-    
-    /**
-     * Set $public
-     * 
-     * @param boolean $public
-     */
-    public function setPublic($public) {
-        $this->public = $public;
         
         return $this;
     }
