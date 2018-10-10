@@ -14,8 +14,8 @@ CREATE TABLE `imhhfs_file` (
   `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `mime_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `size` int(11) NOT NULL,
-  `public` tinyint(1) NOT NULL,
   `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -37,6 +37,7 @@ CREATE TABLE `imhhfs_file_extension` (
   `active` tinyint(1) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -45,66 +46,67 @@ CREATE TABLE `imhhfs_file_extension` (
   CONSTRAINT `FK_AB8A0B9B5223F47` FOREIGN KEY (`file_type`) REFERENCES `imhhfs_file_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `imhhfs_file_extension` (`id`, `file_type`, `active`, `name`, `deleted`, `updated_at`, `created_at`) VALUES
-(1,	1,	1,	'.jpg',	0,	now(),	now()),
-(2,	1,	1,	'.jpeg',	0,	now(),	now()),
-(3,	1,	1,	'.gif',	0,	now(),	now()),
-(4,	1,	1,	'.svg',	0,	now(),	now()),
-(5,	1,	1,	'.png',	0,	now(),	now()),
-(6,	1,	1,	'.ico',	0,	now(),	now()),
-(7,	2,	1,	'.mp4',	0,	now(),	now()),
-(8,	2,	1,	'.webm',	0,	now(),	now()),
-(9,	2,	1,	'.ogg',	0,	now(),	now()),
-(10,	2,	1,	'.avi',	0,	now(),	now()),
-(11,	2,	0,	'.mov',	0,	now(),	now()),
-(12,	2,	0,	'.movie',	0,	now(),	now()),
-(13,	2,	0,	'.mpe',	0,	now(),	now()),
-(14,	2,	0,	'.mpeg',	0,	now(),	now()),
-(15,	2,	0,	'.mpg',	0,	now(),	now()),
-(16,	2,	0,	'.qt',	0,	now(),	now()),
-(17,	2,	0,	'.wmv',	0,	now(),	now()),
-(18,	3,	1,	'.midi',	0,	now(),	now()),
-(19,	3,	0,	'.mp2',	0,	now(),	now()),
-(20,	3,	1,	'.mp3',	0,	now(),	now()),
-(21,	3,	0,	'.mpga',	0,	now(),	now()),
-(22,	3,	1,	'.wav',	0,	now(),	now()),
-(23,	4,	0,	'.css',	0,	now(),	now()),
-(24,	4,	0,	'.htm',	0,	now(),	now()),
-(25,	4,	0,	'.html',	0,	now(),	now()),
-(26,	4,	0,	'.rtf',	0,	now(),	now()),
-(27,	4,	0,	'.rtx',	0,	now(),	now()),
-(28,	4,	0,	'.sgm',	0,	now(),	now()),
-(29,	4,	0,	'.sgml',	0,	now(),	now()),
-(30,	4,	0,	'.xml',	0,	now(),	now()),
-(31,	4,	1,	'.txt',	0,	now(),	now()),
-(32,	5,	0,	'.tar',	0,	now(),	now()),
-(33,	5,	0,	'.tcl',	0,	now(),	now()),
-(34,	5,	1,	'.pdf',	0,	now(),	now()),
-(35,	5,	1,	'.zip',	0,	now(),	now()),
-(36,	5,	1,	'.rar',	0,	now(),	now()),
-(37,	5,	1,	'.xls',	0,	now(),	now()),
-(38,	5,	1,	'.doc',	0,	now(),	now()),
-(39,	5,	1,	'.ppt',	0,	now(),	now()),
-(40,	5,	1,	'.xlsx',	0,	now(),	now()),
-(41,	5,	1,	'.pptx',	0,	now(),	now());
+INSERT INTO `imhhfs_file_extension` (`id`, `file_type`, `active`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1,	1,	1,	'.jpg',	0,	0,	now(),	now()),
+(2,	1,	1,	'.jpeg',	0,	0,	now(),	now()),
+(3,	1,	1,	'.gif',	0,	0,	now(),	now()),
+(4,	1,	1,	'.svg',	0,	0,	now(),	now()),
+(5,	1,	1,	'.png',	0,	0,	now(),	now()),
+(6,	1,	1,	'.ico',	0,	0,	now(),	now()),
+(7,	2,	1,	'.mp4',	0,	0,	now(),	now()),
+(8,	2,	1,	'.webm',	0,	0,	now(),	now()),
+(9,	2,	1,	'.ogg',	0,	0,	now(),	now()),
+(10,	2,	1,	'.avi',	0,	0,	now(),	now()),
+(11,	2,	0,	'.mov',	0,	0,	now(),	now()),
+(12,	2,	0,	'.movie',	0,	0,	now(),	now()),
+(13,	2,	0,	'.mpe',	0,	0,	now(),	now()),
+(14,	2,	0,	'.mpeg',	0,	0,	now(),	now()),
+(15,	2,	0,	'.mpg',	0,	0,	now(),	now()),
+(16,	2,	0,	'.qt',	0,	0,	now(),	now()),
+(17,	2,	0,	'.wmv',	0,	0,	now(),	now()),
+(18,	3,	1,	'.midi',	0,	0,	now(),	now()),
+(19,	3,	0,	'.mp2',	0,	0,	now(),	now()),
+(20,	3,	1,	'.mp3',	0,	0,	now(),	now()),
+(21,	3,	0,	'.mpga',	0,	0,	now(),	now()),
+(22,	3,	1,	'.wav',	0,	0,	now(),	now()),
+(23,	4,	0,	'.css',	0,	0,	now(),	now()),
+(24,	4,	0,	'.htm',	0,	0,	now(),	now()),
+(25,	4,	0,	'.html',	0,	0,	now(),	now()),
+(26,	4,	0,	'.rtf',	0,	0,	now(),	now()),
+(27,	4,	0,	'.rtx',	0,	0,	now(),	now()),
+(28,	4,	0,	'.sgm',	0,	0,	now(),	now()),
+(29,	4,	0,	'.sgml',	0,	0,	now(),	now()),
+(30,	4,	0,	'.xml',	0,	0,	now(),	now()),
+(31,	4,	1,	'.txt',	0,	0,	now(),	now()),
+(32,	5,	0,	'.tar',	0,	0,	now(),	now()),
+(33,	5,	0,	'.tcl',	0,	0,	now(),	now()),
+(34,	5,	1,	'.pdf',	0,	0,	now(),	now()),
+(35,	5,	1,	'.zip',	0,	0,	now(),	now()),
+(36,	5,	1,	'.rar',	0,	0,	now(),	now()),
+(37,	5,	1,	'.xls',	0,	0,	now(),	now()),
+(38,	5,	1,	'.doc',	0,	0,	now(),	now()),
+(39,	5,	1,	'.ppt',	0,	0,	now(),	now()),
+(40,	5,	1,	'.xlsx',	0,	0,	now(),	now()),
+(41,	5,	1,	'.pptx',	0,	0,	now(),	now());
 
 DROP TABLE IF EXISTS `imhhfs_file_type`;
 CREATE TABLE `imhhfs_file_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_565E6CF95E237E06` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `imhhfs_file_type` (`id`, `name`, `deleted`, `updated_at`, `created_at`) VALUES
-(1,	'image',	0,	now(),	now()),
-(2,	'video',	0,	now(),	now()),
-(3,	'audio',	0,	now(),	now()),
-(4,	'text',	0,	now(),	now()),
-(5,	'other',	0,	now(),	now());
+INSERT INTO `imhhfs_file_type` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1,	'image',	0,	0,	now(),	now()),
+(2,	'video',	0,	0,	now(),	now()),
+(3,	'audio',	0,	0,	now(),	now()),
+(4,	'text',	0,	0,	now(),	now()),
+(5,	'other',	0,	0,	now(),	now());
 
 DROP TABLE IF EXISTS `imhhfs_recovery_code`;
 CREATE TABLE `imhhfs_recovery_code` (
@@ -112,6 +114,7 @@ CREATE TABLE `imhhfs_recovery_code` (
   `user_id` int(11) DEFAULT NULL,
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -125,17 +128,18 @@ CREATE TABLE `imhhfs_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_290C05FF5E237E06` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `imhhfs_role` (`id`, `name`, `deleted`, `updated_at`, `created_at`) VALUES
-(1,	'guest',	0,	now(),	now()),
-(2,	'member',	0,	now(),	now()),
-(3,	'admin',	0,	now(),	now()),
-(4,	'superadmin',	0,	now(),	now());
+INSERT INTO `imhhfs_role` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1,	'guest',	0,	0,	now(),	now()),
+(2,	'member',	0,	0,	now(),	now()),
+(3,	'admin',	0,	0,	now(),	now()),
+(4,	'superadmin',	0,	0,	now(),	now());
 
 DROP TABLE IF EXISTS `imhhfs_user`;
 CREATE TABLE `imhhfs_user` (
@@ -146,6 +150,7 @@ CREATE TABLE `imhhfs_user` (
   `two_factor` tinyint(1) NOT NULL,
   `two_factor_secret` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -154,7 +159,7 @@ CREATE TABLE `imhhfs_user` (
   CONSTRAINT `FK_F3F659DCD60322AC` FOREIGN KEY (`role_id`) REFERENCES `imhhfs_role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `imhhfs_user` (`id`, `role_id`, `pass`, `two_factor`, `two_factor_secret`, `name`, `deleted`, `updated_at`, `created_at`) VALUES
-(1,	4,	'$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K',	0,	'0',	'user',	0,	now(),	now());
+INSERT INTO `imhhfs_user` (`id`, `role_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1,	4,	'user',	'$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K',	0,	'',	0,	0,	now(),	now());
 
 -- 2018-10-02 14:32:09

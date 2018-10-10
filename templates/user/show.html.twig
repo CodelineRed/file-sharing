@@ -4,7 +4,15 @@
     {% if user %}
     <div class="row">
         <div class="col-12 col-md-6 mb-3">
-            <h1 class="mb-3">{{ user.name }}</h1>
+            <h1 class="mb-3">
+                {% if user.hidden and has_role({0: 'superadmin'}) %}
+                    <a href="{{ path_for('user-hidden-' ~ lc, { 'name': user.name }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-file'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
+                {% elseif has_role({0: 'superadmin'}) %}
+                    <a href="{{ path_for('user-hidden-' ~ lc, { 'name': user.name }) }}" class="btn btn-warning btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'lock-file'|trans }}"><i class="fas fa-unlock fa-fw"></i></a>
+                {% endif %}
+                {{ user.name }}
+                {% if has_role({0: 'superadmin'}) %}<a href="{{ path_for('user-remove-' ~ lc, { 'name': user.name }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a>{% endif %}
+            </h1>
             {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) and user.id == current_user() %}
                 {% if user.hasTwoFactor %}
                     <button type="button" class="btn btn-success"><i class="fas fa-lock mr-2"></i> {{ '2fa-enabled'|trans }}</button>
@@ -73,10 +81,10 @@
                     {% for file in files %}
                         <tr>
                             <td>
-                                {% if file.public %}
-                                    <a href="{{ path_for('file-public-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-warning btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'lock-file'|trans }}"><i class="fas fa-unlock fa-fw"></i></a>
+                                {% if file.hidden %}
+                                    <a href="{{ path_for('file-hidden-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-file'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
                                 {% else %}
-                                    <a href="{{ path_for('file-public-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-file'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
+                                    <a href="{{ path_for('file-hidden-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-warning btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'lock-file'|trans }}"><i class="fas fa-unlock fa-fw"></i></a>
                                 {% endif %}
                             </td>
                             <td>
@@ -99,17 +107,46 @@
         {# if is external request #}
         <div class="col-12 mb-5">
             {# loop through database records #}
-            {% if files|length > 0 %}
-                {% for file in files %}
-                    {% if file.public %}
-                    <div class="mb-3">
-                        <a href="{{ path_for('file-show-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-info btn-sm mx-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'show-file'|trans }}"><i class="fas fa-eye fa-fw"></i></a>
-                        {{ file.name }} <span class='ml-3'></span>
-                        <span data-toggle="tooltip" data-placement="top" title="{{ 'file-size'|trans }}"><i class="fas fa-database"></i> {{ (file.size / 1000)|number_format(2, 'dp'|trans, 'ts'|trans) }} KB</span> &#124;
-                        <span data-toggle="tooltip" data-placement="top" title="{{ 'created-at'|trans }}"><i class="fas fa-clock"></i> {{ file.createdAt|date('datetime'|trans) }}</span>
-                    </div>
-                    {% endif %}
-                {% endfor %}
+            {% if has_role({0: 'superadmin'}) %}
+                {% set publicFiles = files %}
+            {% endif %}
+            {% if publicFiles|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-striped table-dark">
+                    <thead>
+                        <tr>
+                            {% if has_role({0: 'superadmin'}) %}<th scope="col">{{ 'lock-file'|trans }} / {{ 'unlock-file'|trans }}</th>{% endif %}
+                            <th scope="col">{{ 'show-file'|trans }}</th>
+                            <th scope="col">{{ 'file-name'|trans }}</th>
+                            <th scope="col">{{ 'file-size'|trans }}</th>
+                            <th scope="col">{{ 'created-at'|trans }}</th>
+                            {% if has_role({0: 'superadmin'}) %}<th scope="col">{{ 'remove'|trans }}</th>{% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for file in publicFiles %}
+                        <tr>
+                            {% if has_role({0: 'superadmin'}) %}
+                            <td>
+                                {% if file.hidden %}
+                                    <a href="{{ path_for('file-hidden-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-file'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
+                                {% else %}
+                                    <a href="{{ path_for('file-hidden-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-warning btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'lock-file'|trans }}"><i class="fas fa-unlock fa-fw"></i></a>
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                            <td>
+                                <a href="{{ path_for('file-show-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-info btn-sm mx-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'show-file'|trans }}"><i class="fas fa-eye fa-fw"></i></a>
+                            </td>
+                            <td>{{ file.name }}</td>
+                            <td>{{ (file.size / 1000)|number_format(2, 'dp'|trans, 'ts'|trans) }} KB</td>
+                            <td>{{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</td>
+                            {% if has_role({0: 'superadmin'}) %}<td><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>{% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% else %}
                 {{ 'no-files'|trans }}
             {% endif %}

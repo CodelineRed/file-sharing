@@ -12,7 +12,7 @@
                     + '<div class="container"><div class="row align-items-center">{{children}}</div></div></div>',
             elements: {
                 messagelink: '<div class="col-12 col-sm-8 col-lg-10 pb-3 pb-sm-0"><span id="cookieconsent:desc" class="cc-message">{{message}} ' 
-                        + '<a aria-label="' + cookieLayer.messageLink + '" tabindex="0" class="cc-link" href="{{href}}" target="_blank">{{link}}</a></span></div>',
+                        + '<a aria-label="' + cookieLayer.messageLink + '" tabindex="0" class="cc-link" href="{{href}}" data-toggle="modal" data-target="#cookie-policy">{{link}}</a></span></div>',
                 dismiss: '<a aria-label="' + cookieLayer.dismissLink + '" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
                 allow: '<a aria-label="' + cookieLayer.allowLink + '" tabindex="0" class="cc-btn cc-allow">{{allow}}</i></a>'
             },

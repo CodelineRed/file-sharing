@@ -32,7 +32,7 @@ class User extends \App\MappedSuperclass\Base
     /**
      * One User has many RecoveryCodes.
      * 
-     * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user", cascade={"persist", "remove"})
      */
     private $recoveryCodes;
     
@@ -47,7 +47,7 @@ class User extends \App\MappedSuperclass\Base
     private $twoFactorSecret = '';
     
     /**
-     * @ORM\OneToMany(targetEntity="File", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="File", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $files;
@@ -123,6 +123,20 @@ class User extends \App\MappedSuperclass\Base
     public function getUniqueFiles() {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('fileIncluded', FALSE))
+            ->orderBy(['createdAt' => Criteria::DESC]);
+        
+        return $this->files->matching($criteria);
+    }
+
+    /**
+     * Get files with hidden = FALSE
+     * 
+     * @return ArrayCollection
+     */
+    public function getPublicFiles() {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('hidden', FALSE))
+            ->andWhere(Criteria::expr()->eq('fileIncluded', FALSE))
             ->orderBy(['createdAt' => Criteria::DESC]);
         
         return $this->files->matching($criteria);

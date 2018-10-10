@@ -74,6 +74,8 @@ return [
             'edit_role' => ['superadmin'],  // edit role information
             'show_role' => ['admin', 'superadmin'],
             'delete_role' => ['superadmin'], // delete role
+            'edit_file_other' => ['superadmin'], // edit file information from other users
+            'delete_file_other' => ['superadmin'], // delete files from other users
         ],
     ],
 ];
