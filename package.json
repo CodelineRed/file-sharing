@@ -1,7 +1,7 @@
 {
     "name": "gulp-templating",
     "version": "3.1.0",
-    "description": "Gulp Templating",
+    "description": "Gulp Templating for File Sharing",
     "keywords": [
         "gulp",
         "templating",
@@ -9,9 +9,6 @@
         "boilerplate",
         "bootstrap",
         "fontawesome",
-        "slick",
-        "carousel",
-        "lazyload",
         "css user agent",
         "cssua",
         "cookieconsent",

@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Mobile behavior of the whole site
+- `User::getFilesIncludedFalse()` to `User::getUniqueFiles()`
 
 ### Removed
 - `plugin/slick.scss`
