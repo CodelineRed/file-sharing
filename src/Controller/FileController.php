@@ -107,6 +107,7 @@ class FileController extends BaseController {
                     ->setMimeType('text/plain')
                     ->setSize(strlen($note))
                     ->setExtension($noteExtension)
+                    ->setHidden(TRUE)
                     ->setUser($user);
             }
             
@@ -127,6 +128,7 @@ class FileController extends BaseController {
                             ->setMimeType($upload->getClientMediaType())
                             ->setSize(intval($upload->getSize()))
                             ->setExtension($extension)
+                            ->setHidden(TRUE)
                             ->setUser($user);
                         
                         if ($fileNote instanceof File) {
