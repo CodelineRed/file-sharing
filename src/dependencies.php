@@ -72,6 +72,7 @@ $container['view'] = function ($c) {
     $view->addExtension(new Slim\Views\TwigExtension($router, $uri));
     $view->addExtension(new App\Twig\AclExtension($c));
     $view->addExtension(new App\Twig\CsrfExtension($c));
+    $view->addExtension(new App\Twig\FileExtension($c));
     $view->addExtension(new App\Twig\GeneralExtension($c));
     $view->addExtension(new App\Twig\LanguageExtension($c, $router, $uri));
     

@@ -83,10 +83,10 @@ class UserController extends BaseController {
         
         if (intval($uploadMaxSize) < intval($postMaxSize)) {
             $unit = substr($uploadMaxSize, -1);
-            $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit !== 'B' ? $unit . 'B' : $unit);
+            $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
         } else {
             $unit = substr($postMaxSize, -1);
-            $maxFileSize = intval($postMaxSize) . ' ' . ($unit !== 'B' ? $unit . 'B' : $unit);
+            $maxFileSize = intval($postMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
         }
         
         // if is other user and current user is alowed show_user_other

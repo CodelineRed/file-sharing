@@ -90,6 +90,10 @@ class FileController extends BaseController {
             $note = $request->getParam('note');
             $proceedFileUpload = TRUE;
             
+            if ($user === NULL) {
+                return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
+            }
+            
             // if not empty
             if (!empty($note)) {
                 $noteExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => '.txt']);
