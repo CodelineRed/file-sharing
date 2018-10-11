@@ -13,7 +13,7 @@ CREATE TABLE `imhhfs_file` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `mime_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `size` int(11) NOT NULL,
+  `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,

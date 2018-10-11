@@ -45,7 +45,7 @@ class File extends \App\MappedSuperclass\Base
     private $mimeType;
     
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $size;
     
@@ -59,8 +59,6 @@ class File extends \App\MappedSuperclass\Base
      * @ORM\Column(type="boolean", name="file_included")
      */
     private $fileIncluded = FALSE;
-    
-    
     
     /**
      * Get $user
@@ -165,7 +163,7 @@ class File extends \App\MappedSuperclass\Base
     /**
      * Get $size
      * 
-     * @return integer
+     * @return string
      */
     public function getSize() {
         return $this->size;
@@ -174,10 +172,10 @@ class File extends \App\MappedSuperclass\Base
     /**
      * Set $size
      * 
-     * @param integer $size
+     * @param string|integer $size
      */
     public function setSize($size) {
-        $this->size = $size;
+        $this->size = (string)$size;
         
         return $this;
     }

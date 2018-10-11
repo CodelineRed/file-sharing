@@ -83,20 +83,20 @@ class UserController extends BaseController {
         
         if (intval($uploadMaxSize) < intval($postMaxSize)) {
             $unit = substr($uploadMaxSize, -1);
-            $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit !== 'B' ? $unit . 'B' : $unit);
+            $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
         } else {
             $unit = substr($postMaxSize, -1);
-            $maxFileSize = intval($postMaxSize) . ' ' . ($unit !== 'B' ? $unit . 'B' : $unit);
+            $maxFileSize = intval($postMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
         }
         
         // if is other user and current user is alowed show_user_other
         if (isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user_other')) {
-            $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name'], 'hidden' => 0]);
+            $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
             
             // if user exists
-            if ($user instanceof User) {
+            if ($user instanceof User && !$user->isHidden()) {
                 $this->logger->info("User '" . $args['name'] . "' found - UserController:show");
-            } else {
+            } elseif ($this->currentRole !== 'superadmin') {
                 // if user not found
                 $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
                 $_SESSION['notFoundRoute'] = $request->getUri()->getPath();
@@ -160,6 +160,10 @@ class UserController extends BaseController {
         
         if ($this->currentUser === $user->getId()) {
             GeneralUtility::setCurrentRole($role->getName());
+        }
+        
+        if (GeneralUtility::getCurrentUser() !== $user->getId()) {
+            $args['name'] = $user->getName();
         }
         
         $user->setRole($role);
@@ -398,7 +402,7 @@ class UserController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m2') . ';' . self::STYLE_DANGER);
         }
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
     }
     
     /**
@@ -423,7 +427,7 @@ class UserController extends BaseController {
         if ($this->currentUser === $user->getId()) {
             return $response->withRedirect($this->router->pathFor('user-logout-' . LanguageUtility::getGenericLocale()));
         } else {
-            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
         }
     }
 }
