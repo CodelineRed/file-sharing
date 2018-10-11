@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.2]
 ### Added
 - Files are hidden after upload
+- Skip CLI colors on windows operating system
 
 ### Changed
 - Bottom margin for 2FA forms
