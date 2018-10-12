@@ -116,7 +116,7 @@ class FileController extends BaseController {
                 
                 if ($upload->getError() === UPLOAD_ERR_OK) {
                     $uploadFileName = $upload->getClientFilename();
-                    $extension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => strtolower(substr($uploadFileName, strrpos($uploadFileName, '.'))), 'active' => 1]);
+                    $extension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => strtolower(substr($uploadFileName, strrpos($uploadFileName, '.'))), 'hidden' => 0]);
                     
                     if ($extension instanceof FileExtension && $user instanceof User) {
                         $uploadFileHashName = GeneralUtility::generateCode(10) . substr(md5($uploadFileName), 0, 10);
@@ -191,7 +191,10 @@ class FileController extends BaseController {
                     $args['name'] = $file->getUser()->getName();
                 }
                 
-                $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m' . intval($hidden), [$file->getName()]) . ';' . self::STYLE_SUCCESS);
+                $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m' . intval($hidden), [
+                    $file->getName(),
+                    $this->router->pathFor('file-show-' . LanguageUtility::getLocale(), $args)
+                ]) . ';' . self::STYLE_SUCCESS);
             } else {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m2', [$file->getName()]) . ';' . self::STYLE_DANGER);
             }

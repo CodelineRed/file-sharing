@@ -9,7 +9,12 @@
                     <div class='mb-3'>
                         <span data-toggle="tooltip" data-placement="top" title="{{ 'owner'|trans }}"><i class="fas fa-user"></i> <a href="{{ path_for('user-show-' ~ lc, { 'name': file.user.name }) }}" class="current">{{ file.user.name }}</a></span> &#124;
                         <span data-toggle="tooltip" data-placement="top" title="{{ 'file-size'|trans }}"><i class="fas fa-database"></i> {{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span> &#124;
-                        <span data-toggle="tooltip" data-placement="top" title="{{ 'created-at'|trans }}"><i class="fas fa-clock"></i> {{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span>
+                        <span data-toggle="tooltip" data-placement="top" title="{{ 'created-at'|trans }}"><i class="fas fa-clock"></i> {{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span> &#124;
+                        {% if file.hidden %}
+                            <span data-toggle="tooltip" data-placement="top" title="{{ 'locked'|trans }}"><i class="fas fa-lock fa-fw"></i></span>
+                        {% else %}
+                            <span data-toggle="tooltip" data-placement="top" title="{{ 'unlocked'|trans }}"><i class="fas fa-unlock fa-fw"></i></span>
+                        {% endif %}
                     </div>
 
                     {% if file.extension.fileType.name == 'text' %}

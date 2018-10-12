@@ -59,7 +59,10 @@ class UserController extends BaseController {
                     ->setRole($role);
                 $this->em->persist($newUser);
                 $this->em->flush();
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [$user]) . ';' . self::STYLE_SUCCESS);
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [
+                    $user,
+                    $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $newUser->getName()
+                ])]) . ';' . self::STYLE_SUCCESS);
             }
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('user-save-m4') . ';' . self::STYLE_DANGER);
@@ -96,11 +99,11 @@ class UserController extends BaseController {
             // if user exists
             if ($user instanceof User && !$user->isHidden()) {
                 $this->logger->info("User '" . $args['name'] . "' found - UserController:show");
-            } elseif ($this->currentRole !== 'superadmin') {
+            } elseif ($this->currentRole !== 'superadmin' || $user === NULL) {
                 // if user not found
                 $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
-                $_SESSION['notFoundRoute'] = $request->getUri()->getPath();
-                return $response->withRedirect($this->router->pathFor('error-not-found-' . LanguageUtility::getGenericLocale()));
+                $this->flash->addMessage('message', 'User does not exists' . ';' . self::STYLE_DANGER);
+                return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
             }
         } elseif (!is_null($this->currentUser) && !isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user')) {
             // if is logged in user and allowed show_user
@@ -397,7 +400,10 @@ class UserController extends BaseController {
             $user->setHidden(!$hidden);
             $this->em->persist($user);
             $this->em->flush();
-            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($hidden), [$user->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($hidden), [
+                    $args['name'],
+                    $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args)
+            ]) . ';' . self::STYLE_SUCCESS);
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m2') . ';' . self::STYLE_DANGER);
         }
@@ -427,7 +433,7 @@ class UserController extends BaseController {
         if ($this->currentUser === $user->getId()) {
             return $response->withRedirect($this->router->pathFor('user-logout-' . LanguageUtility::getGenericLocale()));
         } else {
-            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
         }
     }
 }

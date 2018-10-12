@@ -69,24 +69,24 @@ class FileExtensionController extends BaseController {
     }
     
     /**
-     * toggleActive Action
+     * toggleHidden Action
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function toggleActiveAction($request, $response, $args) {
+    public function toggleHiddenAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         
         if ($fileExtension instanceof FileExtension) {
-            $active = $fileExtension->isActive();
-            $fileExtension->setActive(!$active);
+            $hidden = $fileExtension->isHidden();
+            $fileExtension->setHidden(!$hidden);
             $this->em->persist($fileExtension);
             $this->em->flush();
-            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-active-m' . intval($active), [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m' . intval($hidden), [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         } else {
-            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-active-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
         
         return $response->withRedirect($this->router->pathFor('file-extension-show-' . LanguageUtility::getLocale()));
