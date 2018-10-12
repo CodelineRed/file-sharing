@@ -2,7 +2,7 @@
 
 This git is for [fs.imhh.me](http://fs.insanitymeetshh.net).
 
-This application based on [Slim Skeleton Fork 5](https://github.com/InsanityMeetsHH/Slim-Skeleton/tree/5.x) and [Gulp Templating 3.1](https://github.com/InsanityMeetsHH/gulp-templating/tree/3.x).
+This application based on [Slim Skeleton Fork 5](https://github.com/InsanityMeetsHH/Slim-Skeleton/tree/5.x) and [Gulp Templating 3](https://github.com/InsanityMeetsHH/gulp-templating/tree/3.x).
 
 ## Required
 * [Node.js](http://nodejs.org/en/download/)
