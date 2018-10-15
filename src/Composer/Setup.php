@@ -11,6 +11,7 @@ class Setup {
      * @param Event $event
      */
     public static function run(Event $event) {
+        // if in docker environment
         if (isset($_ENV['docker'])) {
             echo self::getColoredString("Skipped App\\Composer\\Setup in Docker environment.\n", 'green');
             return;
@@ -19,7 +20,8 @@ class Setup {
         $arrConfig = [];
         $s = '    ';
         $settings = "<?php\nreturn [\n$s'settings' => [\n";
-
+        
+        // if additional-settings.php not exists
         if (!file_exists(__DIR__ . "/../../config/additional-settings.php")) {
             
             if (!file_exists(__DIR__ . "/../../config/additional-settings.dist.php")) {
@@ -160,7 +162,7 @@ class Setup {
                     'dbname'   => $settings['settings']['doctrine']['connection']['dbname'],
                     'host'     => $settings['settings']['doctrine']['connection']['host'],
                     'port'     => $settings['settings']['doctrine']['connection']['port'],
-                    'user'     => $settings['settings']['doctrine']['connection']['username'],
+                    'user'     => $settings['settings']['doctrine']['connection']['user'],
                     'password' => $settings['settings']['doctrine']['connection']['password']
                 ]);
             }

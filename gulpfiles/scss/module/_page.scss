@@ -23,10 +23,17 @@ h1 {
     }
 }
 
-.nowrap {
-    white-space: nowrap;
-}
-
 .modal {
     color: $white;
+}
+
+.custom-file-label {
+    overflow: hidden;
+}
+
+.file-show {
+    h1 {
+        @extend .hyphenate;
+        overflow: hidden;
+    }
 }

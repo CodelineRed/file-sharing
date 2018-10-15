@@ -1,4 +1,8 @@
 .cc-window {
+    &.cc-banner {
+        padding: 0;
+    }
+    
     &.cc-floating {
         flex-direction: row;
         max-width: none;

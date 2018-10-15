@@ -23,11 +23,6 @@ class FileExtension extends \App\MappedSuperclass\Base
     private $fileType;
     
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $active = 0;
-    
-    /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="extension")
      */
     private $files;
@@ -72,26 +67,6 @@ class FileExtension extends \App\MappedSuperclass\Base
      */
     public function setFileType($fileType) {
         $this->fileType = $fileType;
-        
-        return $this;
-    }
-    
-    /**
-     * Is $active
-     * 
-     * @return boolean
-     */
-    public function isActive() {
-        return $this->active;
-    }
-    
-    /**
-     * Set $active
-     * 
-     * @param boolean $active
-     */
-    public function setActive($active) {
-        $this->active = $active;
         
         return $this;
     }

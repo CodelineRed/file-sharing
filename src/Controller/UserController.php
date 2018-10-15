@@ -47,8 +47,10 @@ class UserController extends BaseController {
             if ($userSearch instanceof User) {
                 $this->flash->addMessage('message', LanguageUtility::trans('user-save-m1') . ';' . self::STYLE_DANGER);
             } elseif (strlen($pass) < 6) {
+                // if password too short
                 $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [6]) . ';' . self::STYLE_DANGER);
             } else {
+                // if role not exists
                 if ($role === NULL) {
                     $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
                 }
@@ -59,7 +61,10 @@ class UserController extends BaseController {
                     ->setRole($role);
                 $this->em->persist($newUser);
                 $this->em->flush();
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [$user]) . ';' . self::STYLE_SUCCESS);
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [
+                    $user,
+                    $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $newUser->getName()
+                ])]) . ';' . self::STYLE_SUCCESS);
             }
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('user-save-m4') . ';' . self::STYLE_DANGER);
@@ -81,6 +86,7 @@ class UserController extends BaseController {
         $postMaxSize = ini_get('post_max_size');
         $uploadMaxSize = ini_get('upload_max_filesize');
         
+        // upload_max_filesize lower than post_max_size
         if (intval($uploadMaxSize) < intval($postMaxSize)) {
             $unit = substr($uploadMaxSize, -1);
             $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
@@ -96,11 +102,11 @@ class UserController extends BaseController {
             // if user exists
             if ($user instanceof User && !$user->isHidden()) {
                 $this->logger->info("User '" . $args['name'] . "' found - UserController:show");
-            } elseif ($this->currentRole !== 'superadmin') {
+            } elseif ($this->currentRole !== 'superadmin' || $user === NULL) {
                 // if user not found
                 $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
-                $_SESSION['notFoundRoute'] = $request->getUri()->getPath();
-                return $response->withRedirect($this->router->pathFor('error-not-found-' . LanguageUtility::getGenericLocale()));
+                $this->flash->addMessage('message', 'User does not exists' . ';' . self::STYLE_DANGER);
+                return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
             }
         } elseif (!is_null($this->currentUser) && !isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user')) {
             // if is logged in user and allowed show_user
@@ -154,15 +160,19 @@ class UserController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $args['role']]);
         
+        // if user not found or role not found
         if ($user === NULL || $role === NULL) {
             return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
         }
         
+        // if current user is requested user
         if ($this->currentUser === $user->getId()) {
             GeneralUtility::setCurrentRole($role->getName());
         }
         
-        if (GeneralUtility::getCurrentUser() !== $user->getId()) {
+        // if current user is not requested user
+        if ($this->currentUser !== $user->getId()) {
+            // set argument to stay on user show page
             $args['name'] = $user->getName();
         }
         
@@ -243,6 +253,7 @@ class UserController extends BaseController {
         $secret = $user->getTwoFactorSecret();
         $passValid = FALSE;
         
+        // if user has 2FA enabled
         if ($user->hasTwoFactor()) {
             unset($_SESSION['pass_code']);
             return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
@@ -264,14 +275,18 @@ class UserController extends BaseController {
             $userPass = $request->getParam('user_pass');
             $passCode = $request->getParam('pass_code');
             
+            // if password is valid
             if ($userPass !== NULL && $passCode === NULL && password_verify($userPass, $user->getPass())) {
+                // set temporary values
                 $passValid = TRUE;
                 $_SESSION['pass_code'] = GeneralUtility::generateCode(6);
             } elseif (isset($_SESSION['pass_code']) && $_SESSION['pass_code'] === $passCode) {
+                // if temporary pass_code valid
                 $passValid = TRUE;
                 $code = $request->getParam('tf_code');
                 $checkResult = $ga->verifyCode($secret, $code, 2); // 2 = 2*30sec clock tolerance
                 
+                // if two factor is valid
                 if ($checkResult) {
                     $user->setTwoFactor(TRUE);
                     $this->em->flush($user);
@@ -290,8 +305,9 @@ class UserController extends BaseController {
                         $newRecoveryCode = GeneralUtility::generateCode();
                         $newEncryptRecoveryCode = GeneralUtility::encryptPassword($newRecoveryCode);
                         $recoveryCode = $this->em->getRepository('App\Entity\RecoveryCode')->findOneBy(['code' => $newEncryptRecoveryCode]);
-
-                        if (!($recoveryCode instanceof RecoveryCode)) {
+                        
+                        // if recovery code not exists
+                        if ($recoveryCode === NULL) {
                             $recoveryCode = new RecoveryCode();
                             $recoveryCode->setCode($newEncryptRecoveryCode)
                                     ->setUser($user);
@@ -339,8 +355,8 @@ class UserController extends BaseController {
 
             // if 2FA is disabled
             if (!$user->hasTwoFactor()) {
-                $_SESSION['currentRole'] = $user->getRole()->getName();
-                $_SESSION['currentUser'] = $user->getId();
+                GeneralUtility::setCurrentRole($user->getRole()->getName());
+                GeneralUtility::setCurrentUser($user->getId());
                 $this->logger->info("User " . $user->getId() . " logged in - UserController:twoFactor");
                 return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
             }
@@ -349,11 +365,14 @@ class UserController extends BaseController {
                 $code = $request->getParam('tf_code');
                 $checkResult = $ga->verifyCode($secret, $code, 2); // 2 = 2*30sec clock tolerance
                 
+                // if two factor is not valid
                 if ($checkResult === FALSE) {
                     $userRecoveryCodes = $this->em->getRepository('App\Entity\RecoveryCode')->findBy(['user' => $user->getId()]);
                     
+                    // if user has recovery codes
                     if (is_array($userRecoveryCodes) && count($userRecoveryCodes) > 0) {
                         foreach ($userRecoveryCodes as $recoveryCode) {
+                            // if $code is a recovery code
                             if (password_verify($code, $recoveryCode->getCode())) {
                                 $checkResult = TRUE;
                                 $this->em->remove($recoveryCode);
@@ -364,10 +383,11 @@ class UserController extends BaseController {
                     }
                 }
                 
+                // if two factor is valid
                 if ($checkResult) {
                     unset($_SESSION['tempUser']);
-                    $_SESSION['currentRole'] = $user->getRole()->getName();
-                    $_SESSION['currentUser'] = $user->getId();
+                    GeneralUtility::setCurrentRole($user->getRole()->getName());
+                    GeneralUtility::setCurrentUser($user->getId());
                     $this->logger->info("User " . $user->getId() . " logged in - UserController:twoFactor");
                     return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
                 }
@@ -392,12 +412,16 @@ class UserController extends BaseController {
     public function toggleHiddenAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         
-        if ($user instanceof User && $user->getId() === $this->currentUser || ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'edit_user_other'))) {
+        // if user exists and current user is requested user or user exists and role can edit user other
+        if ($user instanceof User && $this->currentUser === $user->getId() || ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'edit_user_other'))) {
             $hidden = $user->isHidden();
             $user->setHidden(!$hidden);
             $this->em->persist($user);
             $this->em->flush();
-            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($hidden), [$user->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($hidden), [
+                $args['name'],
+                $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args)
+            ]) . ';' . self::STYLE_SUCCESS);
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m2') . ';' . self::STYLE_DANGER);
         }
@@ -416,6 +440,7 @@ class UserController extends BaseController {
     public function removeAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         
+        // if user exists and role can delete user other
         if ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'delete_user_other')) {
             $this->em->remove($user);
             $this->em->flush();
@@ -424,10 +449,11 @@ class UserController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('user-remove-m2', [$user->getName()]) . ';' . self::STYLE_DANGER);
         }
         
+        // if current user is requested user
         if ($this->currentUser === $user->getId()) {
             return $response->withRedirect($this->router->pathFor('user-logout-' . LanguageUtility::getGenericLocale()));
         } else {
-            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
         }
     }
 }

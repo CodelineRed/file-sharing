@@ -53,9 +53,9 @@ return [
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],
-    'file-extension-active' => [
-        'route'      => '/file-extensions/active/{id}/',
-        'method'     => 'App\Controller\FileExtensionController:toggleActiveAction',
+    'file-extension-hidden' => [
+        'route'      => '/file-extensions/hidden/{id}/',
+        'method'     => 'App\Controller\FileExtensionController:toggleHiddenAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],

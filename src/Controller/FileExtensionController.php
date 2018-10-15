@@ -47,14 +47,16 @@ class FileExtensionController extends BaseController {
                 // if file extension exists
                 if ($fileExtensionSearch instanceof FileExtension) {
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m1') . ';' . self::STYLE_DANGER);
-                } elseif (!($fileType instanceof FileType)) {
+                } elseif ($fileType === NULL) {
+                    // if file type not exists
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m2') . ';' . self::STYLE_DANGER);
                 } elseif (!preg_match('/^\.[a-z0-9]{2,4}$/i', $extName)) {
+                    // if file extension name doesn't match regex
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m3') . ';' . self::STYLE_DANGER);
                 } else {
                     $newFileExtension = new FileExtension();
                     $newFileExtension->setName($extName)
-                        ->setActive($extActive)
+                        ->setHidden(!$extActive)
                         ->setFileType($fileType);
                     $this->em->persist($newFileExtension);
                     $this->em->flush();
@@ -69,24 +71,25 @@ class FileExtensionController extends BaseController {
     }
     
     /**
-     * toggleActive Action
+     * toggleHidden Action
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function toggleActiveAction($request, $response, $args) {
+    public function toggleHiddenAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         
+        // if file extension exists
         if ($fileExtension instanceof FileExtension) {
-            $active = $fileExtension->isActive();
-            $fileExtension->setActive(!$active);
+            $hidden = $fileExtension->isHidden();
+            $fileExtension->setHidden(!$hidden);
             $this->em->persist($fileExtension);
             $this->em->flush();
-            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-active-m' . intval($active), [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m' . intval($hidden), [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         } else {
-            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-active-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
         
         return $response->withRedirect($this->router->pathFor('file-extension-show-' . LanguageUtility::getLocale()));
@@ -103,6 +106,7 @@ class FileExtensionController extends BaseController {
     public function removeAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         
+        // if file extension exists
         if ($fileExtension instanceof FileExtension) {
             $this->em->remove($fileExtension);
             $this->em->flush();
