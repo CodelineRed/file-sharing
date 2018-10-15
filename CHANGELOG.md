@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Links in some alerts
 - Lock / unlock icon to file show view
 - Show selected file for upload in file upload field
+- Comments
+- `cascade={"persist", "remove"}` to [`File::$file`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php#L56)
+- `onDelete="SET NULL"` to [`File::$file`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php#L56)
+- Styling for file show headline
 
 ### Changed
 - Translations
@@ -27,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - File extension `active`
 - Show file icon in tables
+- Child file remove logic
 
 ## [2.1.2] - 2018-10-11
 ### Added

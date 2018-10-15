@@ -50,8 +50,8 @@ class File extends \App\MappedSuperclass\Base
     private $size;
     
     /**
-     * @ORM\OneToOne(targetEntity="File")
-     * @ORM\JoinColumn(name="file_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="File", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $file = NULL;
     

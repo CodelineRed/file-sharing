@@ -21,10 +21,10 @@ class FileController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function downloadAction($request, $response, $args) {
-        /** @var \App\Entity\File $file **/
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         
-        if ($file instanceof File && !$file->isHidden() || $file->getUser()->getId() === $this->currentUser) {
+        // if file exits and not hidden or current user is owner of file
+        if ($file instanceof File && !$file->isHidden() || $this->currentUser === $file->getUser()->getId()) {
             if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
                 header("Content-Type: " . $file->getMimeType());
                 header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
@@ -52,15 +52,20 @@ class FileController extends BaseController {
         $source = $childSource = '';
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         
+        // if file exists and is readable
         if ($file instanceof File && is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
             $fileTypeName = $file->getExtension()->getFileType()->getName();
             $source = file_get_contents($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
-
+            
+            // if file type one of the three
             if (in_array($fileTypeName, ['image', 'audio', 'video'])) {
+                // encode file content
                 $source = base64_encode($source);
             }
             
+            // if file has child file and is readable
             if ($file->getFile() instanceof File && is_readable($this->settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName())) {
+                // get raw file content
                 $childSource = file_get_contents($this->settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName());
             }
         }
@@ -88,8 +93,8 @@ class FileController extends BaseController {
             $fileNote = NULL;
             $fileIncluded = (int)$request->getParam('file_included');
             $note = $request->getParam('note');
-            $proceedFileUpload = TRUE;
             
+            // if user not logged in
             if ($user === NULL) {
                 return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
             }
@@ -111,13 +116,16 @@ class FileController extends BaseController {
                     ->setUser($user);
             }
             
-            if (isset($files['upload']) && $files['upload'] instanceof \Slim\Http\UploadedFile && $proceedFileUpload) {
+            // if "upload" exists
+            if (isset($files['upload']) && $files['upload'] instanceof \Slim\Http\UploadedFile) {
                 $upload = $files['upload'];
                 
+                // if upload is ok
                 if ($upload->getError() === UPLOAD_ERR_OK) {
                     $uploadFileName = $upload->getClientFilename();
                     $extension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => strtolower(substr($uploadFileName, strrpos($uploadFileName, '.'))), 'hidden' => 0]);
                     
+                    // if file extension is allowed and user exists
                     if ($extension instanceof FileExtension && $user instanceof User) {
                         $uploadFileHashName = GeneralUtility::generateCode(10) . substr(md5($uploadFileName), 0, 10);
                         $upload->moveTo($this->settings['upload']['path'] . $uploadFileHashName . $extension->getName());
@@ -131,11 +139,12 @@ class FileController extends BaseController {
                             ->setHidden(TRUE)
                             ->setUser($user);
                         
+                        // if file note exists
                         if ($fileNote instanceof File) {
                             if ($fileIncluded) {
                                 $file->setFile($fileNote);
-                                $fileNote->setFile($file)
-                                    ->setFileIncluded(TRUE);
+//                                $fileNote->setFile($file);
+                                $fileNote->setFileIncluded(TRUE);
                             }
                             
                             $this->em->persist($fileNote);
@@ -149,6 +158,7 @@ class FileController extends BaseController {
                         $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m2') . ';' . self::STYLE_DANGER);
                     }
                 } else {
+                    // if file note exists and not included to a parent file
                     if ($fileNote instanceof File && !$fileIncluded) {
                         $this->em->persist($fileNote);
                         $this->em->flush();
@@ -180,14 +190,16 @@ class FileController extends BaseController {
         if ($user instanceof User) {
             $files = $user->getFiles();
 
-            // if current user is owner of file
+            // if current user is owner of file or role can edit file other
             if ($files->contains($file) || $this->acl->isAllowed($this->currentRole, 'edit_file_other')) {
                 $hidden = $file->isHidden();
                 $file->setHidden(!$hidden);
                 $this->em->persist($file);
                 $this->em->flush();
                 
+                // if owner of file not requested user
                 if ($file->getUser()->getId() !== $user->getId()) {
+                    // stay on site from owner of file
                     $args['name'] = $file->getUser()->getName();
                 }
                 
@@ -220,32 +232,31 @@ class FileController extends BaseController {
         if ($user instanceof User) {
             $files = $user->getFiles();
 
-            // if current user is owner of file
+            // if current user is owner of file or role can delete file other
             if ($files->contains($file) || $this->acl->isAllowed($this->currentRole, 'delete_file_other')) {
                 $childFile = $file->getFile();
-                $file->setFile(NULL);
-                $this->em->persist($file);
-                
-                if ($childFile instanceof File) {
-                    $childFile->setFile(NULL);
-                    $this->em->persist($childFile);
-                }
-                $this->em->flush();
-                
-                if ($childFile instanceof File) {
-                    $this->em->remove($childFile);
-                    $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$childFile->getName()]) . ';' . self::STYLE_SUCCESS);
-                }
-                
                 $this->em->remove($file);
                 $this->em->flush();
                 
+                // if file exists
                 if (file_exists($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
                     unlink($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
                 }
                 
+                // if owner of file not requested user
                 if ($file->getUser()->getId() !== $user->getId()) {
+                    // stay on site from owner of file
                     $args['name'] = $file->getUser()->getName();
+                }
+                
+                // if child file exists
+                if ($childFile instanceof File) {
+                    $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$childFile->getName()]) . ';' . self::STYLE_SUCCESS);
+                
+                    // if file exists
+                    if (file_exists($this->settings['upload']['path'] . $childFile->getHashName() . $childFile->getExtension()->getName())) {
+                        unlink($this->settings['upload']['path'] . $childFile->getHashName() . $childFile->getExtension()->getName());
+                    }
                 }
                 
                 $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);

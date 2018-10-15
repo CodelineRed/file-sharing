@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12 text-center mb-5">
+        <div class="col-12 text-center mb-5 file-show">
             {% if file %}
                 {% if file.hidden == 0 or file.user.id == current_user() or has_role({0: 'superadmin'}) %}
                     <h1 class="mb-3">{{ file.name }} <a href="{{ path_for('file-download-' ~ glc, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'download'|trans }}"><i class="fas fa-download fa-fw"></i></a></h1>
@@ -42,8 +42,10 @@
                     {% endif %}
                     
                     {% if file.file %}
-                        <div class="my-3">
-                            {{ childSource|nl2br }}
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-md-7 col-lg-5 text-left my-3">
+                                {{ childSource|nl2br }}
+                            </div>
                         </div>
                     {% endif %}
                 {% else %}

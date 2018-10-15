@@ -129,7 +129,7 @@ class User extends \App\MappedSuperclass\Base
     }
 
     /**
-     * Get files with hidden = FALSE
+     * Get files with hidden = FALSE and file_included = FALSE
      * 
      * @return ArrayCollection
      */

@@ -47,14 +47,16 @@ class FileExtensionController extends BaseController {
                 // if file extension exists
                 if ($fileExtensionSearch instanceof FileExtension) {
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m1') . ';' . self::STYLE_DANGER);
-                } elseif (!($fileType instanceof FileType)) {
+                } elseif ($fileType === NULL) {
+                    // if file type not exists
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m2') . ';' . self::STYLE_DANGER);
                 } elseif (!preg_match('/^\.[a-z0-9]{2,4}$/i', $extName)) {
+                    // if file extension name doesn't match regex
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m3') . ';' . self::STYLE_DANGER);
                 } else {
                     $newFileExtension = new FileExtension();
                     $newFileExtension->setName($extName)
-                        ->setActive($extActive)
+                        ->setHidden(!$extActive)
                         ->setFileType($fileType);
                     $this->em->persist($newFileExtension);
                     $this->em->flush();
@@ -79,6 +81,7 @@ class FileExtensionController extends BaseController {
     public function toggleHiddenAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         
+        // if file extension exists
         if ($fileExtension instanceof FileExtension) {
             $hidden = $fileExtension->isHidden();
             $fileExtension->setHidden(!$hidden);
@@ -103,6 +106,7 @@ class FileExtensionController extends BaseController {
     public function removeAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         
+        // if file extension exists
         if ($fileExtension instanceof FileExtension) {
             $this->em->remove($fileExtension);
             $this->em->flush();

@@ -17,6 +17,7 @@ class PageController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function indexAction($request, $response, $args) {
+        // if user not logged in
         if ($this->currentUser === NULL) {
             return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
         } else {

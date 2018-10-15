@@ -1,6 +1,8 @@
 <?php
 namespace App\Container;
 
+use App\Utility\GeneralUtility;
+
 /**
  * Description of AclRepository
  */
@@ -28,20 +30,13 @@ class AclRepositoryContainer {
         /** @var \Doctrine\ORM\EntityManager $em **/
         $em = AppContainer::getInstance()->getContainer()->get('em');
         $settings = AppContainer::getInstance()->getContainer()->get('settings');
-        $currentRole = 'guest';
-        $roles = $roleNames = $allow = $deny = $allResources = [];
+        $currentRole = GeneralUtility::getCurrentRole();
+        $roleNames = $allow = $deny = $allResources = [];
         
         try {
             $roles = $em->getRepository('App\Entity\Role')->findAll();
-            $currentRole = $roles[0]->getName();
         } catch (\Exception $e) {
             // failed to connect
-        }
-
-        if (isset($_SESSION['currentRole'])) {
-            $currentRole = $_SESSION['currentRole'];
-        } else {
-            $_SESSION['currentRole'] = $currentRole;
         }
         
         // if is array and not empty
@@ -59,14 +54,17 @@ class AclRepositoryContainer {
                         
                         if (isset($routes) && is_array($routes)) {
                             foreach ($routes as $routeName => $route) {
+                                // if route not in array
                                 if (!in_array($route['route'], $allResources)) {
                                     $allResources[] = $route['route'];
                                 }
-
+                                
+                                // if route has rolesAllow and is array and current role is in rolesAllow
                                 if (isset($route['rolesAllow']) && is_array($route['rolesAllow']) && in_array($roleName, $route['rolesAllow'])) {
                                     $allow[$roleName][] = $route['route'];
                                 }
-
+                                
+                                // if route has rolesDeny and is array and current role is in rolesDeny
                                 if (isset($route['rolesDeny']) && is_array($route['rolesDeny']) && in_array($roleName, $route['rolesDeny'])) {
                                     $deny[$roleName][] = $route['route'];
                                 }
@@ -77,11 +75,12 @@ class AclRepositoryContainer {
                 
                 if (isset($settings['acl_resources']) && is_array($settings['acl_resources'])) {
                     foreach ($settings['acl_resources'] as $aclResource => $aclRoles) {
-                        // if is first role
+                        // if is first role - add all resources
                         if ($roleKey === 0) {
                             $allResources[] = $aclResource;
                         }
-                        
+                                
+                        // if current role is in $aclRoles
                         if (in_array($roleName, $aclRoles)) {
                             $allow[$roleName][] = $aclResource;
                         }

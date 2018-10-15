@@ -30,3 +30,10 @@ h1 {
 .custom-file-label {
     overflow: hidden;
 }
+
+.file-show {
+    h1 {
+        @extend .hyphenate;
+        overflow: hidden;
+    }
+}

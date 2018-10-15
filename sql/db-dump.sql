@@ -1,5 +1,3 @@
--- Adminer 4.6.2 MySQL dump
-
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
@@ -14,17 +12,17 @@ CREATE TABLE `imhhfs_file` (
   `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `mime_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `file_included` tinyint(1) NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
-  `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `file_included` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_F2FAB98593CB796C` (`file_id`),
   KEY `IDX_F2FAB985A76ED395` (`user_id`),
   KEY `IDX_F2FAB9859FB73D77` (`extension`),
-  CONSTRAINT `FK_F2FAB98593CB796C` FOREIGN KEY (`file_id`) REFERENCES `imhhfs_file` (`id`),
+  CONSTRAINT `FK_F2FAB98593CB796C` FOREIGN KEY (`file_id`) REFERENCES `imhhfs_file` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_F2FAB9859FB73D77` FOREIGN KEY (`extension`) REFERENCES `imhhfs_file_extension` (`id`),
   CONSTRAINT `FK_F2FAB985A76ED395` FOREIGN KEY (`user_id`) REFERENCES `imhhfs_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -160,5 +158,3 @@ CREATE TABLE `imhhfs_user` (
 
 INSERT INTO `imhhfs_user` (`id`, `role_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1,	4,	'user',	'$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K',	0,	'',	0,	0,	now(),	now());
-
--- 2018-10-02 14:32:09
