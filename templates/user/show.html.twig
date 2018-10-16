@@ -17,7 +17,7 @@
                 {% if user.hasTwoFactor %}
                     <button type="button" class="btn btn-success"><i class="fas fa-lock mr-2"></i> {{ '2fa-enabled'|trans }}</button>
                 {% else %}
-                    <a href="{{ path_for('user-enable-two-factor-' ~ lc) }}" class="btn btn-warning" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-unlock mr-2"></i> {{ trans('user-two-factor-label' ~ ns) }}</a>
+                    <a href="{{ path_for('user-enable-two-factor-' ~ lc) }}" class="btn btn-warning" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-unlock mr-2"></i> {{ trans('user-two-factor-label') }}</a>
                 {% endif %}
             {% endif %}
             

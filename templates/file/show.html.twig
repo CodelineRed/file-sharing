@@ -5,7 +5,10 @@
         <div class="col-12 text-center mb-5 file-show">
             {% if file %}
                 {% if file.hidden == 0 or file.user.id == current_user() or has_role({0: 'superadmin'}) %}
-                    <h1 class="mb-3">{{ file.name }} <a href="{{ path_for('file-download-' ~ glc, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'download'|trans }}"><i class="fas fa-download fa-fw"></i></a></h1>
+                    <h1 class="mb-3">
+                        {{ file.name }}
+                        {% if source %}<a href="{{ path_for('file-download-' ~ glc, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'download'|trans }}"><i class="fas fa-download fa-fw"></i></a>{% endif %}
+                    </h1>
                     <div class='mb-3'>
                         <span data-toggle="tooltip" data-placement="top" title="{{ 'owner'|trans }}"><i class="fas fa-user"></i> <a href="{{ path_for('user-show-' ~ lc, { 'name': file.user.name }) }}" class="current">{{ file.user.name }}</a></span> &#124;
                         <span data-toggle="tooltip" data-placement="top" title="{{ 'file-size'|trans }}"><i class="fas fa-database"></i> {{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span> &#124;
@@ -17,22 +20,22 @@
                         {% endif %}
                     </div>
 
-                    {% if file.extension.fileType.name == 'text' %}
+                    {% if file.extension.fileType.name == 'text' and source %}
                         {{ source|nl2br }}
                     {% endif %}
 
-                    {% if file.extension.fileType.name == 'image' %}
+                    {% if file.extension.fileType.name == 'image' and source %}
                         <img src="data:{{ file.mimeType }};base64,{{ source }}" class="img-fluid" />
                     {% endif %}
                     
-                    {% if file.extension.fileType.name == 'audio' %}
+                    {% if file.extension.fileType.name == 'audio' and source %}
                         <audio controls>
                             <source src="data:{{ file.mimeType }};base64,{{ source }}" type="{{ file.mimeType }}">
                             {{ 'no-audio-support'|trans }}
                         </audio>
                     {% endif %}
                     
-                    {% if file.extension.fileType.name == 'video' %}
+                    {% if file.extension.fileType.name == 'video' and source %}
                         <div class="embed-responsive embed-responsive-16by9">
                             <video class="embed-responsive-item" controls>
                                 <source src="data:{{ file.mimeType }};base64,{{ source }}" type="{{ file.mimeType }}">
@@ -41,7 +44,7 @@
                         </div>
                     {% endif %}
                     
-                    {% if file.file %}
+                    {% if file.file and childSource %}
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-7 col-lg-5 text-left my-3">
                                 {{ childSource|nl2br }}

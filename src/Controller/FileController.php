@@ -68,6 +68,8 @@ class FileController extends BaseController {
                 // get raw file content
                 $childSource = file_get_contents($this->settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName());
             }
+        } else {
+            $this->flash->addMessageNow('message', LanguageUtility::trans('file-show-m1') . ';' . self::STYLE_DANGER);
         }
         
         // Render view

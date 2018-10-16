@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\File;
 use App\Entity\RecoveryCode;
 use App\Entity\User;
 use App\Utility\GeneralUtility;
@@ -442,6 +443,16 @@ class UserController extends BaseController {
         
         // if user exists and role can delete user other
         if ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'delete_user_other')) {
+            $files = $user->getFiles();
+            
+            // remove all files from user
+            foreach ($files as $file) {
+                // if file exists
+                if ($file instanceof File && file_exists($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
+                    unlink($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+                }
+            }
+            
             $this->em->remove($user);
             $this->em->flush();
             $this->flash->addMessage('message', LanguageUtility::trans('user-remove-m1', [$user->getName()]) . ';' . self::STYLE_SUCCESS);

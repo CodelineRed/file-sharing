@@ -58,7 +58,7 @@ return [
     'cookie-policy-title' => 'Cookie Policy',
     'cookie-policy-text' => 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.',
     
-    
+    'file-show-m1' => 'Datei fehlt auf der Festplatte',
     'file-upload-m1' => 'Datei "%1$s" wurde erfolgreich hochgeladen',
     'file-upload-m2' => 'Dateiendung nicht erlaubt',
     'file-upload-m3' => 'Ein Fehler ist aufgetreten (Code: %1$s)',
