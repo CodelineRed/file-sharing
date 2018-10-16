@@ -8,10 +8,10 @@ class FileExtension extends \Twig_Extension {
     
     const B = 1;
     const KB = 1024;
-    const MB = 1024 * 1024;
-    const GB = 1024 * 1024 * 1024;
-    const TB = 1024 * 1024 * 1024 * 1024;
-    const PB = 1024 * 1024 * 1024 * 1024 * 1024;
+    const MB = 1048576; // 1024 * 1024
+    const GB = 1073741824; // 1024 * 1024 * 1024
+    const TB = 1099511627776; // 1024 * 1024 * 1024 * 1024
+    const PB = 1125899906842624; // 1024 * 1024 * 1024 * 1024 * 1024
 
     /** @var \Slim\Container $container */
     private $container;

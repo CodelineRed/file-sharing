@@ -9,5 +9,9 @@
         $('input[type="file"]').change(function(e) {
             $(this).next().text(e.target.files[0].name);
         });
+        
+        $('form').submit(function(e) {
+            $('input[type="submit"],button[type="submit"]').attr('disabled', 'disabled');
+        });
     });
 })(jQuery);

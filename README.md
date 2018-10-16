@@ -10,7 +10,7 @@ This application based on [Slim Skeleton Fork 5](https://github.com/InsanityMeet
 * [gulp-cli](https://www.npmjs.com/package/gulp-cli) `$ npm i gulp-cli@latest -g`
 * PHP => 5.5
 * Database like MySQL
-* [Docker](https://www.docker.com/) ([for installation with Docker](https://github.com/InsanityMeetsHH/Slim-Skeleton#installation-with-docker))
+* [Docker](https://www.docker.com/) ([for installation with Docker](https://github.com/InsanityMeetsHH/file-sharing#installation-with-docker))
 
 ## Installation with [Composer](https://getcomposer.org/) (Recommended)
 

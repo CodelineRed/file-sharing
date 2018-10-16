@@ -8,8 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_file_type")
  */
-class FileType extends \App\MappedSuperclass\Base
-{
+class FileType extends \App\MappedSuperclass\Base {
     
     /**
      * @ORM\Column(type="string", unique=true)

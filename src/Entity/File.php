@@ -7,8 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_file")
  */
-class File extends \App\MappedSuperclass\Base
-{
+class File extends \App\MappedSuperclass\Base {
     
     /**
      * @ORM\Id

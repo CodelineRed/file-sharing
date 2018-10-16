@@ -6,7 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.2.1]
+## [2.2.2]
+### Added
+- Spinner to form submit button (visible after click)
+- Disable form submit button on click
+- Continuous integration update
+- Inactive PHP 5.5 image to [`Dockerfile`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/Dockerfile)
+
+### Changed
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+
+### Fixed
+- [`FileExtension.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/FileExtension.php) constants for PHP 5.5 compatibility
+
+## [2.2.1] - 2018-10-16
 ### Added
 - Translations
 - [Remove files](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L448) from webspace if user gets removed
