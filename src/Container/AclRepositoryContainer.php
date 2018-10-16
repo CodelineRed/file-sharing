@@ -27,7 +27,6 @@ class AclRepositoryContainer {
      * @return \Geggleto\Acl\AclRepository
      */
     public static function setup() {
-        /** @var \Doctrine\ORM\EntityManager $em **/
         $em = AppContainer::getInstance()->getContainer()->get('em');
         $settings = AppContainer::getInstance()->getContainer()->get('settings');
         $currentRole = GeneralUtility::getCurrentRole();
@@ -40,7 +39,7 @@ class AclRepositoryContainer {
         }
         
         // if is array and not empty
-        if (is_array($roles) && !empty($roles)) {
+        if (isset($roles) && is_array($roles) && !empty($roles)) {
             // loop through roles
             foreach ($roles as $roleKey => $role) {
                 $roleName = $role->getName();

@@ -6,7 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.2.0]
+## [2.2.1]
+### Added
+- Translations
+- [Remove files](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L448) from webspace if user gets removed
+- [Error message](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php#L72) if file is not on disk
+
+### Changed
+- Definition of the `$currentRole` simplified in [`AclRepositoryContainer.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Container/AclRepositoryContainer.php)
+
+### Fixed
+- Translation output on recovery code page
+- Cut-off font on the file show page
+
+## [2.2.0] - 2018-10-15
 ### Added
 - Translations
 - Raw filter to flash message text
@@ -50,7 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Access on hidden users for `superadmin`
 - Redirect to same user page where "click" happened
 - `nowrap` CSS class to table values
-- [`FileExtension`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/FileExtension.php)
+- [`FileExtension.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/FileExtension.php)
 - Twig filter `file_size` in [`FileExtension`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/FileExtension.php)
 
 ### Changed
