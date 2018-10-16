@@ -47,9 +47,12 @@ class UserController extends BaseController {
             // if user exists
             if ($userSearch instanceof User) {
                 $this->flash->addMessage('message', LanguageUtility::trans('user-save-m1') . ';' . self::STYLE_DANGER);
+            } elseif (strlen($user) < 4) {
+                // if user name too short
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [4]) . ';' . self::STYLE_DANGER);
             } elseif (strlen($pass) < 6) {
                 // if password too short
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [6]) . ';' . self::STYLE_DANGER);
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [6]) . ';' . self::STYLE_DANGER);
             } else {
                 // if role not exists
                 if ($role === NULL) {
@@ -62,13 +65,13 @@ class UserController extends BaseController {
                     ->setRole($role);
                 $this->em->persist($newUser);
                 $this->em->flush();
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [
+                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m4', [
                     $user,
                     $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $newUser->getName()
                 ])]) . ';' . self::STYLE_SUCCESS);
             }
         } else {
-            $this->flash->addMessage('message', LanguageUtility::trans('user-save-m4') . ';' . self::STYLE_DANGER);
+            $this->flash->addMessage('message', LanguageUtility::trans('user-save-m5') . ';' . self::STYLE_DANGER);
         }
         
         // Render view

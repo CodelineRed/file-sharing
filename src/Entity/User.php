@@ -10,8 +10,7 @@ use Doctrine\Common\Collections\Criteria;
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_user")
  */
-class User extends \App\MappedSuperclass\Base
-{
+class User extends \App\MappedSuperclass\Base {
     
     /**
      * @ORM\Column(type="string", unique=true)
