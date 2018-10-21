@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.2.2]
+## [2.3.0]
+### Added
+- [DataTables](https://datatables.net/) with [Bootstrap 4](https://datatables.net/examples/styling/bootstrap4.html) styling
+
+## [2.2.2] - 2018-10-16
 ### Added
 - Spinner to form submit button (visible after click)
 - Disable form submit button on click
