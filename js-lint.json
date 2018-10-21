@@ -13,7 +13,7 @@
         "guard-for-in": 1,
         "indent": ["warn", 4],
         "keyword-spacing": ["warn", {"before": true, "after": true}],
-        "new-cap": 1,
+        "new-cap": [1, {"capIsNewExceptions": ["DataTable"]}],
         "no-alert": 1,
         "no-bitwise": 0,
         "no-caller": 1,
@@ -37,6 +37,6 @@
         "space-before-function-paren": ["error", {"anonymous": "never", "named": "never", "asyncArrow": "never"}],
         "strict": 1
     },
-    "globals": ["$", "jQuery", "cookieLayer"],
+    "globals": ["$", "jQuery", "cookieLayer", "dataTablesLangUrl"],
     "envs": ["node", "browser"]
 }

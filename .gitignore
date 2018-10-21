@@ -6,6 +6,7 @@
 /public/img/
 /public/css/styles.css
 /public/js/scripts.js
+/public/json/
 /public/font/
 /public/upload/*
 !/public/upload/.gitkeep

@@ -66,7 +66,7 @@
         <div class="col-12">
             {% if files|length > 0 %}
             <div class="table-responsive">
-                <table class="table table-striped table-dark">
+                <table class="table table-striped table-dark" data-order="[[ 3, &quot;desc&quot; ]]">
                     <thead>
                         <tr>
                             <th scope="col"><span class="nowrap">{{ 'lock-file'|trans }}</span> / <span class="nowrap">{{ 'unlock-file'|trans }}</span></th>
@@ -80,7 +80,7 @@
                 {# loop through database records #}
                     {% for file in files %}
                         <tr>
-                            <td>
+                            <td data-order="{{ file.hidden }}">
                                 {% if file.hidden %}
                                     <a href="{{ path_for('file-hidden-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-file'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
                                 {% else %}
@@ -88,8 +88,8 @@
                                 {% endif %}
                             </td>
                             <td><a href="{{ path_for('file-show-' ~ lc, { 'uuid': file.id }) }}" class="current nowrap" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'show-file'|trans }}">{{ file.name }}</a></td>
-                            <td><span class="nowrap">{{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span></td>
-                            <td><span class="nowrap">{{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
+                            <td data-order="{{ file.size }}"><span class="nowrap">{{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span></td>
+                            <td data-order="{{ file.createdAt|date('c') }}"><span class="nowrap">{{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
                             <td><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>
                         </tr>
                     {% endfor %}
@@ -109,7 +109,7 @@
             {% endif %}
             {% if publicFiles|length > 0 %}
             <div class="table-responsive">
-                <table class="table table-striped table-dark">
+                <table class="table table-striped table-dark" data-order="[[ {% if has_role({0: 'superadmin'}) %}3{% else %}2{% endif %}, &quot;desc&quot; ]]">
                     <thead>
                         <tr>
                             {% if has_role({0: 'superadmin'}) %}<th scope="col"><span class="nowrap">{{ 'lock-file'|trans }}</span> / <span class="nowrap">{{ 'unlock-file'|trans }}</span></th>{% endif %}
@@ -123,7 +123,7 @@
                     {% for file in publicFiles %}
                         <tr>
                             {% if has_role({0: 'superadmin'}) %}
-                            <td>
+                            <td data-order="{{ file.hidden }}">
                                 {% if file.hidden %}
                                     <a href="{{ path_for('file-hidden-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-file'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
                                 {% else %}
@@ -132,8 +132,8 @@
                             </td>
                             {% endif %}
                             <td><a href="{{ path_for('file-show-' ~ lc, { 'uuid': file.id }) }}" class="current nowrap" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'show-file'|trans }}">{{ file.name }}</a></td>
-                            <td><span class="nowrap">{{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span></td>
-                            <td><span class="nowrap">{{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
+                            <td data-order="{{ file.size }}"><span class="nowrap">{{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span></td>
+                            <td data-order="{{ file.createdAt|date('c') }}"><span class="nowrap">{{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
                             {% if has_role({0: 'superadmin'}) %}<td><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>{% endif %}
                         </tr>
                     {% endfor %}

@@ -37,7 +37,8 @@
         "gulp-concat": "^2.6.1",
         "gulp-eslint": "^5.0.0",
         "gulp-imagemin": "^4.1.0",
-        "gulp-sass": "^4.0.1",
+        "gulp-jsonminify": "^1.1.0",
+        "gulp-sass": "^4.0.2",
         "gulp-sass-lint": "^1.4.0",
         "gulp-sourcemaps": "^2.6.4",
         "gulp-uglify": "^3.0.1"
@@ -48,6 +49,8 @@
         "cookieconsent": "^3.1.0",
         "cookieconsent-scss-less": "^3.0.6",
         "cssuseragent": "^2.1.31",
+        "datatables": "^1.10.18",
+        "datatables.net-bs4": "^1.10.19",
         "jquery": "^3.3.1"
     }
 }

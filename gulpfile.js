@@ -6,6 +6,7 @@ var minifyCss   = require('gulp-clean-css');
 var concat      = require('gulp-concat');
 var eslint      = require('gulp-eslint');
 var imagemin    = require('gulp-imagemin');
+var minifyJson  = require('gulp-jsonminify');
 var sass        = require('gulp-sass');
 var sassLint    = require('gulp-sass-lint');
 var sourcemaps  = require('gulp-sourcemaps');
@@ -48,6 +49,8 @@ gulp.task('js', function() {
             sourcePath + 'js/lib/**/*.js',
             'node_modules/cookieconsent/src/cookieconsent.js',
             'node_modules/cssuseragent/cssua.js',
+            'node_modules/datatables/media/js/jquery.dataTables.js',
+            'node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js',
             sourcePath + 'js/plugin/**/*.js',
             sourcePath + 'js/module/**/*.js',
             sourcePath + 'js/scripts.js'
@@ -86,6 +89,15 @@ gulp.task('img', function() {
         .pipe(gulp.dest(publicPath + 'img/'));
 });
 
+// copy all json files and minify
+gulp.task('json', function() {
+    gulp.src([
+            sourcePath + 'json/**/*.json'
+        ])
+        .pipe(minifyJson())
+        .pipe(gulp.dest(publicPath + 'json/'));
+});
+
 // copy all fonts
 gulp.task('font', function() {
     gulp.src([
@@ -120,7 +132,8 @@ gulp.task('cleanup', function() {
 //            systemPath + 'js/**/*',
 //            systemPath + 'img/**/*',
 //            systemPath + 'font/**/*',
-//            systemPath + 'svg/**/*'
+//            systemPath + 'svg/**/*',
+//            systemPath + 'json/**/*'
 //        ], {force: true});
         
     del([
@@ -128,7 +141,8 @@ gulp.task('cleanup', function() {
             publicPath + 'js/**/*',
             publicPath + 'img/**/*',
             publicPath + 'font/**/*',
-            publicPath + 'svg/**/*'
+            publicPath + 'svg/**/*',
+            publicPath + 'json/**/*'
         ]);
 });
 
@@ -144,18 +158,20 @@ gulp.task('watch', function() {
     gulp.watch(sourcePath + 'font/**', ['font']);
     // watch svg
     gulp.watch(sourcePath + 'svg/**', ['svg']);
+    // watch json
+    gulp.watch(sourcePath + 'json/**', ['json']);
 });
 
 // production
-gulp.task('prod', ['scss', 'scss-lint', 'js', 'js-lint', 'img', 'font', 'svg']);
+gulp.task('prod', ['scss', 'scss-lint', 'js', 'js-lint', 'img', 'font', 'svg', 'json']);
 
 // default task if just called gulp (incl. Watch)
-gulp.task('default', ['scss', 'scss-lint', 'js', 'js-lint', 'img', 'font', 'svg', 'watch'], function() {
+gulp.task('default', ['scss', 'scss-lint', 'js', 'js-lint', 'img', 'font', 'svg', 'json', 'watch'], function() {
     // start browsersync
     browserSync.init({
         proxy: localServer
     });
 
-    gulp.watch(publicPath + '**/*.{css,js,jpg,png,svg,ico}').on('change', browserSync.reload);
+    gulp.watch(publicPath + '**/*.{css,js,jpg,png,svg,ico,json}').on('change', browserSync.reload);
     gulp.watch('{templates,src}/**/*.{php,html,phtml,twig}').on('change', browserSync.reload);
 });

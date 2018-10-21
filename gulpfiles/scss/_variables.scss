@@ -1,5 +1,6 @@
 $brand-color-1: #2e97bf;
 $darkgrey: #212121;
+$lightgrey: #2c3034;
 $grey: #808080;
 
 // Fontawesome
@@ -13,5 +14,17 @@ $custom-file-text: (
 $blue: $brand-color-1;
 $modal-content-bg: $darkgrey;
 $modal-header-border-color: $grey;
+
 $close-color: #fff;
 $close-text-shadow: none;
+
+$pagination-bg: $lightgrey;
+$pagination-border-color: $darkgrey;
+
+$pagination-hover-color: #fff;
+$pagination-hover-bg: $brand-color-1;
+$pagination-hover-border-color: $darkgrey;
+
+$pagination-disabled-color: #fff;
+$pagination-disabled-bg: $lightgrey;
+$pagination-disabled-border-color: $darkgrey;
