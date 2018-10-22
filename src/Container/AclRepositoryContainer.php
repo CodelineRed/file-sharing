@@ -30,6 +30,7 @@ class AclRepositoryContainer {
         $em = AppContainer::getInstance()->getContainer()->get('em');
         $settings = AppContainer::getInstance()->getContainer()->get('settings');
         $currentRole = GeneralUtility::getCurrentRole();
+        GeneralUtility::setCurrentRole($currentRole);
         $roleNames = $allow = $deny = $allResources = [];
         
         try {

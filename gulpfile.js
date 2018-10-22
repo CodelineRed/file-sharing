@@ -33,7 +33,9 @@ gulp.task('scss', function() {
 // lint scss files
 gulp.task('scss-lint', function () {
     gulp.src([
-            sourcePath + 'scss/**/*.scss'
+            sourcePath + 'scss/**/*.scss',
+            // exclude third party and special files
+            '!' + sourcePath + 'scss/module/_datatables.scss'
         ])
         .pipe(sassLint(require('./scss-lint.json')))
         .pipe(sassLint.format())
