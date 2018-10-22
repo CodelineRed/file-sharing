@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.3.1]
 ### Fixed
 - DataTables arrows different from Windows to macOS
+- `$_SESSION['currentRole']` is not set in some cases
 
 ## [2.3.0] - 2018-10-21
 ### Added
