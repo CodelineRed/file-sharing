@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.3.0]
+## [2.3.1]
+### Fixed
+- DataTables arrows different from Windows to macOS
+
+## [2.3.0] - 2018-10-21
 ### Added
 - [DataTables](https://datatables.net/) with [Bootstrap 4](https://datatables.net/examples/styling/bootstrap4.html) styling
 
