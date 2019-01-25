@@ -116,6 +116,20 @@ return [
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],
+    'user-register' => [
+        'route'      => '/de/registrieren/',
+        'method'     => 'App\Controller\UserController:registerAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest'],
+        'rolesDeny'  => [],
+    ],
+    'user-register-save' => [
+        'route'      => '/de/registrierung-abschliessen/',
+        'method'     => 'App\Controller\UserController:saveRegisterAction',
+        'methods'    => ['POST'],
+        'rolesAllow' => ['guest'],
+        'rolesDeny'  => [],
+    ],
     'user-hidden' => [
         'route'      => '/de/user/versteckt/{name}/',
         'method'     => 'App\Controller\UserController:toggleHiddenAction',

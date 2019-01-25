@@ -2,8 +2,9 @@
 {% set lc = locale() %}
 {# glc = generic locale code #}
 {% set glc = generic_locale() %}
+{% htmlcompress %}
 <!DOCTYPE html>
-<html lang="{{ current_locale() }}" class="locale-process-{{ localeProcess }}">
+<html lang="{{ current_locale()|slice(0, 2) }}" class="locale-process-{{ localeProcess }}">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -22,8 +23,8 @@
         <meta name="theme-color" content="#000000">
         <link rel="shortcut icon" href="img/favicons/favicon.ico">
         <link href="//fonts.googleapis.com/css?family=Lato:300" rel="stylesheet" type="text/css">
-        <link href="{{ base_url() }}/css/styles.css?v=2.3.0" rel="stylesheet" type="text/css">
-        <script>
+        <link href="{{ base_url() }}/css/styles.css?v=3.0.0" rel="stylesheet" type="text/css">
+        <script type="application/javascript">
             var dataTablesLangUrl = '{{ base_url() }}/json/datatables.{{ current_locale() }}.json';
             var cookieLayer = {
                 header: '{{ 'cl-header'|trans }}',
@@ -41,13 +42,23 @@
         </script>
     </head>
     <body>
-        <div class="container">
-            {{ include('partials/navigation.html.twig') }}
-            {{ include('partials/alert.html.twig') }}
-            {{ include('partials/modal.html.twig') }}
-            {% block content %}{% endblock %}
-        </div>
-        <script src="{{ base_url() }}/js/scripts.js?v=2.3.0"></script>
+        <header>
+            <div class="container">
+                {{ include('partials/navigation.html.twig') }}
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                {{ include('partials/alert.html.twig') }}
+                {{ include('partials/modal.html.twig') }}
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+        <footer>
+            <div class="container"></div>
+        </footer>
+        <script src="{{ base_url() }}/js/scripts.js?v=3.0.0"></script>
+        <script src="https://www.google.com/recaptcha/api.js?hl={{ current_locale() }}"></script>
     </body>
 </html>
-
+{% endhtmlcompress %}

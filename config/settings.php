@@ -14,6 +14,12 @@ return [
             'cache' => FALSE, // FALSE or path to cache folder "__DIR__ . '/../cache/'"
             'template_path' => __DIR__ . '/../templates/',
         ],
+        
+        // Google recaptcha
+        'recaptcha' => [
+            'site'   => '',
+            'secret' => '',
+        ],
 
         // Monolog settings
         'logger' => [
@@ -34,10 +40,7 @@ return [
             'code' => 'en-US', // default / current language
             'generic_code' => 'xx-XX', // routes which fits all localizations
             'path' => __DIR__ . '/../locale/',
-            'active' => [
-                'en-US' => 'slim3.insanitymeetshh.net',
-                'de-DE' => 'slim3de.insanitymeetshh.net',
-            ],
+            'active' => [], // active locale code domain combinations
         ],
         
         // Doctrine settings

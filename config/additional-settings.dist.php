@@ -13,10 +13,18 @@ return [
                 'password' => isset($_ENV['APP_DB_PASSWORD']) ? $_ENV['APP_DB_PASSWORD'] : '',
             ],
         ],
+
+        // Google recaptcha
+        'recaptcha' => [
+            'site'   => '',
+            'secret' => '',
+        ],
         
         // Locale settings
         'locale' => [
             'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,
+            'auto_detect' => TRUE,
+            'code' => 'en-US', // default / current language
             'active' => [
                 'en-US' => 'imhh-fs.localhost',
                 'de-DE' => 'de.imhh-fs.localhost',

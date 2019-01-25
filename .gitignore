@@ -12,8 +12,6 @@
 !/public/upload/.gitkeep
 styles.css.map
 scripts.js.map
-package-lock.json
-composer.lock
 composer.phar
 additional-settings.php
 

@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0]
+### Added
+- `nochso/html-compress-twig` dependency
+- `google/recaptcha` dependency
+- `composer.lock`
+- `package-lock.json`
+- `lang` attribute to langswitch
+- `{% htmlcompress %}...{% endhtmlcompress %}` to [`templates/layouts/layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
+- `<header>`, `<main>` and `<footer>` html tag to [`templates/layouts/layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
+- register form
+
+### Changed
+- `.gitignore`
+- `deploy.sh`
+- [Setup.php](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Composer/Setup.php)
+- [`additional-settings.dist.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php)
+- [`settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php)
+- [`localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/localisation.php)
+
 ## [2.3.1]
 ### Fixed
 - DataTables arrows different from Windows to macOS

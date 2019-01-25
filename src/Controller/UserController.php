@@ -13,7 +13,80 @@ use App\Utility\LanguageUtility;
 class UserController extends BaseController {
     
     /**
-     * create Action
+     * Shows registration form
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function registerAction($request, $response, $args) {
+        // Render view
+        return $this->view->render($response, 'user/register.html.twig', array_merge($args, []));
+    }
+    
+    /**
+     * Saves data from registration form
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function saveRegisterAction($request, $response, $args) {
+        $error = FALSE;
+        $recaptcha = new \ReCaptcha\ReCaptcha($this->settings['recaptcha']['secret']);
+        $resp = $recaptcha->setExpectedHostname($_SERVER['SERVER_NAME'])
+            ->verify($request->getParam('g-recaptcha-response'), GeneralUtility::getUserIP());
+        
+        if ($resp->isSuccess() || isset($_ENV['docker'])) {
+            $userSearch = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name'), 'hidden' => 0]);
+            $userName = $request->getParam('user_name');
+            $userPass = $request->getParam('user_pass');
+            $userPassRepeat = $request->getParam('user_pass_repeat');
+            
+            if ($userSearch instanceof User) {
+                $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m1') . ';' . self::STYLE_DANGER);
+                $error = TRUE;
+            }
+                
+            if (strlen($userName) < 4) {
+                $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m2') . ';' . self::STYLE_DANGER);
+                $error = TRUE;
+            }
+
+            if (strlen($userPass) < 6 || strlen($userPassRepeat) < 6) {
+                $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m3') . ';' . self::STYLE_DANGER);
+                $error = TRUE;
+            }
+
+            if ($userPass !== $userPassRepeat) {
+                $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m4') . ';' . self::STYLE_DANGER);
+                $error = TRUE;
+            } 
+
+            if (!$error) {
+                $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m5') . ';' . self::STYLE_SUCCESS);
+
+                $user = new User();
+                $user->setName($userName)
+                    ->setRole($this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']))
+                    ->setPass($userPass);
+                $this->em->persist($user);
+                $this->em->flush();
+                
+                return $response->withRedirect($this->router->pathFor('user-login-' . LanguageUtility::getGenericLocale()));
+            }
+            
+        } else {
+            $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m6') . ';' . self::STYLE_DANGER);
+        }
+        
+        return $response->withRedirect($this->router->pathFor('user-register-' . LanguageUtility::getLocale()));
+    }
+    
+    /**
+     * Shows create user form
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -28,7 +101,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * saveCreate Action
+     * Saves data from create form
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -79,7 +152,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Show Action
+     * Shows user detail page
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -138,7 +211,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * showAll Action
+     * Shows all user
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -153,7 +226,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * updateRole Action
+     * Updates role if user
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -187,7 +260,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Login Action
+     * Shows login form
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -200,7 +273,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Login Validate Action
+     * Validates data from login form
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -229,7 +302,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Logout Action
+     * Logout user from system
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -244,7 +317,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Enable Two Factor Action
+     * Enables 2FA and generates recovery codes
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -342,7 +415,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Two Factor Action
+     * Shows 2FA form validates data
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -406,7 +479,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * toggleHidden Action
+     * Toggles user hidden flag
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -434,7 +507,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * remove Action
+     * Removes user and all files from system
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
