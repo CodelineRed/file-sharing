@@ -3,6 +3,7 @@
 return [
     'user' => 'Benutzer',
     'password' => 'Passwort',
+    'password-repeat' => 'Passwort widerholen',
     'user-name' => 'Benutzername',
     'login' => 'Login',
     'created-at' => 'Erstellt am',
@@ -55,7 +56,7 @@ return [
     'no-video-support' => 'Ihr Browser unterstützt kein Video-Elemente',
     'file-not-accessible' => 'Datei nicht erreichbar',
     'file-not-exists' => 'Datei existiert nicht',
-    'cookie-policy-title' => 'Cookie Policy',
+    'cookie-policy-title' => 'Datenschutz',
     'cookie-policy-text' => 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.',
     
     'file-show-m1' => 'Datei fehlt auf der Festplatte',

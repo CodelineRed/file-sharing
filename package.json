@@ -1,7 +1,7 @@
 {
-    "name": "gulp-templating",
-    "version": "3.1.0",
-    "description": "Gulp Templating for File Sharing",
+    "name": "file-sharing",
+    "version": "4.0.0",
+    "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",
         "templating",
@@ -32,12 +32,12 @@
     "devDependencies": {
         "browser-sync": "^2.26.3",
         "del": "^3.0.0",
-        "gulp": "^3.9.1",
+        "gulp": "^4.0.0",
         "gulp-autoprefixer": "^6.0.0",
-        "gulp-clean-css": "^3.10.0",
+        "gulp-clean-css": "^4.0.0",
         "gulp-concat": "^2.6.1",
         "gulp-eslint": "^5.0.0",
-        "gulp-imagemin": "^4.1.0",
+        "gulp-imagemin": "^5.0.3",
         "gulp-jsonminify": "^1.1.0",
         "gulp-sass": "^4.0.2",
         "gulp-sass-lint": "^1.4.0",

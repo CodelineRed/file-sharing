@@ -3,6 +3,7 @@
 return [
     'user' => 'User',
     'password' => 'Password',
+    'password-repeat' => 'Password repeat',
     'user-name' => 'User name',
     'login' => 'Login',
     'created-at' => 'Created at',

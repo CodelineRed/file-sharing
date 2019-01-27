@@ -21,16 +21,6 @@
                 'opt-in':'<div class="cc-compliance cc-highlight col-12 col-sm-6 col-lg-4">{{dismiss}}{{allow}}</div>',
                 'opt-out': '<div class="cc-compliance cc-highlight col-12 col-sm-6 col-lg-4">{{deny}}{{dismiss}}</div>'
             },
-            palette: {
-                popup: {
-                    background: '#2c3034',
-                    text: '#ffffff'
-                },
-                button: {
-                    background: '#2e97bf',
-                    text: '#ffffff'
-                }
-            },
             theme: 'classic',
             type: 'info',
             content: {
@@ -52,10 +42,11 @@
                 if (type === 'opt-out' && !didConsent) {
                     // disable cookies
                 }
-
+                
+                // set .cc-window at the end of body to disable bottom margin on .container
                 setTimeout(function() {
-                    $('.cc-window').remove();
-                }, 250);
+                    $('body').append($('.cc-window'));
+                }, 1000);
             },
             onPopupOpen: function() {
                 // do something
@@ -72,10 +63,11 @@
                 if (type ==='opt-out' && !didConsent) {
                     // disable cookies
                 }
-
+                
+                // set .cc-window at the end of body to disable bottom margin on .container
                 setTimeout(function() {
-                    $('.cc-window').remove();
-                }, 250);
+                    $('body').append($('.cc-window'));
+                }, 1000);
             },
             onRevokeChoice: function() {
                 var type = this.options.type;

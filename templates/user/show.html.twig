@@ -30,7 +30,7 @@
                         {% set buttonStyle = 'success' %}
                     {% endif %}
                     {% if loop.index > 1 %}
-                    <a href="{{ path_for('user-update-role-' ~ lc, { 'name': user.name, 'role': role.name }) }}" class="btn btn-{{ buttonStyle }} mb-2" tabindex="-1" role="button" aria-disabled="true">{{ role.name }}</a>
+                    <a href="{{ path_for('user-update-role-' ~ lc, { 'name': user.name, 'role': role.name }) }}" class="btn btn-{{ buttonStyle }} mb-2" tabindex="-1" role="button" aria-disabled="true">{{ role.name }}</a>&nbsp;
                     {% endif %}
                 {% endfor %}
             </div>
