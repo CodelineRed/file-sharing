@@ -12,7 +12,7 @@ services:
         container_name: file-sharing-db
         environment:
             MYSQL_ROOT_PASSWORD: rootdockerpw
-            MYSQL_DATABASE: imhh_file_sharing
+            MYSQL_DATABASE: slim_file_sharing
             MYSQL_USER: dockeruser
             MYSQL_PASSWORD: dockerpw
         ports:
@@ -32,7 +32,7 @@ services:
             docker: "true"
             #APP_DB_HOST: db
             APP_DB_PORT: 3306
-            APP_DB_NAME: imhh_file_sharing
+            APP_DB_NAME: slim_file_sharing
             APP_DB_USER: dockeruser
             APP_DB_PASSWORD: dockerpw
         build:

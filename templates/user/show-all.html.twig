@@ -11,6 +11,15 @@
                             <th scope="col"><span class="text-nowrap">{{ 'user-name'|trans }}</span></th>
                             <th scope="col"><span class="text-nowrap">{{ 'files'|trans }}</span></th>
                             <th scope="col"><span class="text-nowrap">{{ 'created-at'|trans }}</span></th>
+                            {% if has_role({0: 'superadmin'}) and roles|length > 0 %}
+                            <th scope="col"><span class="text-nowrap">{{ 'role'|trans }}</span></th>
+                            {% endif %}
+                            {% if has_role({0: 'superadmin'}) %}
+                            <th scope="col"><span class="text-nowrap">Sperrzustand</span></th>
+                            {% endif %}
+                            {% if has_role({0: 'superadmin'}) %}
+                            <th scope="col"><span class="text-nowrap">{{ 'remove-user'|trans }}</span></th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -20,6 +29,35 @@
                             <td><a href="{{ path_for('user-show-' ~ lc, { 'name': user.name }) }}" class="current text-nowrap">{{ user.name }}</a></td>
                             <td>{{ user.uniqueFiles|length }}</td>
                             <td data-order="{{ user.createdAt|date('c') }}"><span class="text-nowrap">{{ user.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
+                            {% if has_role({0: 'superadmin'}) and roles|length > 0 %}
+                            <td data-order="{{ user.role.id }}">
+                                <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                {% for role in roles %}
+                                    {% set selected = '' %}
+                                    {% if user.role.id is same as(role.id) %}
+                                        {% set selected = 'selected' %}
+                                    {% endif %}
+                                    {% if loop.index > 1 %}
+                                    <option value="{{ path_for('user-update-role-' ~ lc, { 'name': user.name, 'role': role.name }) }}?return={{ path_for('user-show-all-' ~ lc) }}" {{ selected }}>{{ role.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>
+                            </td>
+                            {% endif %}
+                            {% if has_role({0: 'superadmin'}) %}
+                            <td data-order="{{ user.hidden }}" class="text-center">
+                                {% if user.hidden and has_role({0: 'superadmin'}) %}
+                                <a href="{{ path_for('user-hidden-' ~ lc, { 'name': user.name }) }}?return={{ path_for('user-show-all-' ~ lc) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-user'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
+                                {% elseif has_role({0: 'superadmin'}) %}
+                                <a href="{{ path_for('user-hidden-' ~ lc, { 'name': user.name }) }}?return={{ path_for('user-show-all-' ~ lc) }}" class="btn btn-warning btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'lock-user'|trans }}"><i class="fas fa-unlock fa-fw"></i></a>
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                            {% if has_role({0: 'superadmin'}) %}
+                            <td data-order="0" class="text-center">
+                                <a href="{{ path_for('user-remove-' ~ lc, { 'name': user.name }) }}?return={{ path_for('user-show-all-' ~ lc) }}" class="btn btn-danger btn-sm ml-2 remove-user" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'remove-user'|trans }}"><i class="fas fa-trash fa-fw"></i></a>
+                            </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% endif %}

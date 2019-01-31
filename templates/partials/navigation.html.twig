@@ -5,7 +5,7 @@
         <a class="mr-2 {% if is_current_path('user-register-' ~ lc) %}current{% endif %}" href="{{ path_for('user-register-' ~ lc) }}"><i class="fas fa-sign-in-alt"></i></a>
         {% endif %}
         {% if currentUser %}
-        <a href="{{ path_for('user-show-' ~ lc) }}" class="current">{{ currentUser.name }}</a>
+        <a href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}" class="current">{{ currentUser.name }}</a>
         {% endif %}
     </div>
     <div class="col-12 col-md-7 col-lg-6 text-md-right">
@@ -18,7 +18,7 @@
                 <a class="{% if is_current_path('user-show-all-' ~ lc) %}current{% endif %}" href="{{ path_for('user-show-all-' ~ lc) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-all-label'|trans }}"><i class="fas fa-users"></i></a> &#124;
                 <a class="{% if is_current_path('user-create-' ~ lc) %}current{% endif %}" href="{{ path_for('user-create-' ~ lc) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-create-label'|trans }}"><i class="fas fa-user-plus"></i></a> &#124;
             {% endif %}
-            <a class="{% if is_current_path('user-show-' ~ lc, { 'name': name }) or is_current_path('user-show-' ~ lc) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
+            <a class="{% if is_current_path('user-show-' ~ lc, { 'name': name }) or is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
             <a href="{{ path_for('user-logout-' ~ glc) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-logout-label'|trans }}"><i class="fas fa-sign-out-alt"></i></a>
         {% endif %}
     </div>

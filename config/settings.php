@@ -20,6 +20,17 @@ return [
             'site'   => '',
             'secret' => '',
         ],
+        
+        // Google QR Code title
+        '2fa_qrc_title' => null,
+        
+        // user validation
+        'validation' => [
+            'min_user_name_length' => 4,
+            'max_user_name_length' => 50,
+            'min_password_length' => 6,
+            'allowed_user_name_chars' => str_split('abcdefghijklmnopqrstuvwxyz0123456789-_'),
+        ],
 
         // Monolog settings
         'logger' => [

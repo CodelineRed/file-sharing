@@ -145,7 +145,7 @@ return [
         'rolesDeny'  => [],
     ],
     
-    // matching routes
+    // this routes fits to all translations
     'file-download' => [
         'route'      => '/de/download/{uuid}/',
         'method'     => 'App\Controller\FileController:downloadAction',

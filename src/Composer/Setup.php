@@ -48,7 +48,7 @@ class Setup {
             // Database setting
 
             // Ask for database name
-            echo self::getColoredString("Please enter database name (default: ", 'green') . self::getColoredString("slim_database", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Please enter database name (default: ", 'green') . self::getColoredString("slim_file_sharing", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
@@ -56,7 +56,7 @@ class Setup {
             fclose($strHandle);
 
             if (empty($strDbName)) {
-                $arrConfig['database']['dbname'] = "slim_database";
+                $arrConfig['database']['dbname'] = "slim_file_sharing";
             } else {
                 $arrConfig['database']['dbname'] = $strDbName;
             }
@@ -135,6 +135,23 @@ class Setup {
 
             $arrConfig['recaptcha']['secret'] = trim(fgets($strHandle));
             fclose($strHandle);
+
+            echo self::getColoredString("Setup Google QR Code title\n", 'yellow', NULL, ['underscore']);
+            # Google QR Code setting
+
+            // Ask for database password
+            echo self::getColoredString("Please enter the title  (default: ", 'green') . self::getColoredString("NULL", 'yellow') . self::getColoredString("): ", 'green');
+            $strHandle = fopen("php://stdin", "r");
+            echo "\n";
+
+            $str2faQrcTitle = trim(fgets($strHandle));
+            fclose($strHandle);
+
+            if (empty($str2faQrcTitle)) {
+                $arrConfig['2fa_qrc_title'] = 'NULL';
+            } else {
+                $arrConfig['2fa_qrc_title'] = $str2faQrcTitle;
+            }
 
             echo self::getColoredString("Setup Locale Settings\n", 'yellow', NULL, ['underscore']);
             // Locale settings
@@ -264,6 +281,8 @@ class Setup {
             $stringConfig .= "$s$s$s'site'   => '" . $arrConfig['recaptcha']['site'] . "',\n";
             $stringConfig .= "$s$s$s'secret' => '" . $arrConfig['recaptcha']['secret'] . "',\n";
             $stringConfig .= "$s$s],\n\n";
+            $stringConfig .= "$s$s// Google QR Code title\n";
+            $stringConfig .= "$s$s'2fa_qrc_title' => '" . $arrConfig['2fa_qrc_title'] . "',\n\n";
             $stringConfig .= "$s$s// Locale settings\n";
             $stringConfig .= "$s$s'locale' => [\n";
             $stringConfig .= "$s$s$s'process' => " . $arrConfig['locale']['process'] . ",\n";

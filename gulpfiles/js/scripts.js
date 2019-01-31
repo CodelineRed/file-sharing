@@ -16,6 +16,12 @@
             $('input[type="submit"],button[type="submit"]').attr('disabled', 'disabled');
         });
         
+        $('[class*="remove-"]').click(function(e) {
+            if (!confirm('Are you sure to remove this record?')) { // eslint-disable-line  no-alert
+                e.preventDefault();
+            }
+        });
+        
         // initialize tables with DataTable
         $('table').DataTable({
             'language': {

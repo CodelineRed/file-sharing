@@ -21,7 +21,8 @@ class PageController extends BaseController {
         if ($this->currentUser === NULL) {
             return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
         } else {
-            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+            $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]));
         }
         
         // Render view

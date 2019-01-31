@@ -186,7 +186,7 @@ function watchFiles() {
     gulp.watch(sourcePath + 'svg/**', svg);
     
     gulp.watch(publicPath + '**/*.{css,eot,ico,js,json,jpg,otf,png,svg,ttf,woff,woff2}', browserSyncReload);
-    gulp.watch('templates,src}/**/*.{php,html,phtml,twig}', browserSyncReload);
+    gulp.watch('{templates,locale,config,src}/**/*.{php,twig}', browserSyncReload);
 }
 
 exports.scss = scss;

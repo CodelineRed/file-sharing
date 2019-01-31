@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `{% htmlcompress %}...{% endhtmlcompress %}` to [`templates/layouts/layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - `<header>`, `<main>` and `<footer>` html tag to [`templates/layouts/layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - register form
+- Settings for user validation
+- user validation function
+- role selection, remove user and hide user to `user/show-all.html.twig`
+- confirm window if a record should be removed
 
 ### Changed
 - `.gitignore`
@@ -24,8 +28,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [`additional-settings.dist.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php)
 - [`settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php)
 - [`localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/localisation.php)
+- All `user-show-` routes required `name` parameter
+- `user/show.html.twig` to use less code
+- `localisation.php` to use less code
+- Docker database name
+- `gulpfile.js`
 
-## [2.3.1]
+### Fixed
+- `langswitch.js`
+
+### Removed
+- `/profile/[{name}/]` route and replaced by `/{name}/`
+
+## [2.3.1] - 2018-10-22
 ### Fixed
 - DataTables arrows different from Windows to macOS
 - `$_SESSION['currentRole']` is not set in some cases

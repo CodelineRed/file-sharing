@@ -2,6 +2,7 @@
 # See http://php.net/manual/de/function.sprintf.php if you want to use placeholders in strings
 return [
     'user' => 'Benutzer',
+    'role' => 'Rolle',
     'password' => 'Passwort',
     'password-repeat' => 'Passwort widerholen',
     'user-name' => 'Benutzername',

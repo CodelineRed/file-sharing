@@ -19,8 +19,8 @@ function setCookie(cname, cvalue, exdays) {
  */
 (function($) {
     if (document.querySelector('html').classList.contains('locale-process-session')) {
-        for (var i = 0; i < document.querySelectorAll('.langswitch a').length; i++) {
-            document.querySelectorAll('.langswitch a')[i].onclick = function(event) {
+        for (var i = 0; i < document.querySelectorAll('a.langswitch').length; i++) {
+            document.querySelectorAll('a.langswitch')[i].onclick = function(event) {
                 event.preventDefault();
                 setCookie('current_locale', this.getAttribute('data-locale'), 365);
                 window.location.reload();
