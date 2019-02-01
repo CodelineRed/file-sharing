@@ -24,11 +24,11 @@ return [
         // Google QR Code title
         '2fa_qrc_title' => null,
         
-        // user validation
+        // User validation
         'validation' => [
-            'min_user_name_length' => 4,
-            'max_user_name_length' => 50,
-            'min_password_length' => 6,
+            'min_user_name_length'    => 4,
+            'max_user_name_length'    => 50,
+            'min_password_length'     => 6,
             'allowed_user_name_chars' => str_split('abcdefghijklmnopqrstuvwxyz0123456789-_'),
         ],
 
@@ -46,12 +46,12 @@ return [
         
         // Locale settings
         'locale' => [
-            'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,
-            'auto_detect' => TRUE,
-            'code' => 'en-US', // default / current language
+            'process'      => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,
+            'auto_detect'  => TRUE,
+            'code'         => 'en-US', // default / current language
             'generic_code' => 'xx-XX', // routes which fits all localizations
-            'path' => __DIR__ . '/../locale/',
-            'active' => [], // active locale code domain combinations
+            'path'         => __DIR__ . '/../locale/',
+            'active'       => [], // active locale code domain combinations
         ],
         
         // Doctrine settings

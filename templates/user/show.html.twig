@@ -16,7 +16,7 @@
             <div class="row my-3">
                 {% if has_role({0: 'superadmin'}) %}
                 <div class="col-12">
-                    <h3>Admin functions</h3>
+                    <h3>{{ 'admin-funcs'|trans }}</h3>
                     {% if roles|length > 0 %}
                     <div class="mb-2">
                         {{ 'role'|trans }}: 
@@ -41,7 +41,7 @@
                     {% endif %}
                     </div>
                     <div class="">
-                        {{ 'remove-user'|trans }}: <a href="{{ path_for('user-remove-' ~ lc, { 'name': user.name }) }}" class="btn btn-danger btn-sm ml-2 remove-user" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'remove-user'|trans }}"><i class="fas fa-trash fa-fw"></i></a>
+                        {{ 'remove-user'|trans }}: <a href="{{ path_for('user-remove-' ~ lc, { 'name': user.name }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ user.name }}" data-toggle="tooltip" data-placement="top" title="{{ 'remove-user'|trans }}"><i class="fas fa-trash fa-fw"></i></a>
                     </div>
                 </div>
                 {% endif %}
@@ -87,7 +87,7 @@
             {# if files available #}
             {% if publicFiles|length > 0 %}
             <div class="table-responsive">
-                <table class="table table-striped table-dark" data-order="[[ {{ dataOrderTable }}, &quot;desc&quot; ]]">
+                <table class="table table-striped table-dark data-table" data-order="[[ {{ dataOrderTable }}, &quot;desc&quot; ]]">
                     <thead>
                         <tr>
                             {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
@@ -118,7 +118,7 @@
                             <td data-order="{{ file.size }}"><span class="text-nowrap">{{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span></td>
                             <td data-order="{{ file.createdAt|date('c') }}"><span class="text-nowrap">{{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
                             {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
-                            <td><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>
+                            <td><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ file.name }}" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>
                             {% endif %}
                         </tr>
                     {% endfor %}

@@ -3,6 +3,7 @@ namespace App\Utility;
 
 use App\Container\AppContainer;
 use App\Controller\BaseController;
+use App\Entity\User;
 
 class GeneralUtility {
     
@@ -136,8 +137,9 @@ class GeneralUtility {
         $em = AppContainer::getInstance()->getContainer()->get('em');
         $settings = AppContainer::getInstance()->getContainer()->get('settings');
         $flash = AppContainer::getInstance()->getContainer()->get('flash');
+        $passwordChars = 'a';
         
-        $userSearch = $em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name'), 'hidden' => 0]);
+        $userSearch = $em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name')]);
         $userName = $request->getParam('user_name');
         $userPass = $request->getParam('user_pass');
         $userPassRepeat = $request->getParam('user_pass_repeat');
@@ -150,19 +152,19 @@ class GeneralUtility {
 
         // if $userName smaller than min length
         if (strlen($userName) < $settings['validation']['min_user_name_length']) {
-            $flash->addMessage('message', LanguageUtility::trans('register-flash-m2') . ';' . BaseController::STYLE_DANGER);
+            $flash->addMessage('message', LanguageUtility::trans('register-flash-m2', [$settings['validation']['min_user_name_length']]) . ';' . BaseController::STYLE_DANGER);
             $error = TRUE;
         }
 
         // if $userName taller than max length
         if (strlen($userName) > $settings['validation']['max_user_name_length']) {
-            $flash->addMessage('message', LanguageUtility::trans('register-flash-mXA') . ';' . BaseController::STYLE_DANGER);
+            $flash->addMessage('message', LanguageUtility::trans('register-flash-m7', [$settings['validation']['max_user_name_length']]) . ';' . BaseController::STYLE_DANGER);
             $error = TRUE;
         }
 
         // if $userName smaller than min length
         if (strlen($userPass) < $settings['validation']['min_password_length'] || strlen($userPassRepeat) < $settings['validation']['min_password_length']) {
-            $flash->addMessage('message', LanguageUtility::trans('register-flash-m3') . ';' . BaseController::STYLE_DANGER);
+            $flash->addMessage('message', LanguageUtility::trans('register-flash-m3', [$settings['validation']['min_password_length']]) . ';' . BaseController::STYLE_DANGER);
             $error = TRUE;
         }
 
@@ -172,11 +174,35 @@ class GeneralUtility {
             $error = TRUE;
         }
 
+        // if password contains no number
+        if (!preg_match('/[0-9]+/', $userPass)) {
+            $flash->addMessage('message', LanguageUtility::trans('register-flash-m10') . ';' . BaseController::STYLE_DANGER);
+            $error = TRUE;
+        }
+
+        // if password contains no lowercase letter
+        if (!preg_match('/[a-z]+/', $userPass)) {
+            $flash->addMessage('message', LanguageUtility::trans('register-flash-m11') . ';' . BaseController::STYLE_DANGER);
+            $error = TRUE;
+        }
+
+        // if password contains no uppercase letter
+        if (!preg_match('/[A-Z]+/', $userPass)) {
+            $flash->addMessage('message', LanguageUtility::trans('register-flash-m12') . ';' . BaseController::STYLE_DANGER);
+            $error = TRUE;
+        }
+
+        // if password contains no non-word character
+        if (!preg_match('/\W+/', $userPass)) {
+            $flash->addMessage('message', LanguageUtility::trans('register-flash-m13') . ';' . BaseController::STYLE_DANGER);
+            $error = TRUE;
+        }
+
         // if $userName contains illegal chars
         foreach (str_split($userName) as $char) {
             // if char not allowed
             if (!in_array(strtolower($char), $settings['validation']['allowed_user_name_chars'])) {
-                $flash->addMessage('message', LanguageUtility::trans('register-flash-mXB') . ';' . BaseController::STYLE_DANGER);
+                $flash->addMessage('message', LanguageUtility::trans('register-flash-m8') . ';' . BaseController::STYLE_DANGER);
                 $error = TRUE;
                 break;
             }
@@ -205,7 +231,7 @@ class GeneralUtility {
                 if (isset($routes) && is_array($routes)) {
                     foreach ($routes as $routeName => $route) {
                         if (str_replace('/', '', $route['route']) === strtolower($userName)) {
-                            $flash->addMessage('message', LanguageUtility::trans('register-flash-mXC') . ';' . BaseController::STYLE_DANGER);
+                            $flash->addMessage('message', LanguageUtility::trans('register-flash-m9') . ';' . BaseController::STYLE_DANGER);
                             $error = TRUE;
                             break;
                         }

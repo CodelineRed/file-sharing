@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - user validation function
 - role selection, remove user and hide user to `user/show-all.html.twig`
 - confirm window if a record should be removed
+- Cookie policy modal text and table
 
 ### Changed
 - `.gitignore`
@@ -33,12 +34,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `localisation.php` to use less code
 - Docker database name
 - `gulpfile.js`
+- `locale/en-US.php`
+- `locale/de-DE.php`
+- DataTable init call
 
 ### Fixed
 - `langswitch.js`
 
 ### Removed
 - `/profile/[{name}/]` route and replaced by `/{name}/`
+- `/user/create/` route and replaced by `/register/`
+- `/user/save/` route and replaced by `/complete-register/`
 
 ## [2.3.1] - 2018-10-22
 ### Fixed

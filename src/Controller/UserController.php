@@ -60,72 +60,6 @@ class UserController extends BaseController {
     }
     
     /**
-     * Shows create user form
-     * 
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param array $args
-     * @return \Slim\Http\Response
-     */
-    public function createAction($request, $response, $args) {
-        // Render view
-        return $this->view->render($response, 'user/create.html.twig', array_merge($args, [
-            'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
-        ]));
-    }
-    
-    /**
-     * Saves data from create form
-     * 
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param array $args
-     * @return \Slim\Http\Response
-     */
-    public function saveCreateAction($request, $response, $args) {
-        $user = $request->getParam('user_name');
-        $pass = $request->getParam('user_pass');
-        
-        // if is other user and current user is alowed show_user_other
-        if (is_string($pass) && is_string($user)) {
-            $userSearch = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $user]);
-            $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $request->getParam('user_role')]);
-            
-            // if user exists
-            if ($userSearch instanceof User) {
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m1') . ';' . self::STYLE_DANGER);
-            } elseif (strlen($user) < $this->settings['validation']['min_user_name_length']) {
-                // if user name too short
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [$this->settings['validation']['min_user_name_length']]) . ';' . self::STYLE_DANGER);
-            } elseif (strlen($pass) < $this->settings['validation']['min_password_length']) {
-                // if password too short
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [$this->settings['validation']['min_password_length']]) . ';' . self::STYLE_DANGER);
-            } else {
-                // if role not exists
-                if ($role === NULL) {
-                    $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
-                }
-                
-                $newUser = new User();
-                $newUser->setName($user)
-                    ->setPass($pass)
-                    ->setRole($role);
-                $this->em->persist($newUser);
-                $this->em->flush();
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m4', [
-                    $user,
-                    $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $newUser->getName()
-                ])]) . ';' . self::STYLE_SUCCESS);
-            }
-        } else {
-            $this->flash->addMessage('message', LanguageUtility::trans('user-save-m5') . ';' . self::STYLE_DANGER);
-        }
-        
-        // Render view
-        return $response->withRedirect($this->router->pathFor('user-create-' . LanguageUtility::getLocale()));
-    }
-    
-    /**
      * Shows user detail page
      * 
      * @param \Slim\Http\Request $request
@@ -154,9 +88,14 @@ class UserController extends BaseController {
             if ($user instanceof User && !$user->isHidden()) {
                 $this->logger->info("User '" . $args['name'] . "' found - UserController:show");
             } elseif ($this->currentRole !== 'superadmin' || $user === NULL) {
-                // if user not found
-                $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
-                $this->flash->addMessage('message', 'User does not exists' . ';' . self::STYLE_DANGER);
+                // if user exits and is hidden
+                if ($user instanceof User && $user->isHidden()) {
+                    $this->logger->info("User '" . $args['name'] . "' is hidden - UserController:show");
+                    $this->flash->addMessage('message', LanguageUtility::trans('user-is-hidden') . ';' . self::STYLE_DANGER);
+                } else {
+                    $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
+                    $this->flash->addMessage('message', LanguageUtility::trans('user-not-exists') . ';' . self::STYLE_DANGER);
+                }
                 return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
             }
         } elseif (!is_null($this->currentUser) && !isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user')) {

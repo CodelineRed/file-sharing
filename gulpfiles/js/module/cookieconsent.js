@@ -1,12 +1,13 @@
+/*global cookieLayer*/
 'use strict';
+
 /**
- * Handled cookie banner look and behavior
+ * Init cookie consent look and behavior
  * 
- * @param {object} $ jQuery object
  * @returns {undefined}
  */
-(function($) {
-    window.addEventListener('load', function() {
+function initCookieConsent() {
+    (function($) {
         window.cookieconsent.initialise({
             window: '<div role="dialog" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window w-100 {{classes}}">'
                     + '<div class="container"><div class="row align-items-center">{{children}}</div></div></div>',
@@ -79,5 +80,5 @@
                 }
             }
         });
-    });
-})(jQuery);
+    })(jQuery);
+}

@@ -28,6 +28,7 @@ class Setup {
                 copy(__DIR__ . "/../../config/additional-settings.dist.php", __DIR__ . "/../../config/additional-settings.php");
             }
 
+            // Error setting
             echo self::getColoredString("Setup Error Details\n", 'yellow', NULL, ['underscore']);
             // Ask for database name
             echo self::getColoredString("Please enter value for displayErrorDetails (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
@@ -44,8 +45,8 @@ class Setup {
             
             fclose($strHandle);
             
-            echo self::getColoredString("Setup Database\n", 'yellow', NULL, ['underscore']);
             // Database setting
+            echo self::getColoredString("Setup Database\n", 'yellow', NULL, ['underscore']);
 
             // Ask for database name
             echo self::getColoredString("Please enter database name (default: ", 'green') . self::getColoredString("slim_file_sharing", 'yellow') . self::getColoredString("): ", 'green');
@@ -117,8 +118,8 @@ class Setup {
                 $arrConfig['database']['password'] = $strPassword;
             }
 
+            // reCAPTCHA setting
             echo self::getColoredString("Setup Google reCAPTCHA\n", 'yellow', NULL, ['underscore']);
-            # reCAPTCHA setting
 
             // Ask for reCAPTCHA website key
             echo self::getColoredString("Please enter reCAPTCHA website key (default: ", 'green') . self::getColoredString("empty string", 'yellow') . self::getColoredString("): ", 'green');
@@ -153,8 +154,8 @@ class Setup {
                 $arrConfig['2fa_qrc_title'] = $str2faQrcTitle;
             }
 
-            echo self::getColoredString("Setup Locale Settings\n", 'yellow', NULL, ['underscore']);
             // Locale settings
+            echo self::getColoredString("Setup Locale Settings\n", 'yellow', NULL, ['underscore']);
 
             // Ask for locale process
             echo self::getColoredString("Please enter number of locale process (default: ", 'green') . self::getColoredString("1", 'yellow') . self::getColoredString(")", 'green');
@@ -233,6 +234,10 @@ class Setup {
                     break;
                 }
                 
+                if (empty($arrConfig['locale']['active'])) {
+                    $default2faQrTitle = $strLocaleDomain;
+                }
+                
                 $arrConfig['locale']['active'][$strLocaleCode] = $strLocaleDomain;
                 
                 // if is first entry
@@ -245,9 +250,69 @@ class Setup {
                 echo self::getColoredString("You need at least one local code domain combination!", 'white', 'red');
                 die("\n");
             }
+            
+            // User Validation setting
+            echo self::getColoredString("Setup User Validation\n", 'yellow', NULL, ['underscore']);
+            
+            // Ask for min_user_name_length
+            echo self::getColoredString("Please enter minimum length for user name (default: ", 'green') . self::getColoredString("4", 'yellow') . self::getColoredString("): ", 'green');
+            $strHandle = fopen("php://stdin", "r");
+            echo "\n";
 
-            echo self::getColoredString("Setup Public Path\n", 'yellow', NULL, ['underscore']);
+            $strMinUserLength = trim(fgets($strHandle));
+            fclose($strHandle);
+
+            if (empty($strMinUserLength)) {
+                $arrConfig['validation']['min_user_name_length'] = "4";
+            } else {
+                $arrConfig['validation']['min_user_name_length'] = $strMinUserLength;
+            }
+            
+            // Ask for max_user_name_length
+            echo self::getColoredString("Please enter maximum length for user name (default: ", 'green') . self::getColoredString("50", 'yellow') . self::getColoredString("): ", 'green');
+            $strHandle = fopen("php://stdin", "r");
+            echo "\n";
+
+            $strMaxUserLength = trim(fgets($strHandle));
+            fclose($strHandle);
+
+            if (empty($strMaxUserLength)) {
+                $arrConfig['validation']['max_user_name_length'] = "50";
+            } else {
+                $arrConfig['validation']['max_user_name_length'] = $strMaxUserLength;
+            }
+            
+            // Ask for min_user_name_length
+            echo self::getColoredString("Please enter minimum length for password (default: ", 'green') . self::getColoredString("6", 'yellow') . self::getColoredString("): ", 'green');
+            $strHandle = fopen("php://stdin", "r");
+            echo "\n";
+
+            $strMinPassLength = trim(fgets($strHandle));
+            fclose($strHandle);
+
+            if (empty($strMinPassLength)) {
+                $arrConfig['validation']['min_password_length'] = "6";
+            } else {
+                $arrConfig['validation']['min_password_length'] = $strMinPassLength;
+            }
+            
+            // Ask for allowed_user_name_chars
+            echo self::getColoredString("Please enter allowed characters for user name (default: ", 'green') . self::getColoredString("abcdefghijklmnopqrstuvwxyz0123456789-_", 'yellow') . self::getColoredString("): ", 'green');
+            $strHandle = fopen("php://stdin", "r");
+            echo "\n";
+
+            $strUserChars = trim(fgets($strHandle));
+            fclose($strHandle);
+
+            if (empty($strUserChars)) {
+                $arrConfig['validation']['allowed_user_name_chars'] = "str_split('abcdefghijklmnopqrstuvwxyz0123456789-_')";
+            } else {
+                $arrConfig['validation']['allowed_user_name_chars'] = "str_split('" . $strUserChars . "')";
+            }
+            
             // Public path
+            echo self::getColoredString("Setup Public Path\n", 'yellow', NULL, ['underscore']);
+            
             // Ask for public path
             echo self::getColoredString("Please enter public path (default: ", 'green') . self::getColoredString("dynamic generated", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
@@ -283,11 +348,18 @@ class Setup {
             $stringConfig .= "$s$s],\n\n";
             $stringConfig .= "$s$s// Google QR Code title\n";
             $stringConfig .= "$s$s'2fa_qrc_title' => '" . $arrConfig['2fa_qrc_title'] . "',\n\n";
+            $stringConfig .= "$s$s// User validation\n";
+            $stringConfig .= "$s$s'validation' => [\n";
+            $stringConfig .= "$s$s$s'min_user_name_length'    => '" . $arrConfig['validation']['min_user_name_length'] . "',\n";
+            $stringConfig .= "$s$s$s'max_user_name_length'    => '" . $arrConfig['validation']['max_user_name_length'] . "',\n";
+            $stringConfig .= "$s$s$s'min_password_length'     => '" . $arrConfig['validation']['min_password_length'] . "',\n";
+            $stringConfig .= "$s$s$s'allowed_user_name_chars' => '" . $arrConfig['validation']['allowed_user_name_chars'] . "',\n";
+            $stringConfig .= "$s$s],\n\n";
             $stringConfig .= "$s$s// Locale settings\n";
             $stringConfig .= "$s$s'locale' => [\n";
-            $stringConfig .= "$s$s$s'process' => " . $arrConfig['locale']['process'] . ",\n";
+            $stringConfig .= "$s$s$s'process'     => " . $arrConfig['locale']['process'] . ",\n";
             $stringConfig .= "$s$s$s'auto_detect' => " . $arrConfig['locale']['auto_detect'] . ",\n";
-            $stringConfig .= "$s$s$s'code' => '" . $arrConfig['locale']['code'] . "', // default / current language\n";
+            $stringConfig .= "$s$s$s'code'        => '" . $arrConfig['locale']['code'] . "', // default / current language\n";
             $stringConfig .= "$s$s$s'active' => [\n";
             foreach ($arrConfig['locale']['active'] as $key => $value) {
                 $stringConfig .= "$s$s$s$s'$key' => '$value',\n";
