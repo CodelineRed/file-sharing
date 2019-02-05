@@ -1,5 +1,5 @@
 <div class="modal fade" id="cookie-policy" tabindex="-1" role="dialog" aria-labelledby="cookie-policy-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="cookie-policy-title">{{ 'cookie-policy-title'|trans }}</h5>
@@ -10,76 +10,85 @@
             <div class="modal-body">
                 {{ 'cookie-policy-text'|trans|raw }}
                 
-                <div class="table-responsive mt-3">
-                    <table class="table table-striped table-dark">
-                        <thead>
-                            <tr>
-                                <th scope="col"><span class="text-nowrap">Name</span></th>
-                                <th scope="col"><span class="text-nowrap">Anbieter</span></th>
-                                <th scope="col"><span class="text-nowrap">Zweck</span></th>
-                                <th scope="col"><span class="text-nowrap">Ablauf</span></th>
-                                <th scope="col"><span class="text-nowrap">Typ</span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>PHPSESSID</td>
-                                <td>{{ base_url() }}/</td>
-                                <td>Behält die Zustände des Benutzers bei allen Seitenanfragen bei.</td>
-                                <td>Session</td>
-                                <td>HTTP</td>
-                            </tr>
-                            <tr>
-                                <td>auto_detect</td>
-                                <td>{{ base_url() }}/</td>
-                                <td>Wird gesetzt, wenn der Benutzer auf seine bevorzugte Sprache umgeleitet wurde.</td>
-                                <td>Session</td>
-                                <td>HTTP</td>
-                            </tr>
-                            <tr>
-                                <td>cookieconsent_status</td>
-                                <td>{{ base_url() }}/</td>
-                                <td>Speichert den Zustimmungsstatus des Benutzers für Cookies auf der aktuellen Domäne.</td>
-                                <td><span class="text-nowrap">1 Jahr</span></td>
-                                <td>HTTP</td>
-                            </tr>
-                            <tr>
-                                <td>current_locale</td>
-                                <td>{{ base_url() }}/</td>
-                                <td>Speichert in welcher Sprache die Webseite angezeigt wird.</td>
-                                <td><span class="text-nowrap">1 Jahr</span></td>
-                                <td>HTTP</td>
-                            </tr>
-                            <tr>
-                                <td>1P_JAR</td>
-                                <td>google.com</td>
-                                <td></td>
-                                <td><span class="text-nowrap">1 Monat</span></td>
-                                <td>HTTP</td>
-                            </tr>
-                            <tr>
-                                <td>CONSENT</td>
-                                <td>google.com</td>
-                                <td></td>
-                                <td><span class="text-nowrap">20 Jahre</span></td>
-                                <td>HTTP</td>
-                            </tr>
-                            <tr>
-                                <td>NID</td>
-                                <td>google.com</td>
-                                <td></td>
-                                <td><span class="text-nowrap">6 Monate</span></td>
-                                <td>HTTP</td>
-                            </tr>
-                            <tr>
-                                <td>OGPC</td>
-                                <td>google.com</td>
-                                <td></td>
-                                <td><span class="text-nowrap">1 Monat</span></td>
-                                <td>HTTP</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <br/>
+                <button class="btn btn-primary mt-2" type="button" data-toggle="collapse" data-target="#cookie-policy-collapse" aria-expanded="false" aria-controls="cookie-policy-collapse">{{ 'cpm-sdi'|trans }}</button>
+                
+                <div class="collapse" id="cookie-policy-collapse">
+                    <div class="table-responsive my-3">
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><span class="text-nowrap">{{ 'name'|trans }}</span></th>
+                                    <th scope="col"><span class="text-nowrap">{{ 'provider'|trans }}</span></th>
+                                    <th scope="col"><span class="text-nowrap">{{ 'purpose'|trans }}</span></th>
+                                    <th scope="col"><span class="text-nowrap">{{ 'expires'|trans }}</span></th>
+                                    <th scope="col"><span class="text-nowrap">{{ 'type'|trans({0: ''}) }}</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PHPSESSID</td>
+                                    <td>fs.insanitymeetshh.net</td>
+                                    <td>{{ 'cpm-php'|trans }}</td>
+                                    <td>{{ 'session'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '1'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>auto_detect</td>
+                                    <td>fs.insanitymeetshh.net</td>
+                                    <td>{{ 'cpm-auto-detect'|trans }}</td>
+                                    <td>{{ 'session'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '2'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>cookieconsent_status</td>
+                                    <td>fs.insanitymeetshh.net</td>
+                                    <td>{{ 'cpm-cc-status'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'year'|trans({0: '1'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '2'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>current_locale</td>
+                                    <td>fs.insanitymeetshh.net</td>
+                                    <td>{{ 'cpm-current-locale'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'year'|trans({0: '1'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '2'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1P_JAR</td>
+                                    <td>Google</td>
+                                    <td>{{ 'cpm-1pjar'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'month'|trans({0: '1'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '4'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>CONSENT</td>
+                                    <td>Google</td>
+                                    <td>{{ 'cpm-consent'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'years'|trans({0: '20'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '4'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>NID</td>
+                                    <td>Google</td>
+                                    <td>{{ 'cpm-nid'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'months'|trans({0: '6'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '4'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>OGPC</td>
+                                    <td>Google</td>
+                                    <td>{{ 'cpm-ogpc'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'month'|trans({0: '1'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '4'}) }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{ 'cpm-type1'|trans }}<br/>
+                        {{ 'cpm-type2'|trans }}<br/>
+                        {{ 'cpm-type3'|trans }}<br/>
+                        {{ 'cpm-type4'|trans }}<br/>
+                    </div>
                 </div>
             </div>
         </div>

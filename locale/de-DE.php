@@ -3,6 +3,12 @@
 return [
     'user' => 'Benutzer',
     'role' => 'Rolle',
+    'name' => 'Name',
+    'provider' => 'Anbieter',
+    'purpose' => 'Zweck',
+    'expires' => 'Ablauf',
+    'type' => 'Typ %1$s',
+    'session' => 'Session',
     'password' => 'Passwort',
     'password-repeat' => 'Passwort wiederholen',
     'user-name' => 'Benutzername',
@@ -110,6 +116,7 @@ return [
     'register-flash-m12' => 'Passwort muss mind. einen großen Buchstaben haben',
     'register-flash-m13' => 'Passwort muss mind. ein Sonderzeichen haben',
     
+    // cookie layer
     'cl-header' => 'Cookies auf der Website verwendet!',
     'cl-message' => 'Diese Website verwendet Cookies, um sicherzustellen, dass Sie die beste Erfahrung auf unserer Website erhalten. Sie geben Einwilligung zu unseren Cookies, wenn Sie unsere Webseite weiterhin nutzen.',
     'cl-dismiss' => 'Verstanden!',
@@ -121,6 +128,21 @@ return [
     'cl-allow-link' => 'Cookies zulassen',
     'cl-policy' => 'Cookie-Richtlinie',
     'cl-href' => '#datenschutz',
+    
+    // cookie policy modal
+    'cpm-sdi' => 'Detaillierte Informationen anzeigen',
+    'cpm-php' => 'Behält die Zustände des Benutzers bei allen Seitenanfragen bei.',
+    'cpm-auto-detect' => 'Wird gesetzt, wenn der Benutzer auf seine bevorzugte Sprache umgeleitet wurde.',
+    'cpm-cc-status' => 'Speichert den Zustimmungsstatus des Benutzers für Cookies auf der aktuellen Domäne.',
+    'cpm-current-locale' => 'Speichert in welcher Sprache die Webseite angezeigt wird.',
+    'cpm-1pjar' => 'Google verwendet diese Cookies basierend auf den letzten Suchanfragen und Interaktionen, um die Anzeigen auf Google-Websites anzupassen.',
+    'cpm-consent' => 'Dieses Cookie wird von Google für die Cookie-Zustimmung verwendet.',
+    'cpm-nid' => 'Diese Cookies werden von Google verwendet, um Benutzervorlieben und Informationen zu speichern, wenn Seiten mit Google Maps angezeigt werden.',
+    'cpm-ogpc' => 'Diese Cookies werden von Google verwendet, um Benutzervorlieben und Informationen zu speichern, wenn Seiten mit Google Maps angezeigt werden.',
+    'cpm-type1' => 'Typ 1 = Unbedingt erforderliches Cookie',
+    'cpm-type2' => 'Typ 2 = Funktions-Cookie',
+    'cpm-type3' => 'Typ 3 = Leistungs-Cookie',
+    'cpm-type4' => 'Typ 4 = Cookie Dritter',
     
     // navigation labels
     'page-index-label' => 'Startseite',
@@ -146,4 +168,9 @@ return [
     'time' => 'H:i \U\h\r',
     'datetime' => 'd.m.Y H:i \U\h\r',
     'timezone' => 'Europe/Berlin',
+    
+    'month' => '%1$s Monat',
+    'months' => '%1$s Monate',
+    'year' => '%1$s Jahr',
+    'years' => '%1$s Jahre',
 ];

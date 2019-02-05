@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - role selection, remove user and hide user to `user/show-all.html.twig`
 - confirm window if a record should be removed
 - Cookie policy modal text and table
+- database model (`db-model.png`)
 
 ### Changed
 - `.gitignore`

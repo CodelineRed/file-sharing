@@ -3,6 +3,12 @@
 return [
     'user' => 'User',
     'role' => 'Role',
+    'name' => 'Name',
+    'provider' => 'Provider',
+    'purpose' => 'Purpose',
+    'expires' => 'Expires',
+    'type' => 'Type %1$s',
+    'session' => 'Session',
     'password' => 'Password',
     'password-repeat' => 'Password repeat',
     'user-name' => 'User name',
@@ -110,6 +116,7 @@ return [
     'register-flash-m12' => 'Password must include at least one uppercase letter',
     'register-flash-m13' => 'Password must include at least one symbol',
     
+    // cookie layer
     'cl-header' => 'Cookies used on the website!',
     'cl-message' => 'This website uses cookies to ensure you get the best experience on our website. You agree to our cookies if you continue to use our website.',
     'cl-dismiss' => 'Got it!',
@@ -121,6 +128,21 @@ return [
     'cl-allow-link' => 'Allow cookies',
     'cl-policy' => 'Cookie Policy',
     'cl-href' => '#privacypolicy',
+    
+    // cookie policy modal
+    'cpm-sdi' => 'Show detailed information',
+    'cpm-php' => 'Maintains user states on all page requests.',
+    'cpm-auto-detect' => 'Set when the user has been redirected to their preferred language.',
+    'cpm-cc-status' => 'Saves the consent status of the user for cookies on the current domain.',
+    'cpm-current-locale' => 'Saves in which language the web page is displayed.',
+    'cpm-1pjar' => 'Google uses these cookies, based on recent searches and interactions, to customise ads on Google websites.',
+    'cpm-consent' => 'This cookie is used by Google for cookie approval.',
+    'cpm-nid' => 'These cookies are used by Google to store user preferences and information when viewing pages with Google maps on them.',
+    'cpm-ogpc' => 'These cookies are used by Google to store user preferences and information when viewing pages with Google maps on them.',
+    'cpm-type1' => 'Type 1 = Absolutely required cookie',
+    'cpm-type2' => 'Type 2 = Function cookie',
+    'cpm-type3' => 'Type 3 = Service cookie',
+    'cpm-type4' => 'Type 4 = Third party cookie',
     
     // navigation labels
     'page-index-label' => 'Home',
@@ -146,4 +168,9 @@ return [
     'time' => 'g:ia',
     'datetime' => 'Y-m-d g:ia',
     'timezone' => 'America/New_York',
+    
+    'month' => '%1$s month',
+    'months' => '%1$s months',
+    'year' => '%1$s year',
+    'years' => '%1$s years',
 ];
