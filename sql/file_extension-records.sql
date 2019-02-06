@@ -1,4 +1,4 @@
-INSERT INTO `imhhfs_file_extension` (`id`, `name`, `file_type`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `imhhfs_file_extension` (`id`, `name`, `file_type_id`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (NULL, '.jpg', 1, 0, 0, now(), now()),
 (NULL, '.jpeg', 1, 0, 0, now(), now()),
 (NULL, '.gif', 1, 0, 0, now(), now()),

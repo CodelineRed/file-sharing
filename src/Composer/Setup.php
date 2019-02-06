@@ -167,7 +167,7 @@ class Setup {
             echo self::getColoredString('2: ', 'yellow') . self::getColoredString("domain / subdomain for each translation", 'green');
             echo "\n";
             // \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED
-            echo self::getColoredString('3: ', 'yellow') . self::getColoredString("one domain for all translations like youtube.com", 'green');
+            echo self::getColoredString('3: ', 'yellow') . self::getColoredString("one domain for all translations like youtube.com (recommended)", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 

@@ -7,9 +7,9 @@ DROP TABLE IF EXISTS `imhhfs_file`;
 CREATE TABLE `imhhfs_file` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `extension` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `file_extension_id` int(11) DEFAULT NULL,
   `mime_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -21,17 +21,17 @@ CREATE TABLE `imhhfs_file` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_F2FAB98593CB796C` (`file_id`),
   KEY `IDX_F2FAB985A76ED395` (`user_id`),
-  KEY `IDX_F2FAB9859FB73D77` (`extension`),
+  KEY `IDX_F2FAB985AB8C6E61` (`file_extension_id`),
   CONSTRAINT `FK_F2FAB98593CB796C` FOREIGN KEY (`file_id`) REFERENCES `imhhfs_file` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `FK_F2FAB9859FB73D77` FOREIGN KEY (`extension`) REFERENCES `imhhfs_file_extension` (`id`),
-  CONSTRAINT `FK_F2FAB985A76ED395` FOREIGN KEY (`user_id`) REFERENCES `imhhfs_user` (`id`)
+  CONSTRAINT `FK_F2FAB985A76ED395` FOREIGN KEY (`user_id`) REFERENCES `imhhfs_user` (`id`),
+  CONSTRAINT `FK_F2FAB985AB8C6E61` FOREIGN KEY (`file_extension_id`) REFERENCES `imhhfs_file_extension` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 DROP TABLE IF EXISTS `imhhfs_file_extension`;
 CREATE TABLE `imhhfs_file_extension` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `file_type` int(11) DEFAULT NULL,
+  `file_type_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
@@ -39,11 +39,11 @@ CREATE TABLE `imhhfs_file_extension` (
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_AB8A0B9B5E237E06` (`name`),
-  KEY `IDX_AB8A0B9B5223F47` (`file_type`),
-  CONSTRAINT `FK_AB8A0B9B5223F47` FOREIGN KEY (`file_type`) REFERENCES `imhhfs_file_type` (`id`)
+  KEY `IDX_AB8A0B9B9E2A35A8` (`file_type_id`),
+  CONSTRAINT `FK_AB8A0B9B9E2A35A8` FOREIGN KEY (`file_type_id`) REFERENCES `imhhfs_file_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `imhhfs_file_extension` (`id`, `file_type`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `imhhfs_file_extension` (`id`, `file_type_id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1,	1,	'.jpg',	0,	0,	now(),	now()),
 (2,	1,	'.jpeg',	0,	0,	now(),	now()),
 (3,	1,	'.gif',	0,	0,	now(),	now()),

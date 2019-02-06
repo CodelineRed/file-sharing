@@ -45,7 +45,7 @@
         "gulp-uglify": "^3.0.1"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.7.0",
+        "@fortawesome/fontawesome-free": "^5.7.1",
         "bootstrap": "^4.2.1",
         "cookieconsent": "^3.1.0",
         "cookieconsent-scss-less": "^3.0.6",

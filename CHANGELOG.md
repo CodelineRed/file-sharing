@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - `.gitignore`
 - `deploy.sh`
+- `README.md`
 - [Setup.php](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Composer/Setup.php)
 - [`additional-settings.dist.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php)
 - [`settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php)
@@ -38,14 +39,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `locale/en-US.php`
 - `locale/de-DE.php`
 - DataTable init call
+- `imhhfs_file_extension.file_type` to `imhhfs_file_extension.file_type_id`
+- `imhhfs_file.extension` to `imhhfs_file.file_extension_id`
+- `user-show` route to be like domain.com/{name}
 
 ### Fixed
 - `langswitch.js`
+- switch button hover
 
 ### Removed
-- `/profile/[{name}/]` route and replaced by `/{name}/`
-- `/user/create/` route and replaced by `/register/`
-- `/user/save/` route and replaced by `/complete-register/`
+- `user-create` route and replaced by `user-register`
+- `user-save` route and replaced by `user-register-save`
 
 ## [2.3.1] - 2018-10-22
 ### Fixed

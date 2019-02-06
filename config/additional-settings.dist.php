@@ -11,6 +11,7 @@ return [
                 'port'     => isset($_ENV['APP_DB_PORT']) ? $_ENV['APP_DB_PORT'] : 3306,
                 'user'     => isset($_ENV['APP_DB_USER']) ? $_ENV['APP_DB_USER'] : '',
                 'password' => isset($_ENV['APP_DB_PASSWORD']) ? $_ENV['APP_DB_PASSWORD'] : '',
+                //'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock',
             ],
         ],
 

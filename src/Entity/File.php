@@ -34,7 +34,7 @@ class File extends \App\MappedSuperclass\Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="FileExtension", inversedBy="files")
-     * @ORM\JoinColumn(name="extension", referencedColumnName="id")
+     * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id")
      */
     private $extension;
     

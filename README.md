@@ -24,7 +24,7 @@ $ gulp build
 * Get skeleton via `$ git clone` or zip download
 * Open a command prompt on your OS (if not already open) and navigate to the project folder
 * `$ npm i`
-* `$ gulp prod`
+* `$ gulp build`
 * `$ docker pull composer`
 * `$ docker run --rm --env docker=true --interactive --tty --volume $PWD:/app composer update`
 * `$ docker-compose build`
@@ -36,3 +36,6 @@ $ gulp build
 * If you want to remove a volume `$ docker volume rm [volume-name]` e.g. `$ docker volume rm imhh-fs_db_data` (first remove matching container)
 * If you want to remove all container `$ docker rm $(docker ps -a -q) -f`
 * If you want to remove all volumes `$ docker volume prune` (first remove all container)
+
+## Sources
+* [DataTables Translations](https://datatables.net/plug-ins/i18n/)
