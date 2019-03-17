@@ -37,9 +37,11 @@ function initCookieConsent() {
             onInitialise: function(status) {
                 var type = this.options.type;
                 var didConsent = this.hasConsented();
+                
                 if (type === 'opt-in' && didConsent) {
                     // enable cookies
                 }
+                
                 if (type === 'opt-out' && !didConsent) {
                     // disable cookies
                 }
@@ -58,9 +60,11 @@ function initCookieConsent() {
             onStatusChange: function(status, chosenBefore) {
                 var type = this.options.type;
                 var didConsent = this.hasConsented();
+                
                 if (type === 'opt-in' && didConsent) {
                     // enable cookies
                 }
+                
                 if (type ==='opt-out' && !didConsent) {
                     // disable cookies
                 }
@@ -72,12 +76,17 @@ function initCookieConsent() {
             },
             onRevokeChoice: function() {
                 var type = this.options.type;
+                
                 if (type === 'opt-in') {
                     // disable cookies
                 }
+                
                 if (type === 'opt-out') {
                     // enable cookies
                 }
+
+                // set .cc-window at the top of body to enable bottom margin on .container
+                $('body').prepend($('.cc-window'));
             }
         });
     })(jQuery);

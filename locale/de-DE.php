@@ -15,6 +15,7 @@ return [
     'login' => 'Login',
     'created-at' => 'Erstellt am',
     'updated-at' => 'Bearbeitet am',
+    'construction' => 'Dieser Service ist vorübergehend nicht verfügbar',
     'failed-csrf' => 'CSRF-Prüfung nicht bestanden',
     'not-allowed-method' => 'Methode muss eine der folgenden sein',
     'page-not-found' => 'Seite nicht gefunden',

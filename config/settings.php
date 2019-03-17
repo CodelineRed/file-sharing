@@ -24,6 +24,12 @@ return [
         // Google QR Code title
         '2fa_qrc_title' => null,
         
+        // pages for the public
+        'active_pages' => [
+            'login'    => TRUE,
+            'register' => TRUE,
+        ],
+        
         // User validation
         'validation' => [
             'min_user_name_length'    => 4,
@@ -34,7 +40,7 @@ return [
 
         // Monolog settings
         'logger' => [
-            'name'  => 'slim-app',
+            'name'  => 'file-sharing',
             'path'  => __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],

@@ -20,7 +20,7 @@
                     {% if roles|length > 0 %}
                     <div class="mb-2">
                         {{ 'role'|trans }}: 
-                        <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                        <select class="custom-select custom-control-inline w-50 ml-2" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                         {% for role in roles %}
                             {% set selected = '' %}
                             {% if user.role.id is same as(role.id) %}

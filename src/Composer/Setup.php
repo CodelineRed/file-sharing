@@ -158,7 +158,7 @@ class Setup {
             echo self::getColoredString("Setup Locale Settings\n", 'yellow', NULL, ['underscore']);
 
             // Ask for locale process
-            echo self::getColoredString("Please enter number of locale process (default: ", 'green') . self::getColoredString("1", 'yellow') . self::getColoredString(")", 'green');
+            echo self::getColoredString("Please enter number of locale process (default: ", 'green') . self::getColoredString("3", 'yellow') . self::getColoredString(")", 'green');
             echo "\n";
             // \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED
             echo self::getColoredString('1: ', 'yellow') . self::getColoredString("translation with path segment e.g. example.com/de/", 'green');
@@ -187,7 +187,7 @@ class Setup {
 
                 default:
                     if (empty($strLocaleProcess)) {
-                        $arrConfig['locale']['process'] = "\App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED";
+                        $arrConfig['locale']['process'] = "\App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED";
                     } else {
                         echo self::getColoredString("Locale process " . $strLocaleProcess . " does not exists!", 'white', 'red');
                         die("\n");

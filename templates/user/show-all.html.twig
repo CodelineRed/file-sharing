@@ -31,7 +31,7 @@
                             <td data-order="{{ user.createdAt|date('c') }}"><span class="text-nowrap">{{ user.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
                             {% if has_role({0: 'superadmin'}) and roles|length > 0 %}
                             <td data-order="{{ user.role.id }}">
-                                <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <select class="custom-select" style="width: 130px;" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                                 {% for role in roles %}
                                     {% set selected = '' %}
                                     {% if user.role.id is same as(role.id) %}

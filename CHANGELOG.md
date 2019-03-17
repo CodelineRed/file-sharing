@@ -16,12 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `{% htmlcompress %}...{% endhtmlcompress %}` to [`templates/layouts/layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - `<header>`, `<main>` and `<footer>` html tag to [`templates/layouts/layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - register form
-- Settings for user validation
+- settings for user validation
+- settings for active pages
 - user validation function
 - role selection, remove user and hide user to `user/show-all.html.twig`
 - confirm window if a record should be removed
 - Cookie policy modal text and table
 - database model (`db-model.png`)
+- [`gulpfile-config.dist.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile-config.dist.json)
+- `postinstall` script in [`npm-postinstall.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/npm-postinstall.php)
+- database column comments
+- cookiesAllowed JavaScript variable
+- construction partial
 
 ### Changed
 - `.gitignore`

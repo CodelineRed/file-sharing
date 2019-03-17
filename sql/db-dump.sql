@@ -1,3 +1,5 @@
+-- MySQL dump
+
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
@@ -8,12 +10,12 @@ CREATE TABLE `imhhfs_file` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'File name in upload folder',
   `file_extension_id` int(11) DEFAULT NULL,
   `mime_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Size in bytes',
   `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `file_included` tinyint(1) NOT NULL,
+  `file_included` tinyint(1) NOT NULL COMMENT '1 if note is related to a file',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -109,7 +111,7 @@ DROP TABLE IF EXISTS `imhhfs_recovery_code`;
 CREATE TABLE `imhhfs_recovery_code` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Encoded recovery code',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -143,9 +145,9 @@ CREATE TABLE `imhhfs_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `pass` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `two_factor` tinyint(1) NOT NULL,
-  `two_factor_secret` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `pass` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Encoded password',
+  `two_factor` tinyint(1) NOT NULL COMMENT '1 if 2FA is enabled',
+  `two_factor_secret` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Secret for 2FA validation and authenticator app',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,

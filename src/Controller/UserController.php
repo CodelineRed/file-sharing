@@ -21,6 +21,10 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function registerAction($request, $response, $args) {
+        if ($this->settings['active_pages']['register'] === FALSE && $this->currentRole !== 'superadmin') {
+            return $this->view->render($response, 'partials/construction.html.twig', array_merge($args, []));
+        }
+        
         // Render view
         return $this->view->render($response, 'user/register.html.twig', array_merge($args, []));
     }
@@ -34,6 +38,10 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function saveRegisterAction($request, $response, $args) {
+        if ($this->settings['active_pages']['register'] === FALSE && $this->currentRole !== 'superadmin') {
+            return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
+        }
+        
         $recaptcha = new \ReCaptcha\ReCaptcha($this->settings['recaptcha']['secret']);
         $resp = $recaptcha->setExpectedHostname($_SERVER['SERVER_NAME'])
             ->verify($request->getParam('g-recaptcha-response'), GeneralUtility::getUserIP());
@@ -189,6 +197,10 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function loginAction($request, $response, $args) {
+        if ($this->settings['active_pages']['login'] === FALSE && $this->currentRole !== 'superadmin') {
+            return $this->view->render($response, 'partials/construction.html.twig', array_merge($args, []));
+        }
+        
         // Render view
         return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
     }
@@ -202,6 +214,10 @@ class UserController extends BaseController {
      * @return static
      */
     public function loginValidateAction($request, $response, $args) {
+        if ($this->settings['active_pages']['login'] === FALSE && $this->currentRole !== 'superadmin') {
+            return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
+        }
+        
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name'), 'hidden' => 0]);
         unset($_SESSION['tempUser']);
         

@@ -1,0 +1,5 @@
+{
+    "localServer": "http://localhost/imhh-fs/public/",
+    "sourcePath": "gulpfiles/",
+    "publicPath": "public/"
+}

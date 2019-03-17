@@ -15,6 +15,7 @@ return [
     'login' => 'Login',
     'created-at' => 'Created at',
     'updated-at' => 'Updated at',
+    'construction' => 'This service is temporarily not available',
     'failed-csrf' => 'Failed CSRF check',
     'not-allowed-method' => 'Method must be one of',
     'page-not-found' => 'Page not found',
