@@ -37,9 +37,11 @@
                                     <input type="password" class="form-control" name="user_pass_repeat" id="user_pass_repeat" />
                                 </div>
                             </div>
+                        {% if settings.recaptcha.site and settings.recaptcha.site|length > 20 %}
                             <div class="col-12 mb-3">
                                 <div class="g-recaptcha" data-sitekey="{{ settings.recaptcha.site }}"></div>
                             </div>
+                        {% endif %}
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
                             </div>

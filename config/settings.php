@@ -35,6 +35,10 @@ return [
             'min_user_name_length'    => 4,
             'max_user_name_length'    => 50,
             'min_password_length'     => 6,
+            'password_with_digit'     => TRUE, // digit required
+            'password_with_lcc'       => TRUE, // lowercase character required
+            'password_with_ucc'       => TRUE, // uppercase character required
+            'password_with_nwc'       => TRUE, // non-word character required
             'allowed_user_name_chars' => str_split('abcdefghijklmnopqrstuvwxyz0123456789-_'),
         ],
 

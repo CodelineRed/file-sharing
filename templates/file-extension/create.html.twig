@@ -20,13 +20,13 @@
                                 </div>
                             </div>
                             <div class="col-12 mb-2">
-                                {% if fileTypes|length > 0 %}
+                            {% if fileTypes|length > 0 %}
                                 <select class="custom-select" name="file_type">
-                                    {% for fileType in fileTypes %}
+                                {% for fileType in fileTypes %}
                                     <option value="{{ fileType.name }}">{{ fileType.name }}</option>
-                                    {% endfor %}
+                                {% endfor %}
                                 </select>
-                                {% endif %}
+                            {% endif %}
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="custom-control custom-checkbox">

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `nochso/html-compress-twig` dependency
 - `google/recaptcha` dependency
+- `symfony/console` dependency
 - `composer.lock`
 - `package-lock.json`
 - `lang` attribute to langswitch
@@ -28,6 +29,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - database column comments
 - cookiesAllowed JavaScript variable
 - construction partial
+- Bootstrap dropdown, nav, display and float
+- CI for twig templates
+- pseudo headlines for error templates
+- condition for reCAPTCHA in layout.html.twig, register.html.twig and UserController
+- responsive font size
+- prevention of duplicated note file names
+- burger navigation
 
 ### Changed
 - `.gitignore`
@@ -56,6 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - `user-create` route and replaced by `user-register`
 - `user-save` route and replaced by `user-register-save`
+- Font Awesome JS/SVG Framework from build process
+- redundantly error message in FileController
 
 ## [2.3.1] - 2018-10-22
 ### Fixed

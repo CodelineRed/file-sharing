@@ -12,7 +12,7 @@ a {
     color: $white;
     
     table {
-        font-size: .75em;
+        @include font-size($font-size-base * .75);
     }
 }
 

@@ -9,13 +9,14 @@ This application based on [Slim Skeleton 5](https://github.com/InsanityMeetsHH/S
 * [npm](http://www.npmjs.com/get-npm) `$ npm i npm@latest -g`
 * [gulp-cli](https://www.npmjs.com/package/gulp-cli) `$ npm i gulp-cli@latest -g`
 * PHP => 5.5
-* Database like MySQL
+* MySQL
 * [Docker](https://www.docker.com/) ([for installation with Docker](https://github.com/InsanityMeetsHH/file-sharing#installation-with-docker))
 
 ## Installation with [Composer](https://getcomposer.org/) (Recommended)
 
 ```bash
-$ composer create-project insanitymeetshh/file-sharing [my-app-name]
+$ composer create-project insanitymeetshh/file-sharing [app-name]
+$ cd [app-name]
 $ npm i
 $ gulp build
 ```

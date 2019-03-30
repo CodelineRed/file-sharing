@@ -7,12 +7,12 @@
             <br/>
             {{ 'recovery-codes-text'|trans|raw }}<br/>
             <br/>
-            {# loop through records #}
-            {% if recoveryCodes %}
-                {% for recoveryCode in recoveryCodes %}
-                    <b>{{ recoveryCode }}</b><br/>
-                {% endfor %}
-            {% endif %}
+        {# loop through records #}
+        {% if recoveryCodes %}
+            {% for recoveryCode in recoveryCodes %}
+                <b>{{ recoveryCode }}</b><br/>
+            {% endfor %}
+        {% endif %}
             <br/>
             {{ 'back-to'|trans({0: 'm'}) }} <a href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}">{{ trans('user-show-label') }}</a>.
         </div>

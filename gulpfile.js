@@ -45,7 +45,7 @@ function js() {
     return gulp.src([
             'node_modules/jquery/dist/jquery.js',
             'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
-            'node_modules/@fortawesome/fontawesome-free/js/all.js',
+            //'node_modules/@fortawesome/fontawesome-free/js/all.js',
             config.sourcePath + 'js/lib/**/*.js',
             'node_modules/cookieconsent/src/cookieconsent.js',
             'node_modules/cssuseragent/cssua.js',

@@ -41,12 +41,16 @@ class UserController extends BaseController {
         if ($this->settings['active_pages']['register'] === FALSE && $this->currentRole !== 'superadmin') {
             return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
         }
+        $rcRespSuccess = TRUE;
         
-        $recaptcha = new \ReCaptcha\ReCaptcha($this->settings['recaptcha']['secret']);
-        $resp = $recaptcha->setExpectedHostname($_SERVER['SERVER_NAME'])
-            ->verify($request->getParam('g-recaptcha-response'), GeneralUtility::getUserIP());
+        if (isset($this->settings['recaptcha']['secret']) && strlen($this->settings['recaptcha']['secret']) > 20) {
+            $recaptcha = new \ReCaptcha\ReCaptcha($this->settings['recaptcha']['secret']);
+            $resp = $recaptcha->setExpectedHostname($_SERVER['SERVER_NAME'])
+                ->verify($request->getParam('g-recaptcha-response'), GeneralUtility::getUserIP());
+            $rcRespSuccess = $resp->isSuccess();
+        }
         
-        if ($resp->isSuccess() || isset($_ENV['docker'])) {
+        if ($rcRespSuccess || isset($_ENV['docker'])) {
             // if validation passed
             if (GeneralUtility::validateUser($request)) {
                 $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m5') . ';' . self::STYLE_SUCCESS);

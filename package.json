@@ -1,6 +1,6 @@
 {
     "name": "file-sharing",
-    "version": "4.0.0",
+    "version": "3.0.0",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",
@@ -45,7 +45,7 @@
         "gulp-uglify": "^3.0.2"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "~5.7.1",
+        "@fortawesome/fontawesome-free": "~5.8.1",
         "bootstrap": "~4.3.1",
         "cookieconsent": "^3.1.0",
         "cookieconsent-scss-less": "^3.0.6",
