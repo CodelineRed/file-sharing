@@ -311,7 +311,7 @@ class Setup {
                 $arrConfig['validation']['password_with_digit'] = $strPasswordWithDigit;
             }
             
-            // Ask for min_user_name_length
+            // Ask for password_with_lcc
             echo self::getColoredString("Are lowercase characters required for passwords? (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
@@ -325,7 +325,7 @@ class Setup {
                 $arrConfig['validation']['password_with_lcc'] = $strPasswordWithLcc;
             }
             
-            // Ask for min_user_name_length
+            // Ask for password_with_ucc
             echo self::getColoredString("Are uppercase characters required for passwords? (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
@@ -339,7 +339,7 @@ class Setup {
                 $arrConfig['validation']['password_with_ucc'] = $strPasswordWithUcc;
             }
             
-            // Ask for min_user_name_length
+            // Ask for password_with_nwc
             echo self::getColoredString("Are special / non-word characters required for passwords? (default: ", 'green') . self::getColoredString("TRUE", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";

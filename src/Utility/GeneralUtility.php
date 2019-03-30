@@ -174,25 +174,25 @@ class GeneralUtility {
         }
 
         // if password contains no number
-        if (!preg_match('/[0-9]+/', $userPass) && $settings['validation']['password_with_digit']) {
+        if (!preg_match('/[0-9]+/', $userPass) && $settings['validation']['password_with_digit'] === TRUE) {
             $flash->addMessage('message', LanguageUtility::trans('register-flash-m10') . ';' . BaseController::STYLE_DANGER);
             $error = TRUE;
         }
 
         // if password contains no lowercase letter
-        if (!preg_match('/[a-z]+/', $userPass) && $settings['validation']['password_with_lcc']) {
+        if (!preg_match('/[a-z]+/', $userPass) && $settings['validation']['password_with_lcc'] === TRUE) {
             $flash->addMessage('message', LanguageUtility::trans('register-flash-m11') . ';' . BaseController::STYLE_DANGER);
             $error = TRUE;
         }
 
         // if password contains no uppercase letter
-        if (!preg_match('/[A-Z]+/', $userPass) && $settings['validation']['password_with_ucc']) {
+        if (!preg_match('/[A-Z]+/', $userPass) && $settings['validation']['password_with_ucc'] === TRUE) {
             $flash->addMessage('message', LanguageUtility::trans('register-flash-m12') . ';' . BaseController::STYLE_DANGER);
             $error = TRUE;
         }
 
         // if password contains no non-word character
-        if (!preg_match('/\W+/', $userPass) && $settings['validation']['password_with_nwc']) {
+        if (!preg_match('/\W+/', $userPass) && $settings['validation']['password_with_nwc'] === TRUE) {
             $flash->addMessage('message', LanguageUtility::trans('register-flash-m13') . ';' . BaseController::STYLE_DANGER);
             $error = TRUE;
         }
