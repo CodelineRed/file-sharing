@@ -6,12 +6,12 @@ return [
         // Doctrine settings
         'doctrine' => [
             'connection' => [
-                'dbname'   => isset($_ENV['APP_DB_NAME']) ? $_ENV['APP_DB_NAME'] : 'imhh_file_sharing',
-                'host'     => isset($_ENV['APP_DB_HOST']) ? $_ENV['APP_DB_HOST'] : '127.0.0.1',
-                'port'     => isset($_ENV['APP_DB_PORT']) ? $_ENV['APP_DB_PORT'] : 3306,
-                'user'     => isset($_ENV['APP_DB_USER']) ? $_ENV['APP_DB_USER'] : '',
-                'password' => isset($_ENV['APP_DB_PASSWORD']) ? $_ENV['APP_DB_PASSWORD'] : '',
-                //'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock',
+                'dbname'      => isset($_ENV['APP_DB_NAME']) ? $_ENV['APP_DB_NAME'] : 'imhh_file_sharing',
+                'host'        => isset($_ENV['APP_DB_HOST']) ? $_ENV['APP_DB_HOST'] : 'localhost',
+                'port'        => isset($_ENV['APP_DB_PORT']) ? $_ENV['APP_DB_PORT'] : 3306,
+                'user'        => isset($_ENV['APP_DB_USER']) ? $_ENV['APP_DB_USER'] : '',
+                'password'    => isset($_ENV['APP_DB_PASSWORD']) ? $_ENV['APP_DB_PASSWORD'] : '',
+                'unix_socket' => isset($_ENV['APP_DB_SOCKET']) ? $_ENV['APP_DB_SOCKET'] : '',
             ],
         ],
 

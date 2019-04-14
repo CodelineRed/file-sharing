@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - responsive font size
 - prevention of duplicated note file names
 - burger navigation
+- pdf viewer
 
 ### Changed
 - `.gitignore`
@@ -45,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [`additional-settings.dist.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php)
 - [`settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php)
 - [`localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/localisation.php)
-- All `user-show-` routes required `name` parameter
+- all `user-show-` routes required `name` parameter
 - `user/show.html.twig` to use less code
 - `localisation.php` to use less code
 - Docker database name
@@ -56,6 +57,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `imhhfs_file_extension.file_type` to `imhhfs_file_extension.file_type_id`
 - `imhhfs_file.extension` to `imhhfs_file.file_extension_id`
 - `user-show` route to be like domain.com/{name}
+- default database host `127.0.0.1` to `localhost`
+- Font Awesome 5.4 to Font Awesome 5.8
+- Bootstrap 4.1 to Bootstrap 4.3
+- jQuery 3.3 to jQuery 3.4
+- del 4.0 to del 4.1
+- gulp 3.9 to gulp 4.0
+- gulp-clean-css 3.10 to gulp-clean-css 4.0
+- gulp-imagemin 4.1 to gulp-imagemin 5.0
 
 ### Fixed
 - `langswitch.js`

@@ -35,6 +35,7 @@ services:
             APP_DB_NAME: slim_file_sharing
             APP_DB_USER: dockeruser
             APP_DB_PASSWORD: dockerpw
+            #APP_DB_SOCKET: /Applications/MAMP/tmp/mysql/mysql.sock
         build:
             context: ./
             dockerfile: Dockerfile

@@ -13,6 +13,32 @@ use App\Utility\LanguageUtility;
 class FileController extends BaseController {
     
     /**
+     * pdf viewer Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function pdfViewerAction($request, $response, $args) {
+        $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
+        
+        // if file exits and not hidden or current user is owner of file
+        if ($file instanceof File && !$file->isHidden() || $this->currentUser === $file->getUser()->getId()) {
+            if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
+                header("Content-Type: " . $file->getMimeType());
+//                header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
+                flush();
+                readfile($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+            }
+            exit;
+        }
+        
+        // Render view
+        return $this->view->render($response, 'file/pdf-viewer.html.twig', array_merge($args, []));
+    }
+    
+    /**
      * download Action
      * 
      * @param \Slim\Http\Request $request
@@ -58,7 +84,7 @@ class FileController extends BaseController {
             $source = file_get_contents($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
             
             // if file type one of the three
-            if (in_array($fileTypeName, ['image', 'audio', 'video'])) {
+            if (in_array($fileTypeName, ['image', 'audio', 'video', 'other'])) {
                 // encode file content
                 $source = base64_encode($source);
             }

@@ -68,6 +68,13 @@ return [
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],
+    'file-pdf-viewer' => [
+        'route'      => '/pdf-viewer/{uuid}/',
+        'method'     => 'App\Controller\FileController:pdfViewerAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
     'user-enable-two-factor' => [
         'route'      => '/enable-two-factor/',
         'method'     => 'App\Controller\UserController:enableTwoFactorAction',

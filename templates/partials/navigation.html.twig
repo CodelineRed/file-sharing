@@ -26,23 +26,23 @@
     </div>
     <div class="col-6 text-right d-md-none">
         {% include('partials/langswitch.html.twig') %}
+    {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) %}
         <div class="btn-group float-right ml-3">
-            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-info btn-burger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
-            <div class="dropdown-menu">
-            {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) %}
+            <div class="dropdown-menu burger-menu">
                 {% if has_role({0: 'superadmin'}) %}
-                    <a class="dropdown-item {% if is_current_path('file-extension-show-' ~ lc) %}current{% endif %}" href="{{ path_for('file-extension-show-' ~ lc) }}">{{ 'file-extension'|trans }} <i class="fas fa-file"></i></a>
-                    <a class="dropdown-item {% if is_current_path('file-extension-create-' ~ lc) %}current{% endif %}" href="{{ path_for('file-extension-create-' ~ lc) }}">{{ 'create'|trans }} <i class="fas fa-file-medical"></i></a>
-                    <a class="dropdown-item {% if is_current_path('user-show-all-' ~ lc) %}current{% endif %}" href="{{ path_for('user-show-all-' ~ lc) }}">{{ 'user-show-all-label'|trans }} <i class="fas fa-users"></i></a>
-                    <a class="dropdown-item {% if is_current_path('user-register-' ~ lc) %}current{% endif %}" href="{{ path_for('user-register-' ~ lc) }}">{{ 'create'|trans }} <i class="fas fa-user-plus"></i></a>
+                    <a class="dropdown-item {% if is_current_path('file-extension-show-' ~ lc) %}current{% endif %}" href="{{ path_for('file-extension-show-' ~ lc) }}"><i class="fas fa-fw fa-file text-left"></i> {{ 'file-extension'|trans }}</a>
+                    <a class="dropdown-item {% if is_current_path('file-extension-create-' ~ lc) %}current{% endif %}" href="{{ path_for('file-extension-create-' ~ lc) }}"><i class="fas fa-fw fa-file-medical text-left"></i> {{ 'create'|trans }}</a>
+                    <a class="dropdown-item {% if is_current_path('user-show-all-' ~ lc) %}current{% endif %}" href="{{ path_for('user-show-all-' ~ lc) }}"><i class="fas fa-fw fa-users text-left"></i> {{ 'user-show-all-label'|trans }}</a>
+                    <a class="dropdown-item {% if is_current_path('user-register-' ~ lc) %}current{% endif %}" href="{{ path_for('user-register-' ~ lc) }}"><i class="fas fa-fw fa-user-plus text-left"></i> {{ 'create'|trans }}</a>
                 {% endif %}
-                <a class="dropdown-item {% if is_current_path('user-show-' ~ lc, { 'name': name }) or is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}">{{ 'user-show-label'|trans }} <i class="fas fa-user"></i></a>
+                <a class="dropdown-item {% if is_current_path('user-show-' ~ lc, { 'name': name }) or is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}"><i class="fas fa-fw fa-user text-left"></i> {{ 'user-show-label'|trans }}</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ path_for('user-logout-' ~ glc) }}">{{ 'user-logout-label'|trans }} <i class="fas fa-sign-out-alt"></i></a>
-            {% endif %}
+                <a class="dropdown-item" href="{{ path_for('user-logout-' ~ glc) }}"><i class="fas fa-fw fa-sign-out-alt text-left"></i> {{ 'user-logout-label'|trans }}</a>
             </div>
         </div>
+    {% endif %}
     </div>
 </div>

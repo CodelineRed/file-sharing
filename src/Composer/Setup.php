@@ -64,7 +64,7 @@ class Setup {
             }
 
             // Ask for database host
-            echo self::getColoredString("Please enter database host (default: ", 'green') . self::getColoredString("127.0.0.1", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Please enter database host (default: ", 'green') . self::getColoredString("localhost", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
@@ -72,7 +72,7 @@ class Setup {
             fclose($strHandle);
 
             if (empty($strHost)) {
-                $arrConfig['database']['host'] = "127.0.0.1";
+                $arrConfig['database']['host'] = "localhost";
             } else {
                 $arrConfig['database']['host'] = $strHost;
             }
@@ -117,6 +117,20 @@ class Setup {
                 $arrConfig['database']['password'] = "";
             } else {
                 $arrConfig['database']['password'] = $strPassword;
+            }
+
+            // Ask for database socket
+            echo self::getColoredString("Please enter database socket (default: ", 'green') . self::getColoredString("empty string", 'yellow') . self::getColoredString("): ", 'green');
+            $strHandle = fopen("php://stdin", "r");
+            echo "\n";
+
+            $strSocket = trim(fgets($strHandle));
+            fclose($strHandle);
+
+            if (empty($strSocket)) {
+                $arrConfig['database']['socket'] = "";
+            } else {
+                $arrConfig['database']['socket'] = $strSocket;
             }
 
             // reCAPTCHA setting
@@ -391,11 +405,12 @@ class Setup {
             $stringConfig .= "$s$s// Doctrine settings\n";
             $stringConfig .= "$s$s'doctrine' => [\n";
             $stringConfig .= "$s$s$s'connection' => [\n";
-            $stringConfig .= "$s$s$s$s'dbname'   => isset(\$_ENV['APP_DB_NAME']) ? \$_ENV['APP_DB_NAME'] : '" . $arrConfig['database']['dbname'] . "',\n";
-            $stringConfig .= "$s$s$s$s'host'     => isset(\$_ENV['APP_DB_HOST']) ? \$_ENV['APP_DB_HOST'] : '" . $arrConfig['database']['host'] . "',\n";
-            $stringConfig .= "$s$s$s$s'port'     => isset(\$_ENV['APP_DB_PORT']) ? \$_ENV['APP_DB_PORT'] : " . $arrConfig['database']['port'] . ",\n";
-            $stringConfig .= "$s$s$s$s'user'     => isset(\$_ENV['APP_DB_USER']) ? \$_ENV['APP_DB_USER'] : '" . $arrConfig['database']['user'] . "',\n";
-            $stringConfig .= "$s$s$s$s'password' => isset(\$_ENV['APP_DB_PASSWORD']) ? \$_ENV['APP_DB_PASSWORD'] : '" . $arrConfig['database']['password'] . "',\n";
+            $stringConfig .= "$s$s$s$s'dbname'      => isset(\$_ENV['APP_DB_NAME']) ? \$_ENV['APP_DB_NAME'] : '" . $arrConfig['database']['dbname'] . "',\n";
+            $stringConfig .= "$s$s$s$s'host'        => isset(\$_ENV['APP_DB_HOST']) ? \$_ENV['APP_DB_HOST'] : '" . $arrConfig['database']['host'] . "',\n";
+            $stringConfig .= "$s$s$s$s'port'        => isset(\$_ENV['APP_DB_PORT']) ? \$_ENV['APP_DB_PORT'] : " . $arrConfig['database']['port'] . ",\n";
+            $stringConfig .= "$s$s$s$s'user'        => isset(\$_ENV['APP_DB_USER']) ? \$_ENV['APP_DB_USER'] : '" . $arrConfig['database']['user'] . "',\n";
+            $stringConfig .= "$s$s$s$s'password'    => isset(\$_ENV['APP_DB_PASSWORD']) ? \$_ENV['APP_DB_PASSWORD'] : '" . $arrConfig['database']['password'] . "',\n";
+            $stringConfig .= "$s$s$s$s'unix_socket' => isset(\$_ENV['APP_DB_SOCKET']) ? \$_ENV['APP_DB_SOCKET'] : '" . $arrConfig['database']['socket'] . "',\n";
             $stringConfig .= "$s$s$s],\n";
             $stringConfig .= "$s$s],\n\n";
             $stringConfig .= "$s$s// Google recaptcha\n";

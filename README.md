@@ -9,7 +9,7 @@ This application based on [Slim Skeleton 5](https://github.com/InsanityMeetsHH/S
 * [npm](http://www.npmjs.com/get-npm) `$ npm i npm@latest -g`
 * [gulp-cli](https://www.npmjs.com/package/gulp-cli) `$ npm i gulp-cli@latest -g`
 * PHP => 5.5
-* MySQL
+* MySQL (pdo_mysql)
 * [Docker](https://www.docker.com/) ([for installation with Docker](https://github.com/InsanityMeetsHH/file-sharing#installation-with-docker))
 
 ## Installation with [Composer](https://getcomposer.org/) (Recommended)
@@ -27,7 +27,7 @@ $ gulp build
 * `$ npm i`
 * `$ gulp build`
 * `$ docker pull composer`
-* `$ docker run --rm --env docker=true --interactive --tty --volume $PWD:/app composer update`
+* `$ docker run --rm --env docker=true --interactive --tty --volume $PWD:/app composer install`
 * `$ docker-compose build`
 * `$ docker-compose up -d`
 * `$ cp config\additional-settings.dist.php config\additional-settings.php`
