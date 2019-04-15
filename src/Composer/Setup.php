@@ -120,17 +120,17 @@ class Setup {
             }
 
             // Ask for database socket
-            echo self::getColoredString("Please enter database socket (default: ", 'green') . self::getColoredString("empty string", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Please enter database unix_socket path (default: ", 'green') . self::getColoredString("empty string", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
-            $strSocket = trim(fgets($strHandle));
+            $strUnixSocket = trim(fgets($strHandle));
             fclose($strHandle);
 
-            if (empty($strSocket)) {
-                $arrConfig['database']['socket'] = "";
+            if (empty($strUnixSocket)) {
+                $arrConfig['database']['unix_socket'] = "";
             } else {
-                $arrConfig['database']['socket'] = $strSocket;
+                $arrConfig['database']['unix_socket'] = $strUnixSocket;
             }
 
             // reCAPTCHA setting
@@ -410,7 +410,7 @@ class Setup {
             $stringConfig .= "$s$s$s$s'port'        => isset(\$_ENV['APP_DB_PORT']) ? \$_ENV['APP_DB_PORT'] : " . $arrConfig['database']['port'] . ",\n";
             $stringConfig .= "$s$s$s$s'user'        => isset(\$_ENV['APP_DB_USER']) ? \$_ENV['APP_DB_USER'] : '" . $arrConfig['database']['user'] . "',\n";
             $stringConfig .= "$s$s$s$s'password'    => isset(\$_ENV['APP_DB_PASSWORD']) ? \$_ENV['APP_DB_PASSWORD'] : '" . $arrConfig['database']['password'] . "',\n";
-            $stringConfig .= "$s$s$s$s'unix_socket' => isset(\$_ENV['APP_DB_SOCKET']) ? \$_ENV['APP_DB_SOCKET'] : '" . $arrConfig['database']['socket'] . "',\n";
+            $stringConfig .= "$s$s$s$s'unix_socket' => isset(\$_ENV['APP_DB_SOCKET']) ? \$_ENV['APP_DB_SOCKET'] : '" . $arrConfig['database']['unix_socket'] . "',\n";
             $stringConfig .= "$s$s$s],\n";
             $stringConfig .= "$s$s],\n\n";
             $stringConfig .= "$s$s// Google recaptcha\n";
@@ -471,12 +471,15 @@ class Setup {
                 $settings = array_replace_recursive($generalSettings, $additionalSettings);
                 
                 static::importDatabase([
-                    'dbname'   => $settings['settings']['doctrine']['connection']['dbname'],
-                    'host'     => $settings['settings']['doctrine']['connection']['host'],
-                    'port'     => $settings['settings']['doctrine']['connection']['port'],
-                    'user'     => $settings['settings']['doctrine']['connection']['user'],
-                    'password' => $settings['settings']['doctrine']['connection']['password']
+                    'dbname'      => $settings['settings']['doctrine']['connection']['dbname'],
+                    'host'        => $settings['settings']['doctrine']['connection']['host'],
+                    'port'        => $settings['settings']['doctrine']['connection']['port'],
+                    'user'        => $settings['settings']['doctrine']['connection']['user'],
+                    'password'    => $settings['settings']['doctrine']['connection']['password'],
+                    'unix_socket' => $settings['settings']['doctrine']['connection']['unix_socket']
                 ]);
+            } else {
+                echo self::getColoredString("\nNo database changes have been made\n", 'yellow');
             }
         }
     }
@@ -485,7 +488,7 @@ class Setup {
      * @param array $configuration
      */
     protected static function createDatabase($configuration) {
-        $mysql = new \mysqli($configuration['host'], $configuration['user'], $configuration['password'], '', $configuration['port']);
+        $mysql = new \mysqli($configuration['host'], $configuration['user'], $configuration['password'], '', $configuration['port'], $configuration['unix_socket']);
 
         if ($mysql->connect_error) {
             die("Connection failed: " . $mysql->connect_error);
@@ -529,7 +532,7 @@ class Setup {
      * @param array $configuration
      */
     protected static function importDatabase($configuration) {
-        $mysql = new \mysqli($configuration['host'], $configuration['user'], $configuration['password'], $configuration['dbname'], $configuration['port']);
+        $mysql = new \mysqli($configuration['host'], $configuration['user'], $configuration['password'], $configuration['dbname'], $configuration['port'], $configuration['unix_socket']);
 
         if ($mysql->connect_error) {
             die("Connection failed: " . $mysql->connect_error);
@@ -556,6 +559,8 @@ class Setup {
                 $templine = '';
             }
         }
+        
+        echo self::getColoredString("\nDatabase reset successfully\n", 'green');
 
         $mysql->close();
     }
