@@ -12,7 +12,7 @@ services:
         container_name: file-sharing-db
         environment:
             MYSQL_ROOT_PASSWORD: rootdockerpw
-            MYSQL_DATABASE: slim_file_sharing
+            MYSQL_DATABASE: imhh_file_sharing
             MYSQL_USER: dockeruser
             MYSQL_PASSWORD: dockerpw
         ports:

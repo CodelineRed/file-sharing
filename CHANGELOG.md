@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cookie policy modal text and table
 - database model (`db-model.png`)
 - [`gulpfile-config.dist.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile-config.dist.json)
-- `postinstall` script in [`npm-postinstall.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/npm-postinstall.php)
+- `postinstall` script in [`npm-postinstall.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/php/npm-postinstall.php)
 - database column comments
 - cookiesAllowed JavaScript variable
 - construction partial
@@ -69,12 +69,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - `langswitch.js`
 - switch button hover
+- file extension deleted and hidden flags in [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
 
 ### Removed
 - `user-create` route and replaced by `user-register`
 - `user-save` route and replaced by `user-register-save`
 - Font Awesome JS/SVG Framework from build process
 - redundantly error message in FileController
+- `new \mysqli` and replaced by `new \PDO` in [Setup.php](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Composer/Setup.php)
 
 ## [2.3.1] - 2018-10-22
 ### Fixed

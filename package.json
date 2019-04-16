@@ -55,6 +55,6 @@
         "jquery": "^3.4.0"
     },
     "scripts": {
-        "postinstall": "php src/npm-postinstall.php"
+        "postinstall": "php gulpfiles/php/npm-postinstall.php"
     }
 }

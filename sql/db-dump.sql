@@ -57,7 +57,7 @@ INSERT INTO `imhhfs_file_extension` (`id`, `file_type_id`, `name`, `deleted`, `h
 (9,	2,	'.ogg',	0,	0,	now(),	now()),
 (10,	2,	'.avi',	0,	0,	now(),	now()),
 (11,	2,	'.mov',	0,	1,	now(),	now()),
-(12,	2,	'.movie',	1,	0,	now(),	now()),
+(12,	2,	'.movie',	0,	1,	now(),	now()),
 (13,	2,	'.mpe',	0,	1,	now(),	now()),
 (14,	2,	'.mpeg',	0,	1,	now(),	now()),
 (15,	2,	'.mpg',	0,	1,	now(),	now()),

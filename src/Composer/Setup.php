@@ -50,7 +50,7 @@ class Setup {
             echo self::getColoredString("\nSetup Database\n", 'yellow', NULL, ['underscore']);
 
             // Ask for database name
-            echo self::getColoredString("Please enter database name (default: ", 'green') . self::getColoredString("slim_file_sharing", 'yellow') . self::getColoredString("): ", 'green');
+            echo self::getColoredString("Please enter database name (default: ", 'green') . self::getColoredString("imhh_file_sharing", 'yellow') . self::getColoredString("): ", 'green');
             $strHandle = fopen("php://stdin", "r");
             echo "\n";
 
@@ -58,7 +58,7 @@ class Setup {
             fclose($strHandle);
 
             if (empty($strDbName)) {
-                $arrConfig['database']['dbname'] = "slim_file_sharing";
+                $arrConfig['database']['dbname'] = "imhh_file_sharing";
             } else {
                 $arrConfig['database']['dbname'] = $strDbName;
             }
@@ -488,42 +488,40 @@ class Setup {
      * @param array $configuration
      */
     protected static function createDatabase($configuration) {
-        $mysql = new \mysqli($configuration['host'], $configuration['user'], $configuration['password'], '', $configuration['port'], $configuration['unix_socket']);
+        $mysql = new \PDO('mysql:host=' . $configuration['host'] . ';port=' . $configuration['port'] . ';unix_socket=' . $configuration['unix_socket'], $configuration['user'], $configuration['password']);
 
-        if ($mysql->connect_error) {
-            die("Connection failed: " . $mysql->connect_error);
+        if ($mysql->errorCode()) {
+            echo self::getColoredString("\nConnection failed:\n", 'red');
+            print_r($mysql->errorInfo());
         }
         
         $sql = "SELECT COUNT(*) AS `exists` FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMATA.SCHEMA_NAME = '". $configuration['dbname'] . "';";
         $query = $mysql->query($sql);
         
         if ($query === FALSE) {
-            echo self::getColoredString("\nError searching for database: " . $mysql->error . "\n", 'red');
-            $mysql->close();
+            echo self::getColoredString("\nError searching for database:\n", 'red');
+            print_r($mysql->errorInfo());
             return;
         }
         
-        $row = $query->fetch_object();
+        $row = $query->fetch();
         
         // if database exists
-        if ((bool)$row->exists) {
+        if (isset($row['exists']) && $row['exists'] === '1') {
             echo self::getColoredString("\nDatabase already exists\n", 'yellow');
             echo self::getColoredString("No database changes have been made\n", 'yellow');
-            $mysql->close();
             return;
         }
 
         $sql = "CREATE DATABASE IF NOT EXISTS `". $configuration['dbname'] . "` CHARACTER SET utf8 COLLATE utf8_general_ci;";
         
-        if ($mysql->query($sql) === TRUE) {
-            echo self::getColoredString("\nDatabase created successfully\n", 'green');
-        } else {
-            echo self::getColoredString("\nError creating database: " . $mysql->error . "\n", 'red');
-            $mysql->close();
+        if ($mysql->query($sql) === FALSE) {
+            echo self::getColoredString("\nError creating database:\n", 'red');
+            print_r($mysql->errorInfo());
             return;
+        } else {
+            echo self::getColoredString("\nDatabase created successfully\n", 'green');
         }
-
-        $mysql->close();
 
         static::importDatabase($configuration);
     }
@@ -532,10 +530,11 @@ class Setup {
      * @param array $configuration
      */
     protected static function importDatabase($configuration) {
-        $mysql = new \mysqli($configuration['host'], $configuration['user'], $configuration['password'], $configuration['dbname'], $configuration['port'], $configuration['unix_socket']);
+        $mysql = new \PDO('mysql:host=' . $configuration['host'] . ';dbname=' . $configuration['dbname'] . ';port=' . $configuration['port'] . ';unix_socket=' . $configuration['unix_socket'], $configuration['user'], $configuration['password']);
 
-        if ($mysql->connect_error) {
-            die("Connection failed: " . $mysql->connect_error);
+        if ($mysql->errorCode()) {
+            echo self::getColoredString("\nConnection failed:\n", 'red');
+            print_r($mysql->errorInfo());
         }
 
         // Temporary variable, used to store current query
@@ -561,8 +560,6 @@ class Setup {
         }
         
         echo self::getColoredString("\nDatabase reset successfully\n", 'green');
-
-        $mysql->close();
     }
     
     /**
