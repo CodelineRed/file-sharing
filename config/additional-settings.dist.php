@@ -24,6 +24,12 @@ return [
         // Google QR Code title
         '2fa_qrc_title' => null,
         
+        // pages for the public
+        'active_pages' => [
+            'login'    => TRUE,
+            'register' => TRUE,
+        ],
+        
         // User validation
         'validation' => [
             'min_user_name_length'    => 4,

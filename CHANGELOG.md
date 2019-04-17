@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - role selection, remove user and hide user to `user/show-all.html.twig`
 - confirm window if a record should be removed
 - Cookie policy modal text and table
-- database model (`db-model.png`)
+- database model ([`db-model.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/db-model.png))
 - [`gulpfile-config.dist.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile-config.dist.json)
 - `postinstall` script in [`npm-postinstall.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/php/npm-postinstall.php)
 - database column comments
@@ -42,13 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.gitignore`
 - `deploy.sh`
 - `README.md`
-- [Setup.php](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Composer/Setup.php)
+- [`Setup.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Composer/Setup.php)
 - [`additional-settings.dist.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php)
 - [`settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php)
-- [`localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/localisation.php)
+- [`localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/localisation.php) to use less code
 - all `user-show-` routes required `name` parameter
 - `user/show.html.twig` to use less code
-- `localisation.php` to use less code
 - Docker database name
 - `gulpfile.js`
 - `locale/en-US.php`
@@ -103,8 +102,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.1] - 2018-10-16
 ### Added
 - Translations
-- [Remove files](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L448) from webspace if user gets removed
-- [Error message](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php#L72) if file is not on disk
+- [Remove files](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php) from webspace if user gets removed
+- [Error message](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php) if file is not on disk
 
 ### Changed
 - Definition of the `$currentRole` simplified in [`AclRepositoryContainer.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Container/AclRepositoryContainer.php)
@@ -121,8 +120,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lock / unlock icon to file show view
 - Show selected file for upload in file upload field
 - Comments
-- `cascade={"persist", "remove"}` to [`File::$file`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php#L56)
-- `onDelete="SET NULL"` to [`File::$file`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php#L56)
+- `cascade={"persist", "remove"}` to [`File::$file`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php)
+- `onDelete="SET NULL"` to [`File::$file`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php)
 - Styling for file show headline
 
 ### Changed
@@ -132,7 +131,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Remove user redirect
-- Reset database [script](https://github.com/InsanityMeetsHH/Slim-Skeleton/blob/master/src/Composer/Setup.php#L159)
+- Reset database [script](https://github.com/InsanityMeetsHH/Slim-Skeleton/blob/master/src/Composer/Setup.php)
 - User lock / unlock tooltips
 
 ### Removed
@@ -164,27 +163,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `$settings` to `$this->settings` in [`FileController`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
 - Margins in forms
 - Templates with new `file_size` twig filter
-- [`File::$size`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php#L50) from `integer` to `string`
+- [`File::$size`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/File.php) from `integer` to `string`
 
 ## [2.1.0] - 2018-10-10
 ### Added
 - `hidden` in [`Base.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/MappedSuperclass/Base.php)
-- [`UserController::toggleHiddenAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L388)
-- [`UserController::removeAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L412)
-- [`User::getPublicFiles`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php#L136)
-- `cascade={"persist", "remove"}` to [`User::$recoveryCodes`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php#L37)
-- `cascade={"persist", "remove"}` to [`User::$files`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php#L53)
-- `currentUser` in [`GeneralExtension.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/GeneralExtension.php#L26)
+- [`UserController::toggleHiddenAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php)
+- [`UserController::removeAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php)
+- [`User::getPublicFiles`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php)
+- `cascade={"persist", "remove"}` to [`User::$recoveryCodes`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php)
+- `cascade={"persist", "remove"}` to [`User::$files`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/User.php)
+- `currentUser` in [`GeneralExtension.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/GeneralExtension.php)
 - Cookie policy modal
 - Table to user files (if user is "guest")
 - ACL resources `edit_file_other` and `delete_file_other`
 - Translations
 
 ### Changed
-- [`UserController::logoutAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L221)
-- [`UserController::updateRoleAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L151)
-- [`UserController::showAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L80)
-- `FileController::togglePublicAction` is now [`FileController::toggleHiddenAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php#L171)
+- [`UserController::logoutAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php)
+- [`UserController::updateRoleAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php)
+- [`UserController::showAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php)
+- `FileController::togglePublicAction` is now [`FileController::toggleHiddenAction`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
 - SQL files
 
 ### Removed
@@ -200,7 +199,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [`cookieconsent.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/plugin/cookieconsent.scss)
 - [`_switch.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_switch.scss)
 - File note field
-- Boostrap [`tables.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/lib/bootstrap.scss#L10)
+- Boostrap [`tables.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/lib/bootstrap.scss)
 - Table to user files and all users overview
 - Translations
 - [`cookieconsent.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/cookieconsent.js)

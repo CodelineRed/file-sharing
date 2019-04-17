@@ -20,7 +20,6 @@ class Setup {
         
         $arrConfig = [];
         $s = '    ';
-        $settings = "<?php\nreturn [\n$s'settings' => [\n";
         
         // if additional-settings.php not exists
         if (!file_exists(__DIR__ . "/../../config/additional-settings.php")) {
@@ -469,15 +468,7 @@ class Setup {
                 }
 
                 $settings = array_replace_recursive($generalSettings, $additionalSettings);
-                
-                static::importDatabase([
-                    'dbname'      => $settings['settings']['doctrine']['connection']['dbname'],
-                    'host'        => $settings['settings']['doctrine']['connection']['host'],
-                    'port'        => $settings['settings']['doctrine']['connection']['port'],
-                    'user'        => $settings['settings']['doctrine']['connection']['user'],
-                    'password'    => $settings['settings']['doctrine']['connection']['password'],
-                    'unix_socket' => $settings['settings']['doctrine']['connection']['unix_socket']
-                ]);
+                static::importDatabase($settings['settings']['doctrine']['connection']);
             } else {
                 echo self::getColoredString("\nNo database changes have been made\n", 'yellow');
             }
