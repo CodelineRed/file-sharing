@@ -1,30 +1,19 @@
-body {
-    background-color: $darkgrey;
-    color: $grey;
-}
-
 a {
-    color: $grey;
-    
     &.current {
-        color: $brand-color-1;
+        color: $theme-color-1;
     }
     
     &:hover {
-        color: $brand-color-1;
-    }
-}
-
-h1 {
-    color: $brand-color-1;
-    
-    @include media-breakpoint-down(md) {
-        font-size: 2rem;
+        color: $theme-color-1;
     }
 }
 
 .modal {
     color: $white;
+    
+    table {
+        @include font-size($font-size-base * .75);
+    }
 }
 
 .custom-file-label {

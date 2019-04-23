@@ -36,34 +36,34 @@ class FileExtension extends \Twig_Extension {
     }
     
     /**
-     * Returns current language-region or generic code
+     * Returns file size in human readable format
      * Sample: {{ file.size|file_size(2, '.', ',', 'MB') }}
      * 
-     * @param string|integer $value file size in byte
+     * @param string|integer $bytes file size in bytes
      * @param integer $decimals sets the number of decimal points (default: 0)
      * @param integer $decimalPoint sets the separator for the decimal point (default: '.')
      * @param integer $thousandsSeparator sets the thousands separator (default: ',')
      * @param string $unit optional (default: '' = calculate unit automatically)
      * @return string
      */
-    public function fileSize($value, $decimals = 0, $decimalPoint = '.', $thousandsSeparator = ',', $unit = '') {
+    public function fileSize($bytes, $decimals = 0, $decimalPoint = '.', $thousandsSeparator = ',', $unit = '') {
         if (empty($unit) || !in_array(strtoupper($unit), ['B', 'KB', 'MB', 'GB', 'TB', 'PB'])) {
-            if ($value < self::KB) {
+            if ($bytes < self::KB) {
                 $decimals = 0;
                 $unit = 'B';
-            } elseif ($value >= self::KB && $value < self::MB) {
+            } elseif ($bytes >= self::KB && $bytes < self::MB) {
                 $unit = 'KB';
-            } elseif ($value >= self::MB && $value < self::GB) {
+            } elseif ($bytes >= self::MB && $bytes < self::GB) {
                 $unit = 'MB';
-            } elseif ($value >= self::GB && $value < self::TB) {
+            } elseif ($bytes >= self::GB && $bytes < self::TB) {
                 $unit = 'GB';
-            } elseif ($value >= self::TB && $value < self::PB) {
+            } elseif ($bytes >= self::TB && $bytes < self::PB) {
                 $unit = 'TB';
             } else {
                 $unit = 'PB';
             }
         }
         
-        return number_format(intval($value) / constant('\App\Twig\FileExtension::' . strtoupper($unit)), $decimals, $decimalPoint, $thousandsSeparator) . ' ' . $unit;
+        return number_format(intval($bytes) / constant('\App\Twig\FileExtension::' . strtoupper($unit)), $decimals, $decimalPoint, $thousandsSeparator) . ' ' . $unit;
     }
 }

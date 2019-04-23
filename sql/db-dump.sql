@@ -1,3 +1,5 @@
+-- MySQL dump
+
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
@@ -7,43 +9,43 @@ DROP TABLE IF EXISTS `imhhfs_file`;
 CREATE TABLE `imhhfs_file` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `extension` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'File name in upload folder',
+  `file_extension_id` int(11) DEFAULT NULL,
   `mime_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Size in bytes',
   `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `file_included` tinyint(1) NOT NULL,
+  `file_included` tinyint(1) NOT NULL COMMENT '1 if note is related to a file',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_F2FAB98593CB796C` (`file_id`),
   KEY `IDX_F2FAB985A76ED395` (`user_id`),
-  KEY `IDX_F2FAB9859FB73D77` (`extension`),
+  KEY `IDX_F2FAB985AB8C6E61` (`file_extension_id`),
   CONSTRAINT `FK_F2FAB98593CB796C` FOREIGN KEY (`file_id`) REFERENCES `imhhfs_file` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `FK_F2FAB9859FB73D77` FOREIGN KEY (`extension`) REFERENCES `imhhfs_file_extension` (`id`),
-  CONSTRAINT `FK_F2FAB985A76ED395` FOREIGN KEY (`user_id`) REFERENCES `imhhfs_user` (`id`)
+  CONSTRAINT `FK_F2FAB985A76ED395` FOREIGN KEY (`user_id`) REFERENCES `imhhfs_user` (`id`),
+  CONSTRAINT `FK_F2FAB985AB8C6E61` FOREIGN KEY (`file_extension_id`) REFERENCES `imhhfs_file_extension` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 DROP TABLE IF EXISTS `imhhfs_file_extension`;
 CREATE TABLE `imhhfs_file_extension` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `file_type` int(11) DEFAULT NULL,
+  `file_type_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_AB8A0B9B5E237E06` (`name`),
-  KEY `IDX_AB8A0B9B5223F47` (`file_type`),
-  CONSTRAINT `FK_AB8A0B9B5223F47` FOREIGN KEY (`file_type`) REFERENCES `imhhfs_file_type` (`id`)
+  KEY `IDX_AB8A0B9B9E2A35A8` (`file_type_id`),
+  CONSTRAINT `FK_AB8A0B9B9E2A35A8` FOREIGN KEY (`file_type_id`) REFERENCES `imhhfs_file_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `imhhfs_file_extension` (`id`, `file_type`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `imhhfs_file_extension` (`id`, `file_type_id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1,	1,	'.jpg',	0,	0,	now(),	now()),
 (2,	1,	'.jpeg',	0,	0,	now(),	now()),
 (3,	1,	'.gif',	0,	0,	now(),	now()),
@@ -55,24 +57,24 @@ INSERT INTO `imhhfs_file_extension` (`id`, `file_type`, `name`, `deleted`, `hidd
 (9,	2,	'.ogg',	0,	0,	now(),	now()),
 (10,	2,	'.avi',	0,	0,	now(),	now()),
 (11,	2,	'.mov',	0,	1,	now(),	now()),
-(12,	2,	'.movie',	1,	0,	now(),	now()),
+(12,	2,	'.movie',	0,	1,	now(),	now()),
 (13,	2,	'.mpe',	0,	1,	now(),	now()),
-(14,	2,	'.mpeg',	1,	0,	now(),	now()),
+(14,	2,	'.mpeg',	0,	1,	now(),	now()),
 (15,	2,	'.mpg',	0,	1,	now(),	now()),
 (16,	2,	'.qt',	0,	1,	now(),	now()),
 (17,	2,	'.wmv',	0,	1,	now(),	now()),
 (18,	3,	'.midi',	0,	0,	now(),	now()),
 (19,	3,	'.mp2',	0,	1,	now(),	now()),
 (20,	3,	'.mp3',	0,	0,	now(),	now()),
-(21,	3,	'.mpga',	1,	0,	now(),	now()),
+(21,	3,	'.mpga',	0,	1,	now(),	now()),
 (22,	3,	'.wav',	0,	0,	now(),	now()),
 (23,	4,	'.css',	0,	1,	now(),	now()),
 (24,	4,	'.htm',	0,	1,	now(),	now()),
-(25,	4,	'.html',	1,	0,	now(),	now()),
+(25,	4,	'.html',	0,	1,	now(),	now()),
 (26,	4,	'.rtf',	0,	1,	now(),	now()),
 (27,	4,	'.rtx',	0,	1,	now(),	now()),
 (28,	4,	'.sgm',	0,	1,	now(),	now()),
-(29,	4,	'.sgml',	1,	0,	now(),	now()),
+(29,	4,	'.sgml',	0,	1,	now(),	now()),
 (30,	4,	'.xml',	0,	1,	now(),	now()),
 (31,	4,	'.txt',	0,	0,	now(),	now()),
 (32,	5,	'.tar',	0,	1,	now(),	now()),
@@ -92,8 +94,8 @@ CREATE TABLE `imhhfs_file_type` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_565E6CF95E237E06` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -109,11 +111,11 @@ DROP TABLE IF EXISTS `imhhfs_recovery_code`;
 CREATE TABLE `imhhfs_recovery_code` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Encoded recovery code',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
   PRIMARY KEY (`id`),
   KEY `IDX_CE329A70A76ED395` (`user_id`),
   CONSTRAINT `FK_CE329A70A76ED395` FOREIGN KEY (`user_id`) REFERENCES `imhhfs_user` (`id`)
@@ -126,8 +128,8 @@ CREATE TABLE `imhhfs_role` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_290C05FF5E237E06` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -143,13 +145,13 @@ CREATE TABLE `imhhfs_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `pass` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `two_factor` tinyint(1) NOT NULL,
-  `two_factor_secret` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `pass` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Encoded password',
+  `two_factor` tinyint(1) NOT NULL COMMENT '1 if 2FA is enabled',
+  `two_factor_secret` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Secret for 2FA validation and authenticator app',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_F3F659DC5E237E06` (`name`),
   KEY `IDX_F3F659DCD60322AC` (`role_id`),

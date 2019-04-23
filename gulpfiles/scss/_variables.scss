@@ -1,30 +1,46 @@
-$brand-color-1: #2e97bf;
-$darkgrey: #212121;
-$lightgrey: #2c3034;
-$grey: #808080;
+$theme-color-1: #2e97bf; // turquoise
+$theme-color-2: #212121; // dark grey
+$theme-color-3: lighten($theme-color-2, 50%); // light grey
+$theme-color-4: lighten($theme-color-2, 5%); // grey
 
 // Fontawesome
 $fa-font-path: '../font';
 
 // Bootstrap
+$enable-responsive-font-sizes: true;
+$body-bg: $theme-color-2;
+$body-color: $theme-color-3;
+
+$blue: $theme-color-1;
+$headings-color: $theme-color-1;
+$info: $theme-color-1;
+$link-color: $theme-color-3;
+
 $custom-file-text: (
   en: 'Browse',
   de: 'Auswählen'
 );
-$blue: $brand-color-1;
-$modal-content-bg: $darkgrey;
-$modal-header-border-color: $grey;
+
+$modal-content-bg: $theme-color-2;
+$modal-header-border-color: $theme-color-4;
+$modal-md: 800px;
 
 $close-color: #fff;
 $close-text-shadow: none;
 
-$pagination-bg: $lightgrey;
-$pagination-border-color: $darkgrey;
+$dropdown-bg: $theme-color-4;
+$dropdown-color: #fff;
+$dropdown-link-color: #fff;
+$dropdown-link-hover-color: $theme-color-1;
+$dropdown-link-hover-bg: $theme-color-4;
+
+$pagination-bg: $theme-color-4;
+$pagination-border-color: $theme-color-2;
 
 $pagination-hover-color: #fff;
-$pagination-hover-bg: $brand-color-1;
-$pagination-hover-border-color: $darkgrey;
+$pagination-hover-bg: $theme-color-1;
+$pagination-hover-border-color: $theme-color-2;
 
 $pagination-disabled-color: #fff;
-$pagination-disabled-bg: $lightgrey;
-$pagination-disabled-border-color: $darkgrey;
+$pagination-disabled-bg: $theme-color-4;
+$pagination-disabled-border-color: $theme-color-2;

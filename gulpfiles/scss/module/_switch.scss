@@ -6,6 +6,11 @@
             & + label {
                 background-color: $success;
                 color: $white;
+            
+                &:hover {
+                    background-color: darken($success, 7.5%);
+                    color: $white;
+                }
                 
                 .fa-times {
                     display: none;
@@ -20,6 +25,11 @@
         & + label {
             background-color: $warning;
             color: $black;
+            
+            &:hover {
+                background-color: darken($warning, 7.5%);
+                color: $black;
+            }
             
             .fa-check {
                 display: none;

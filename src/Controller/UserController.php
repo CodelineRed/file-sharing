@@ -13,73 +13,66 @@ use App\Utility\LanguageUtility;
 class UserController extends BaseController {
     
     /**
-     * create Action
+     * Shows registration form
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function createAction($request, $response, $args) {
-        // Render view
-        return $this->view->render($response, 'user/create.html.twig', array_merge($args, [
-            'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
-        ]));
-    }
-    
-    /**
-     * saveCreate Action
-     * 
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param array $args
-     * @return \Slim\Http\Response
-     */
-    public function saveCreateAction($request, $response, $args) {
-        $user = $request->getParam('user_name');
-        $pass = $request->getParam('user_pass');
-        
-        // if is other user and current user is alowed show_user_other
-        if (is_string($pass) && is_string($user)) {
-            $userSearch = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $user]);
-            $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $request->getParam('user_role')]);
-            
-            // if user exists
-            if ($userSearch instanceof User) {
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m1') . ';' . self::STYLE_DANGER);
-            } elseif (strlen($user) < 4) {
-                // if user name too short
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m2', [4]) . ';' . self::STYLE_DANGER);
-            } elseif (strlen($pass) < 6) {
-                // if password too short
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m3', [6]) . ';' . self::STYLE_DANGER);
-            } else {
-                // if role not exists
-                if ($role === NULL) {
-                    $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
-                }
-                
-                $newUser = new User();
-                $newUser->setName($user)
-                    ->setPass($pass)
-                    ->setRole($role);
-                $this->em->persist($newUser);
-                $this->em->flush();
-                $this->flash->addMessage('message', LanguageUtility::trans('user-save-m4', [
-                    $user,
-                    $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $newUser->getName()
-                ])]) . ';' . self::STYLE_SUCCESS);
-            }
-        } else {
-            $this->flash->addMessage('message', LanguageUtility::trans('user-save-m5') . ';' . self::STYLE_DANGER);
+    public function registerAction($request, $response, $args) {
+        if ($this->settings['active_pages']['register'] === FALSE && $this->currentRole !== 'superadmin') {
+            return $this->view->render($response, 'partials/construction.html.twig', array_merge($args, []));
         }
         
         // Render view
-        return $response->withRedirect($this->router->pathFor('user-create-' . LanguageUtility::getLocale()));
+        return $this->view->render($response, 'user/register.html.twig', array_merge($args, []));
     }
     
     /**
-     * Show Action
+     * Saves data from registration form
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function saveRegisterAction($request, $response, $args) {
+        if ($this->settings['active_pages']['register'] === FALSE && $this->currentRole !== 'superadmin') {
+            return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
+        }
+        $rcRespSuccess = TRUE;
+        
+        if (isset($this->settings['recaptcha']['secret']) && strlen($this->settings['recaptcha']['secret']) > 20) {
+            $recaptcha = new \ReCaptcha\ReCaptcha($this->settings['recaptcha']['secret']);
+            $resp = $recaptcha->setExpectedHostname($_SERVER['SERVER_NAME'])
+                ->verify($request->getParam('g-recaptcha-response'), GeneralUtility::getUserIP());
+            $rcRespSuccess = $resp->isSuccess();
+        }
+        
+        if ($rcRespSuccess || isset($_ENV['docker'])) {
+            // if validation passed
+            if (GeneralUtility::validateUser($request)) {
+                $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m5') . ';' . self::STYLE_SUCCESS);
+
+                $user = new User();
+                $user->setName($request->getParam('user_name'))
+                    ->setRole($this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']))
+                    ->setPass($request->getParam('user_pass'));
+                $this->em->persist($user);
+                $this->em->flush();
+                
+                return $response->withRedirect($this->router->pathFor('user-login-' . LanguageUtility::getGenericLocale()));
+            }
+        } else {
+            $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m6') . ';' . self::STYLE_DANGER);
+        }
+        
+        return $response->withRedirect($this->router->pathFor('user-register-' . LanguageUtility::getLocale()));
+    }
+    
+    /**
+     * Shows user detail page
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -107,15 +100,21 @@ class UserController extends BaseController {
             if ($user instanceof User && !$user->isHidden()) {
                 $this->logger->info("User '" . $args['name'] . "' found - UserController:show");
             } elseif ($this->currentRole !== 'superadmin' || $user === NULL) {
-                // if user not found
-                $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
-                $this->flash->addMessage('message', 'User does not exists' . ';' . self::STYLE_DANGER);
+                // if user exits and is hidden
+                if ($user instanceof User && $user->isHidden()) {
+                    $this->logger->info("User '" . $args['name'] . "' is hidden - UserController:show");
+                    $this->flash->addMessage('message', LanguageUtility::trans('user-is-hidden') . ';' . self::STYLE_DANGER);
+                } else {
+                    $this->logger->info("User '" . $args['name'] . "' not found - UserController:show");
+                    $this->flash->addMessage('message', LanguageUtility::trans('user-not-exists') . ';' . self::STYLE_DANGER);
+                }
                 return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
             }
         } elseif (!is_null($this->currentUser) && !isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user')) {
             // if is logged in user and allowed show_user
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
             
+            // if user not exists or is hidden
             if ($user === NULL || $user->isHidden()) {
                 GeneralUtility::setCurrentRole('guest');
                 GeneralUtility::setCurrentUser(NULL);
@@ -138,7 +137,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * showAll Action
+     * Shows all user
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -149,11 +148,12 @@ class UserController extends BaseController {
         // Render view
         return $this->view->render($response, 'user/show-all.html.twig', array_merge($args, [
             'users' => $this->em->getRepository('App\Entity\User')->findAll(),
+            'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }
     
     /**
-     * updateRole Action
+     * Updates role if user
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -183,11 +183,17 @@ class UserController extends BaseController {
         $user->setRole($role);
         $this->em->flush($user);
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
+        $redirectPath = $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args);
+        
+        if (is_string($request->getParam('return'))) {
+            $redirectPath = $request->getParam('return');
+        } 
+        
+        return $response->withRedirect($redirectPath);
     }
     
     /**
-     * Login Action
+     * Shows login form
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -195,12 +201,16 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function loginAction($request, $response, $args) {
+        if ($this->settings['active_pages']['login'] === FALSE && $this->currentRole !== 'superadmin') {
+            return $this->view->render($response, 'partials/construction.html.twig', array_merge($args, []));
+        }
+        
         // Render view
         return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
     }
     
     /**
-     * Login Validate Action
+     * Validates data from login form
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -208,6 +218,10 @@ class UserController extends BaseController {
      * @return static
      */
     public function loginValidateAction($request, $response, $args) {
+        if ($this->settings['active_pages']['login'] === FALSE && $this->currentRole !== 'superadmin') {
+            return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
+        }
+        
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name'), 'hidden' => 0]);
         unset($_SESSION['tempUser']);
         
@@ -229,7 +243,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Logout Action
+     * Logout user from system
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -244,7 +258,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Enable Two Factor Action
+     * Enables 2FA and generates recovery codes
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -260,7 +274,7 @@ class UserController extends BaseController {
         // if user has 2FA enabled
         if ($user->hasTwoFactor()) {
             unset($_SESSION['pass_code']);
-            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]));
         }
         
         // if empty - generate new secret and update user
@@ -335,14 +349,14 @@ class UserController extends BaseController {
         // Render view
         return $this->view->render($response, 'user/enable-two-factor.html.twig', array_merge($args, [
             'secret' => $secret,
-            'qr' => $ga->getQRCodeGoogleUrl($user->getName(), $secret, 'fs.imhh.me'),
+            'qr' => $ga->getQRCodeGoogleUrl($user->getName(), $secret, $this->settings['2fa_qrc_title']),
             'passValid' => $passValid,
             'passCode' => isset($_SESSION['pass_code']) ? $_SESSION['pass_code'] : '',
         ]));
     }
     
     /**
-     * Two Factor Action
+     * Shows 2FA form validates data
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -362,7 +376,7 @@ class UserController extends BaseController {
                 GeneralUtility::setCurrentRole($user->getRole()->getName());
                 GeneralUtility::setCurrentUser($user->getId());
                 $this->logger->info("User " . $user->getId() . " logged in - UserController:twoFactor");
-                return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+                return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]));
             }
 
             if ($request->isPost()) {
@@ -393,7 +407,7 @@ class UserController extends BaseController {
                     GeneralUtility::setCurrentRole($user->getRole()->getName());
                     GeneralUtility::setCurrentUser($user->getId());
                     $this->logger->info("User " . $user->getId() . " logged in - UserController:twoFactor");
-                    return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+                    return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]));
                 }
             }
         } else {
@@ -406,7 +420,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * toggleHidden Action
+     * Toggles user hidden flag
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -430,11 +444,17 @@ class UserController extends BaseController {
             $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m2') . ';' . self::STYLE_DANGER);
         }
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
+        $redirectPath = $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args);
+        
+        if (is_string($request->getParam('return'))) {
+            $redirectPath = $request->getParam('return');
+        } 
+        
+        return $response->withRedirect($redirectPath);
     }
     
     /**
-     * remove Action
+     * Removes user and all files from system
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -467,7 +487,14 @@ class UserController extends BaseController {
         if ($this->currentUser === $user->getId()) {
             return $response->withRedirect($this->router->pathFor('user-logout-' . LanguageUtility::getGenericLocale()));
         } else {
-            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+            $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
+            $redirectPath = $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]);
+
+            if (is_string($request->getParam('return'))) {
+                $redirectPath = $request->getParam('return');
+            } 
+
+            return $response->withRedirect($redirectPath);
         }
     }
 }

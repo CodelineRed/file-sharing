@@ -13,6 +13,32 @@ use App\Utility\LanguageUtility;
 class FileController extends BaseController {
     
     /**
+     * pdf viewer Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function pdfViewerAction($request, $response, $args) {
+        $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
+        
+        // if file exits and not hidden or current user is owner of file
+        if ($file instanceof File && !$file->isHidden() || $this->currentUser === $file->getUser()->getId()) {
+            if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
+                header("Content-Type: " . $file->getMimeType());
+//                header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
+                flush();
+                readfile($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
+            }
+            exit;
+        }
+        
+        // Render view
+        return $this->view->render($response, 'file/pdf-viewer.html.twig', array_merge($args, []));
+    }
+    
+    /**
      * download Action
      * 
      * @param \Slim\Http\Request $request
@@ -58,7 +84,7 @@ class FileController extends BaseController {
             $source = file_get_contents($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
             
             // if file type one of the three
-            if (in_array($fileTypeName, ['image', 'audio', 'video'])) {
+            if (in_array($fileTypeName, ['image', 'audio', 'video', 'other'])) {
                 // encode file content
                 $source = base64_encode($source);
             }
@@ -68,8 +94,6 @@ class FileController extends BaseController {
                 // get raw file content
                 $childSource = file_get_contents($this->settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName());
             }
-        } else {
-            $this->flash->addMessageNow('message', LanguageUtility::trans('file-show-m1') . ';' . self::STYLE_DANGER);
         }
         
         // Render view
@@ -104,8 +128,12 @@ class FileController extends BaseController {
             // if not empty
             if (!empty($note)) {
                 $noteExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => '.txt']);
-                $noteFileName = 'note-' . GeneralUtility::generateCode(10) . '.txt';
-                $noteHashName = GeneralUtility::generateCode(10) . substr(md5($noteHashName), 0, 10);
+                
+                do {
+                    $noteFileName = 'note-' . GeneralUtility::generateCode(10) . '.txt';
+                    $noteHashName = GeneralUtility::generateCode(10) . substr(md5($noteFileName), 0, 10);
+                } while (file_exists($this->settings['upload']['path'] . $noteHashName . $noteExtension->getName()));
+                
                 file_put_contents($this->settings['upload']['path'] . $noteHashName . $noteExtension->getName(), $note);
                 
                 $fileNote = new File();
@@ -129,8 +157,12 @@ class FileController extends BaseController {
                     
                     // if file extension is allowed and user exists
                     if ($extension instanceof FileExtension && $user instanceof User) {
-                        $uploadFileHashName = GeneralUtility::generateCode(10) . substr(md5($uploadFileName), 0, 10);
+                        do {
+                            $uploadFileHashName = GeneralUtility::generateCode(10) . substr(md5($uploadFileName), 0, 10);
+                        } while (file_exists($this->settings['upload']['path'] . $uploadFileHashName . $extension->getName()));
+                        
                         $upload->moveTo($this->settings['upload']['path'] . $uploadFileHashName . $extension->getName());
+                        $args['name'] = $user->getName();
                         
                         $file = new File();
                         $file->setName($uploadFileName)
@@ -174,7 +206,11 @@ class FileController extends BaseController {
             }
         }
         
-        return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+        if (array_key_exists('name', $args)) {
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
+        } else {
+            return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
+        }
     }
     
     /**
@@ -188,6 +224,7 @@ class FileController extends BaseController {
     public function toggleHiddenAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
+        $args['name'] = $user->getName();
         
         if ($user instanceof User) {
             $files = $user->getFiles();
@@ -230,6 +267,7 @@ class FileController extends BaseController {
     public function removeAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
+        $args['name'] = $user->getName();
         
         if ($user instanceof User) {
             $files = $user->getFiles();

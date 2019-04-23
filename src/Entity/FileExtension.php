@@ -17,7 +17,7 @@ class FileExtension extends \App\MappedSuperclass\Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="FileType", inversedBy="fileExtensions")
-     * @ORM\JoinColumn(name="file_type", referencedColumnName="id")
+     * @ORM\JoinColumn(name="file_type_id", referencedColumnName="id")
      */
     private $fileType;
     

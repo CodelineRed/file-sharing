@@ -1,3 +1,4 @@
+/*global initCookieConsent dataTablesLangUrl confirmRemove*/
 'use strict';
 
 // jQuery.noConflict();
@@ -16,11 +17,20 @@
             $('input[type="submit"],button[type="submit"]').attr('disabled', 'disabled');
         });
         
+        // show confirm message before removing a record
+        $('[data-remove]').click(function(e) {
+            if (!confirm(confirmRemove + '\n"' + $(this).data('remove') + '"')) { // eslint-disable-line  no-alert
+                e.preventDefault();
+            }
+        });
+        
         // initialize tables with DataTable
-        $('table').DataTable({
+        $('.data-table').DataTable({
             'language': {
                 'url': dataTablesLangUrl
             }
         });
+        
+        initCookieConsent();
     });
 })(jQuery);

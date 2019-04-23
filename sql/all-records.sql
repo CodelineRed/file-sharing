@@ -4,8 +4,8 @@ INSERT INTO `imhhfs_role` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `cre
 (3, 'admin', 0, 0, now(), now()),
 (4, 'superadmin', 0, 0, now(), now());
 
-INSERT INTO `imhhfs_user` (`id`, `role_id`, `name`, `pass`, `deleted`, `hidden`, `two_factor`, `two_factor_secret`, `updated_at`, `created_at`) VALUES
-(1, 2, 'user', '$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K', 0, 0, 0, '', now(), now());
+INSERT INTO `imhhfs_user` (`id`, `role_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1, 2, 'user', '$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K', 0, '', 0, 0, now(), now());
 
 INSERT INTO `imhhfs_file_type` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1, 'image', 0, 0, now(), now()),
@@ -14,7 +14,7 @@ INSERT INTO `imhhfs_file_type` (`id`, `name`, `deleted`, `hidden`, `updated_at`,
 (4, 'text', 0, 0, now(), now()),
 (5, 'other', 0, 0, now(), now());
 
-INSERT INTO `imhhfs_file_extension` (`id`, `name`, `active`, `file_type`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `imhhfs_file_extension` (`id`, `name`, `active`, `file_type_id`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (NULL, '.jpg', 1, 1, 0, 0, now(), now()),
 (NULL, '.jpeg', 1, 1, 0, 0, now(), now()),
 (NULL, '.gif', 1, 1, 0, 0, now(), now()),

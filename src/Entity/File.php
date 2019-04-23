@@ -28,13 +28,15 @@ class File extends \App\MappedSuperclass\Base {
     private $name;
     
     /**
-     * @ORM\Column(type="string", name="hash_name")
+     * File name in upload folder
+     * 
+     * @ORM\Column(type="string", name="hash_name", options={"comment": "File name in upload folder"})
      */
     private $hashName;
     
     /**
      * @ORM\ManyToOne(targetEntity="FileExtension", inversedBy="files")
-     * @ORM\JoinColumn(name="extension", referencedColumnName="id")
+     * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id")
      */
     private $extension;
     
@@ -44,18 +46,24 @@ class File extends \App\MappedSuperclass\Base {
     private $mimeType;
     
     /**
-     * @ORM\Column(type="string")
+     * Size in bytes
+     * 
+     * @ORM\Column(type="string", options={"comment": "Size in bytes"})
      */
     private $size;
     
     /**
+     * ID of the comment related to the file
+     * 
      * @ORM\OneToOne(targetEntity="File", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $file = NULL;
     
     /**
-     * @ORM\Column(type="boolean", name="file_included")
+     * 1 if note is related to a file
+     * 
+     * @ORM\Column(type="boolean", name="file_included", options={"comment": "1 if note is related to a file"})
      */
     private $fileIncluded = FALSE;
     

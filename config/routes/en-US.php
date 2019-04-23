@@ -102,18 +102,18 @@ return [
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],
-    'user-create' => [
-        'route'      => '/user/create/',
-        'method'     => 'App\Controller\UserController:createAction',
+    'user-register' => [
+        'route'      => '/register/',
+        'method'     => 'App\Controller\UserController:registerAction',
         'methods'    => ['GET'],
-        'rolesAllow' => ['superadmin'],
+        'rolesAllow' => ['guest', 'superadmin'],
         'rolesDeny'  => [],
     ],
-    'user-save' => [
-        'route'      => '/user/save/',
-        'method'     => 'App\Controller\UserController:saveCreateAction',
+    'user-register-save' => [
+        'route'      => '/complete-register/',
+        'method'     => 'App\Controller\UserController:saveRegisterAction',
         'methods'    => ['POST'],
-        'rolesAllow' => ['superadmin'],
+        'rolesAllow' => ['guest', 'superadmin'],
         'rolesDeny'  => [],
     ],
     'user-hidden' => [
@@ -131,7 +131,7 @@ return [
         'rolesDeny'  => [],
     ],
     
-    // matching routes
+    // this routes fits to all translations
     'file-download' => [
         'route'      => '/download/{uuid}/',
         'method'     => 'App\Controller\FileController:downloadAction',

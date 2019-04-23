@@ -19,9 +19,14 @@ class PageController extends BaseController {
     public function indexAction($request, $response, $args) {
         // if user not logged in
         if ($this->currentUser === NULL) {
-            return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
+            if ($this->settings['active_pages']['login'] === TRUE) {
+                return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
+            }
+            
+            return $this->view->render($response, 'partials/construction.html.twig', array_merge($args, []));
         } else {
-            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale()));
+            $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
+            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]));
         }
         
         // Render view
