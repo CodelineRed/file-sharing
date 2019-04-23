@@ -11,8 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `nochso/html-compress-twig` dependency
 - `google/recaptcha` dependency
 - `symfony/console` dependency
-- `composer.lock`
-- `package-lock.json`
+- [`composer.lock`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/composer.lock)
+- [`package-lock.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/package-lock.json)
 - `lang` attribute to langswitch
 - `{% htmlcompress %}...{% endhtmlcompress %}` to [`templates/layouts/layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - `<header>`, `<main>` and `<footer>` html tag to [`templates/layouts/layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
@@ -39,19 +39,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - pdf viewer
 
 ### Changed
-- `.gitignore`
-- `deploy.sh`
-- `README.md`
+- [`.gitignore`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/.gitignore)
+- [`deploy.sh`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/deploy.sh)
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
 - [`Setup.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Composer/Setup.php)
 - [`additional-settings.dist.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php)
 - [`settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php)
 - [`localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/localisation.php) to use less code
 - all `user-show-` routes required `name` parameter
-- `user/show.html.twig` to use less code
+- [`show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig) to use less code
+- [`enable-two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/enable-two-factor.html.twig)
 - Docker database name
-- `gulpfile.js`
-- `locale/en-US.php`
-- `locale/de-DE.php`
+- `gulpfile.js`[`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- [`en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/locale/en-US.php)
+- [`de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/locale/de-DE.php)
 - DataTable init call
 - `imhhfs_file_extension.file_type` to `imhhfs_file_extension.file_type_id`
 - `imhhfs_file.extension` to `imhhfs_file.file_extension_id`
@@ -59,14 +60,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default database host `127.0.0.1` to `localhost`
 - Font Awesome 5.4 to Font Awesome 5.8
 - Bootstrap 4.1 to Bootstrap 4.3
-- jQuery 3.3 to jQuery 3.4
 - del 4.0 to del 4.1
 - gulp 3.9 to gulp 4.0
-- gulp-clean-css 3.10 to gulp-clean-css 4.0
+- gulp-clean-css 3.10 to gulp-clean-css 4.1
 - gulp-imagemin 4.1 to gulp-imagemin 5.0
 
 ### Fixed
-- `langswitch.js`
+- [`langswitch.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/langswitch.js)
 - switch button hover
 - file extension deleted and hidden flags in [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
 

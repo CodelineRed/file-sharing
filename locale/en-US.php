@@ -29,7 +29,7 @@ return [
     'admin' => 'Admin',
     'superadmin' => 'Superadmin',
     'enable-2fa' => 'Enable two factor auth',
-    'enable-2fa-step1' => '1. Install "Google Authenticator" (<a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Android</a> or <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iOS</a>) on your mobile device.',
+    'enable-2fa-step1' => '1. Install "Google Authenticator" (<a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank" class="current">Android</a> or <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank" class="current">iOS</a>) on your mobile device.',
     'enable-2fa-step2' => '2. Enter "Secret" into the app or scan the QR code.<br/>Handle "Secret" like a password and save it.',
     'enable-2fa-step3' => '3. Enter code from the app into input field.',
     '2fa-secret' => 'Secret',

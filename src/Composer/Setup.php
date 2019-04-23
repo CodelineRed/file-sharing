@@ -248,10 +248,6 @@ class Setup {
                     break;
                 }
                 
-                if (empty($arrConfig['locale']['active'])) {
-                    $default2faQrTitle = $strLocaleDomain;
-                }
-                
                 $arrConfig['locale']['active'][$strLocaleCode] = $strLocaleDomain;
                 
                 // if is first entry
