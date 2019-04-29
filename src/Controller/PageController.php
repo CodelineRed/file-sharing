@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Utility\GeneralUtility;
 use App\Utility\LanguageUtility;
 
 /**
@@ -31,5 +32,38 @@ class PageController extends BaseController {
         
         // Render view
         return $this->view->render($response, 'page/index.html.twig', array_merge($args, []));
+    }
+
+    /**
+     * System Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function systemAction($request, $response, $args) {
+        
+        // Render view
+        return $this->view->render($response, 'page/system.html.twig', array_merge($args, [
+            'fsVersion' => FILE_SHARING_VERSION,
+            'phpVersion' => PHP_VERSION,
+            'maxFileSize' => GeneralUtility::getUploadMaxFilesize(),
+            'maxExecutionTime' => ini_get('max_execution_time'),
+            'users' => $this->em->getRepository('App\Entity\User')->findAll(),
+            'publicUsers' => $this->em->getRepository('App\Entity\User')->findBy(['hidden' => FALSE]),
+            'lockedUsers' => $this->em->getRepository('App\Entity\User')->findBy(['hidden' => TRUE]),
+            'tfaUsers' => $this->em->getRepository('App\Entity\User')->findBy(['twoFactor' => TRUE]),
+            'recoveryCodes' => $this->em->getRepository('App\Entity\RecoveryCode')->findAll(),
+            'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
+            'files' => $this->em->getRepository('App\Entity\File')->findAll(),
+            'uniqueFiles' => $this->em->getRepository('App\Entity\File')->findBy(['fileIncluded' => FALSE]),
+            'publicFiles' => $this->em->getRepository('App\Entity\File')->findBy(['fileIncluded' => FALSE, 'hidden' => FALSE]),
+            'lockedFiles' => $this->em->getRepository('App\Entity\File')->findBy(['fileIncluded' => FALSE, 'hidden' => TRUE]),
+            'fileExtensions' => $this->em->getRepository('App\Entity\FileExtension')->findAll(),
+            'publicFileExtensions' => $this->em->getRepository('App\Entity\FileExtension')->findBy(['hidden' => FALSE]),
+            'lockedFileExtensions' => $this->em->getRepository('App\Entity\FileExtension')->findBy(['hidden' => TRUE]),
+            'fileTypes' => $this->em->getRepository('App\Entity\FileType')->findAll(),
+        ]));
     }
 }

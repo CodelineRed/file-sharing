@@ -189,6 +189,13 @@ return [
         'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
+    'page-system' => [
+        'route'      => '/system/',
+        'method'     => 'App\Controller\PageController:systemAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['superadmin'],
+        'rolesDeny'  => [],
+    ],
     'user-show' => [
         'route'      => '/{name}/',
         'method'     => 'App\Controller\UserController:showAction',

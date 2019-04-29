@@ -1,6 +1,6 @@
 {
     "name": "file-sharing",
-    "version": "3.0.0",
+    "version": "3.1.0-dev",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",
@@ -30,11 +30,11 @@
         "url": "git://github.com/InsanityMeetsHH/gulp-templating.git"
     },
     "devDependencies": {
-        "browser-sync": "^2.26.3",
-        "del": "^4.1.0",
+        "browser-sync": "^2.26.5",
+        "del": "^4.1.1",
         "gulp": "^4.0.1",
         "gulp-autoprefixer": "^6.1.0",
-        "gulp-clean-css": "^4.1.0",
+        "gulp-clean-css": "^4.2.0",
         "gulp-concat": "^2.6.1",
         "gulp-eslint": "^5.0.0",
         "gulp-imagemin": "^5.0.3",
@@ -52,7 +52,7 @@
         "cssuseragent": "^2.1.31",
         "datatables": "^1.10.18",
         "datatables.net-bs4": "^1.10.19",
-        "jquery": "^3.3.1"
+        "jquery": "~3.3.1"
     },
     "scripts": {
         "postinstall": "php gulpfiles/php/npm-postinstall.php"

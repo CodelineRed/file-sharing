@@ -80,18 +80,6 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function showAction($request, $response, $args) {
-        $postMaxSize = ini_get('post_max_size');
-        $uploadMaxSize = ini_get('upload_max_filesize');
-        
-        // upload_max_filesize lower than post_max_size
-        if (intval($uploadMaxSize) < intval($postMaxSize)) {
-            $unit = substr($uploadMaxSize, -1);
-            $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
-        } else {
-            $unit = substr($postMaxSize, -1);
-            $maxFileSize = intval($postMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
-        }
-        
         // if is other user and current user is alowed show_user_other
         if (isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user_other')) {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
@@ -129,7 +117,7 @@ class UserController extends BaseController {
         // Render view
         return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
             'user' => $user,
-            'maxFileSize' => $maxFileSize,
+            'maxFileSize' => GeneralUtility::getUploadMaxFilesize(),
             'files' => $user->getUniqueFiles(),
             'publicFiles' => $user->getPublicFiles(),
             'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),

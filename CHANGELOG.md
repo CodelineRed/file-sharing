@@ -6,7 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0]
+## [3.1.0]
+### Added
+- system overview page
+- Bootstrap position utility
+- [`GeneralUtility::getUploadMaxFilesize()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Utility/GeneralUtility.php)
+- `FILE_SHARING_VERSION` in [`public/index.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/index.php)
+- translations
+
+### Changed
+- jquery major version to minor version
+- del 4.1.0 to del 4.1.1
+- browser-sync 2.26.3 to browser-sync 2.26.5
+- gulp-clean-css 4.1 to gulp-clean-css 4.2
+- twig/twig 2.8.1 to twig/twig 2.9.0
+
+## [3.0.0] - 2019-04-23
 ### Added
 - `nochso/html-compress-twig` dependency
 - `google/recaptcha` dependency
