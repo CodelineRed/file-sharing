@@ -188,6 +188,7 @@ class FileController extends BaseController {
                         $this->em->persist($file);
                         $this->em->flush();
                         $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);
+                        $this->logger->info("User '" . $user->getName() . "' uploaded '" . $file->getName() . "' - FileController:upload");
                     } else {
                         $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m2') . ';' . self::STYLE_DANGER);
                     }
@@ -197,6 +198,7 @@ class FileController extends BaseController {
                         $this->em->persist($fileNote);
                         $this->em->flush();
                         $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m5', [$fileNote->getName()]) . ';' . self::STYLE_SUCCESS);
+                        $this->logger->info("User '" . $user->getName() . "' created '" . $fileNote->getName() . "' - FileController:upload");
                     } else {
                         $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m3', [$upload->getError()]) . ';' . self::STYLE_DANGER);
                     }
@@ -246,6 +248,7 @@ class FileController extends BaseController {
                     $file->getName(),
                     $this->router->pathFor('file-show-' . LanguageUtility::getLocale(), $args)
                 ]) . ';' . self::STYLE_SUCCESS);
+                $this->logger->info("User '" . $user->getName() . "' toggled '" . $file->getName() . "' to '" . ($hidden ? 'locked' : 'unlocked') . "' - FileController:toggleHidden");
             } else {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m2', [$file->getName()]) . ';' . self::STYLE_DANGER);
             }
@@ -300,6 +303,7 @@ class FileController extends BaseController {
                 }
                 
                 $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);
+                $this->logger->info("User '" . $user->getName() . "' removed '" . $file->getName() . "' - FileController:remove");
             } else {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m2', [$file->getName()]) . ';' . self::STYLE_DANGER);
             }

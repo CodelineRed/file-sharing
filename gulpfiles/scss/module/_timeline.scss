@@ -1,0 +1,112 @@
+ul {
+    &.timeline {
+        list-style-type: none;
+        position: relative;
+        
+        &::before {
+            background: $theme-color-4;
+            content: ' ';
+            display: inline-block;
+            height: 100%;
+            left: 27px;
+            position: absolute;
+            width: 6px;
+            z-index: 400;
+        }
+    
+        > li {
+            background-color: $theme-color-4;
+            border-radius: 5px;
+            margin: 20px 0 20px 15px;
+            padding: 10px;
+
+            &::before {
+                -webkit-font-smoothing: antialiased; // sass-lint:disable-line no-vendor-prefixes
+                background: $light;
+                border: 3px solid $light;
+                border-radius: 50%;
+                color: $black;
+                content: '\f188';
+                display: inline-block;
+                font-family: 'Font Awesome 5 Free';
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 900;
+                height: 30px;
+                left: 15px;
+                position: absolute;
+                text-align: center;
+                text-rendering: auto;
+                width: 30px;
+                z-index: 400;
+            }
+
+            &.info-state {
+                &::before {
+                    background: $info;
+                    border-color: $info;
+                    color: $black;
+                    content: '\f129';
+                }
+            }
+
+            &.notice-state {
+                &::before {
+                    background: $purple;
+                    border-color: $purple;
+                    color: $white;
+                    content: '\f129';
+                }
+            }
+
+            &.warning-state {
+                &::before {
+                    background: $warning;
+                    border-color: $warning;
+                    color: $black;
+                    content: '\f12a';
+                }
+            }
+
+            &.error-state {
+                &::before {
+                    background: $pink;
+                    border-color: $pink;
+                    color: $white;
+                    content: '\f00d';
+                }
+            }
+
+            &.critical-state {
+                &::before {
+                    background: $danger;
+                    border-color: $danger;
+                    color: $white;
+                    content: '\f7b9';
+                }
+            }
+
+            &.alert-state {
+                &::before {
+                    background: $secondary;
+                    border-color: $secondary;
+                    color: $white;
+                    content: '\f06d';
+                }
+            }
+
+            &.emergency-state {
+                &::before {
+                    background: $dark;
+                    border-color: $dark;
+                    color: $white;
+                    content: '\f54c';
+                }
+            }
+
+            .h5 {
+                text-transform: capitalize;
+            }
+        }
+    }
+}

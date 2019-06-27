@@ -1,0 +1,25 @@
+{% extends "layouts/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 pt-4 mb-5">
+            <h1 class="mb-3 text-center">{{ 'page-log-label'|trans }}</h1>
+            
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <ul class="timeline">
+                {% if logs|length > 0 %}
+                    {% for log in logs %}
+                        <li class="{{ log.state }}-state">
+                            <div class="h5">{{ log.state }}</div>
+                            <p class="time">{{ log.date|date('datetime'|trans, 'timezone'|trans) }}</p>
+                            <p class="mb-0">{{ log.msg }}</p>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

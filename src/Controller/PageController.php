@@ -66,4 +66,49 @@ class PageController extends BaseController {
             'fileTypes' => $this->em->getRepository('App\Entity\FileType')->findAll(),
         ]));
     }
+
+    /**
+     * Log Action
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function logAction($request, $response, $args) {
+        // get all log files in reverse (latest first)
+        $logs = array_reverse(glob('../logs/*.log'));
+        $rows = [];
+        
+        foreach ($logs as $log) {
+            $logRows = [];
+            $handle = fopen($log, 'r');
+            
+            // read file line by line
+            while (($line = fgets($handle)) !== false) {
+                $logRows[] = $line;
+            }
+            
+            fclose($handle);
+            // reverse line order (latest first)
+            $logRows = array_reverse($logRows);
+            
+            foreach ($logRows as $logRow) {
+                // extract information
+                if (preg_match('/(\[(.*)\]) ([a-z-]*).(.*): (.*)/', $logRow, $matches) === 1) {
+                    $rows[] = [
+                        'date' => isset($matches[2]) ? $matches[2] : '',
+                        'state' => isset($matches[4]) ? strtolower($matches[4]) : '',
+                        'msg' => isset($matches[5]) ? $matches[5] : '',
+                    ];
+                }
+            }
+        }
+        
+        // Render view
+        return $this->view->render($response, 'page/log.html.twig', array_merge($args, [
+            'fsVersion' => FILE_SHARING_VERSION,
+            'logs' => $rows,
+        ]));
+    }
 }

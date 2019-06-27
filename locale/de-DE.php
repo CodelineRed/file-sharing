@@ -165,6 +165,7 @@ return [
     // navigation labels
     'page-index-label' => 'Startseite',
     'page-system-label' => 'System-Übersicht',
+    'page-log-label' => 'System-Logs',
     'user-show-label' => 'Profil',
     'user-show-all-label' => 'Alle Profile',
     'user-login-label' => 'Login',

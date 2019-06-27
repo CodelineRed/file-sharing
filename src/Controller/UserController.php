@@ -149,6 +149,7 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function updateRoleAction($request, $response, $args) {
+        $currentUser = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $args['role']]);
         
@@ -177,6 +178,7 @@ class UserController extends BaseController {
             $redirectPath = $request->getParam('return');
         } 
         
+        $this->logger->info("User '" . $currentUser->getName() . "' changed role of '" . $user->getName() . "' to '" . $role->getName() . "' - UserController:updateRole");
         return $response->withRedirect($redirectPath);
     }
     

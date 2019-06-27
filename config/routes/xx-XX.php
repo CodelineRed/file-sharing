@@ -196,6 +196,13 @@ return [
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],
+    'page-log' => [
+        'route'      => '/log/',
+        'method'     => 'App\Controller\PageController:logAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['superadmin'],
+        'rolesDeny'  => [],
+    ],
     'user-show' => [
         'route'      => '/{name}/',
         'method'     => 'App\Controller\UserController:showAction',
