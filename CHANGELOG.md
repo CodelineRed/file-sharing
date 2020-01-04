@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [`GeneralUtility::getUploadMaxFilesize()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Utility/GeneralUtility.php)
 - `FILE_SHARING_VERSION` in [`public/index.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/index.php)
 - translations
+- `"type": "project"` in `composer.json`
 
 ### Changed
 - jquery major version to minor version
