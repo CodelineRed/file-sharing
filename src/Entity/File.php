@@ -68,6 +68,13 @@ class File extends \App\MappedSuperclass\Base {
     private $fileIncluded = FALSE;
     
     /**
+     * Access tiers: 0 = private, 1 = shareable, 2 = public
+     * 
+     * @ORM\Column(type="smallint", options={"comment": "0 = private, 1 = shareable, 2 = public"})
+     */
+    protected $access = 0;
+    
+    /**
      * Get $user
      * 
      * @return User
@@ -223,6 +230,26 @@ class File extends \App\MappedSuperclass\Base {
      */
     public function setFileIncluded($fileIncluded) {
         $this->fileIncluded = $fileIncluded;
+        
+        return $this;
+    }
+    
+    /**
+     * Is $access
+     * 
+     * @return integer
+     */
+    public function getAccess() {
+        return $this->access;
+    }
+    
+    /**
+     * Set $access
+     * 
+     * @param integer $access
+     */
+    public function setAccess($access) {
+        $this->access = $access;
         
         return $this;
     }

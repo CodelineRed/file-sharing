@@ -18,9 +18,9 @@ return [
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
-    'file-hidden' => [
-        'route'      => '/de/datei/versteckt/{uuid}/',
-        'method'     => 'App\Controller\FileController:toggleHiddenAction',
+    'file-access' => [
+        'route'      => '/de/datei/zugriff/{uuid}/',
+        'method'     => 'App\Controller\FileController:toggleAccessAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],

@@ -1,6 +1,6 @@
 {
     "name": "file-sharing",
-    "version": "3.1.0-dev",
+    "version": "3.2.0-dev",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",
@@ -37,7 +37,7 @@
         "gulp-clean-css": "^4.2.0",
         "gulp-concat": "^2.6.1",
         "gulp-eslint": "^6.0.0",
-        "gulp-imagemin": "^6.2.0",
+        "gulp-imagemin": "^7.0.0",
         "gulp-jsonminify": "^1.1.0",
         "gulp-sass": "^4.0.2",
         "gulp-sass-lint": "^1.4.0",

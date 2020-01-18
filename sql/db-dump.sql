@@ -16,6 +16,7 @@ CREATE TABLE `imhhfs_file` (
   `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Size in bytes',
   `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `file_included` tinyint(1) NOT NULL COMMENT '1 if note is related to a file',
+  `access` smallint(6) NOT NULL COMMENT '0 = private, 1 = shareable, 2 = public',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',

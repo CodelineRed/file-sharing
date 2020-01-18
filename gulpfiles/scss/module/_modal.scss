@@ -1,0 +1,13 @@
+.modal {
+    .submit-form {
+        &[disabled] {
+            .fas {
+                display: inline-block;
+            }
+        }
+        
+        .fas {
+            display: none;
+        }
+    }
+}

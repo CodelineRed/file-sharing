@@ -86,7 +86,7 @@ function img() {
     return gulp.src(config.sourcePath + 'img/**/*.{png,gif,jpg,jpeg,ico,xml,json,svg}')
         .pipe(imagemin([
             imagemin.gifsicle({interlaced: true}),
-            imagemin.jpegtran({progressive: true}),
+            imagemin.mozjpeg({progressive: true}),
             imagemin.optipng({optimizationLevel: 5}),
             imagemin.svgo({
                 plugins: [

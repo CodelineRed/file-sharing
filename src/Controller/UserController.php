@@ -86,7 +86,7 @@ class UserController extends BaseController {
             
             // if user exists
             if ($user instanceof User && !$user->isHidden()) {
-                $this->logger->info("User '" . $args['name'] . "' found - UserController:show");
+                //$this->logger->info("User '" . $args['name'] . "' found - UserController:show");
             } elseif ($this->currentRole !== 'superadmin' || $user === NULL) {
                 // if user exits and is hidden
                 if ($user instanceof User && $user->isHidden()) {
@@ -426,7 +426,7 @@ class UserController extends BaseController {
             $user->setHidden(!$hidden);
             $this->em->persist($user);
             $this->em->flush();
-            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($hidden), [
+            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($user->isHidden()), [
                 $args['name'],
                 $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args)
             ]) . ';' . self::STYLE_SUCCESS);

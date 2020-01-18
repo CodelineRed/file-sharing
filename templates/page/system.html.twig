@@ -63,8 +63,12 @@
                                     <td>{{ publicFiles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ 'locked-files'|trans }}</td>
-                                    <td>{{ lockedFiles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                    <td>{{ 'shareable-files'|trans }}</td>
+                                    <td>{{ shareableFiles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'private-files'|trans }}</td>
+                                    <td>{{ privateFiles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ 'file-extensions'|trans }}</td>

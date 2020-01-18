@@ -23,8 +23,8 @@ class FileController extends BaseController {
     public function pdfViewerAction($request, $response, $args) {
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         
-        // if file exits and not hidden or current user is owner of file
-        if ($file instanceof File && !$file->isHidden() || $this->currentUser === $file->getUser()->getId()) {
+        // if file exits and accessible or current user is owner of file
+        if ($file instanceof File && $file->getAccess() > 0 || $this->currentUser === $file->getUser()->getId()) {
             if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
                 header("Content-Type: " . $file->getMimeType());
 //                header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
@@ -49,8 +49,8 @@ class FileController extends BaseController {
     public function downloadAction($request, $response, $args) {
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         
-        // if file exits and not hidden or current user is owner of file
-        if ($file instanceof File && !$file->isHidden() || $this->currentUser === $file->getUser()->getId()) {
+        // if file exits and accessible or current user is owner of file
+        if ($file instanceof File && $file->getAccess() > 0 || $this->currentUser === $file->getUser()->getId()) {
             if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
                 header("Content-Type: " . $file->getMimeType());
                 header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
@@ -216,25 +216,26 @@ class FileController extends BaseController {
     }
     
     /**
-     * toggleHidden Action
+     * toggleAccess Action
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
      * @param array $args
      * @return \Slim\Http\Response
      */
-    public function toggleHiddenAction($request, $response, $args) {
+    public function toggleAccessAction($request, $response, $args) {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         $args['name'] = $user->getName();
+        $accessTiers = ['private', 'shareable', 'public'];
         
         if ($user instanceof User) {
             $files = $user->getFiles();
 
             // if current user is owner of file or role can edit file other
             if ($files->contains($file) || $this->acl->isAllowed($this->currentRole, 'edit_file_other')) {
-                $hidden = $file->isHidden();
-                $file->setHidden(!$hidden);
+                $access = $file->getAccess();
+                $file->setAccess($access + 1 < 3 ? ++$access : 0);
                 $this->em->persist($file);
                 $this->em->flush();
                 
@@ -244,16 +245,16 @@ class FileController extends BaseController {
                     $args['name'] = $file->getUser()->getName();
                 }
                 
-                $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m' . intval($hidden), [
+                $this->flash->addMessage('message', LanguageUtility::trans('file-access-m' . $file->getAccess(), [
                     $file->getName(),
                     $this->router->pathFor('file-show-' . LanguageUtility::getLocale(), $args)
                 ]) . ';' . self::STYLE_SUCCESS);
-                $this->logger->info("User '" . $user->getName() . "' toggled '" . $file->getName() . "' to '" . ($hidden ? 'locked' : 'unlocked') . "' - FileController:toggleHidden");
+                $this->logger->info("User '" . $user->getName() . "' toggled '" . $file->getName() . "' to '" . $accessTiers[$file->getAccess()] . "' - FileController:toggleAccess");
             } else {
-                $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m2', [$file->getName()]) . ';' . self::STYLE_DANGER);
+                $this->flash->addMessage('message', LanguageUtility::trans('file-access-m3', [$file->getName()]) . ';' . self::STYLE_DANGER);
             }
         } else {
-            $this->flash->addMessage('message', LanguageUtility::trans('file-hidden-m3') . ';' . self::STYLE_DANGER);
+            $this->flash->addMessage('message', LanguageUtility::trans('file-access-m4') . ';' . self::STYLE_DANGER);
         }
         
         return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));

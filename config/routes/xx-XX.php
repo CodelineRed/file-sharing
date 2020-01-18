@@ -5,6 +5,20 @@
  */
 
 return [
+    'api-file-show' => [
+        'route'      => '/api/file/{uuid}/',
+        'method'     => 'App\Controller\ApiController:fileShowAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'api-file-update' => [
+        'route'      => '/api/file/update/{uuid}/',
+        'method'     => 'App\Controller\ApiController:fileUpdateAction',
+        'methods'    => ['POST'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
     'file-show' => [
         'route'      => '/file/{uuid}/',
         'method'     => 'App\Controller\FileController:showAction',
@@ -19,9 +33,9 @@ return [
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
-    'file-hidden' => [
-        'route'      => '/file/hidden/{uuid}/',
-        'method'     => 'App\Controller\FileController:toggleHiddenAction',
+    'file-access' => [
+        'route'      => '/file/access/{uuid}/',
+        'method'     => 'App\Controller\FileController:toggleAccessAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
