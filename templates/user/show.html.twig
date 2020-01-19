@@ -91,10 +91,11 @@
                     <thead>
                         <tr>
                             {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
-                            <th scope="col"><span class="text-nowrap">{{ 'lock-file'|trans }}</span> / <span class="text-nowrap">{{ 'unlock-file'|trans }}</span></th>
+                            <th scope="col"><span class="text-nowrap">{{ 'file-access'|trans }}</span></th>
                             {% endif %}
                             <th scope="col"><span class="text-nowrap">{{ 'file-name'|trans }}</span></th>
                             <th scope="col"><span class="text-nowrap">{{ 'file-size'|trans }}</span></th>
+                            <th scope="col"><span class="text-nowrap">{{ 'file-type'|trans }}</span></th>
                             <th scope="col"><span class="text-nowrap">{{ 'created-at'|trans }}</span></th>
                             {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
                             <th scope="col"><span class="text-nowrap">{{ 'remove'|trans }}</span></th>
@@ -104,21 +105,25 @@
                     <tbody>
                     {# loop through database records #}
                     {% for file in publicFiles %}
-                        <tr>
+                        <tr id="file-{{ file.id }}">
                         {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
-                            <td data-order="{{ file.hidden }}">
-                            {% if file.hidden %}
-                                <a href="{{ path_for('file-hidden-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-file'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
+                            <td data-order="{{ file.access }}">
+                            {% if file.access == 0 %}
+                                <a href="{{ path_for('file-access-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-success btn-sm mr-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'shareable-file'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
+                            {% elseif file.access == 1 %}
+                                <a href="{{ path_for('file-access-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-warning btn-sm mr-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'unlock-file'|trans }}"><i class="fas fa-link fa-fw"></i></a>
                             {% else %}
-                                <a href="{{ path_for('file-hidden-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-warning btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'lock-file'|trans }}"><i class="fas fa-unlock fa-fw"></i></a>
+                                <a href="{{ path_for('file-access-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm mr-2" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'lock-file'|trans }}"><i class="fas fa-eye fa-fw"></i></a>
                             {% endif %}
+                            <span data-toggle="tooltip" data-placement="top" title="{{ 'edit-file'|trans }}"><a href="#" data-fileid="{{ file.id }}" data-file-show="{{ path_for('api-file-show-' ~ glc, { 'uuid': file.id }) }}" data-file-update="{{ path_for('api-file-update-' ~ glc, { 'uuid': file.id }) }}" data-toggle="modal" data-target="#edit-file" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-pen fa-fw"></i></a></span>
                             </td>
                         {% endif %}
-                            <td><a href="{{ path_for('file-show-' ~ lc, { 'uuid': file.id }) }}" class="current text-nowrap" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'show-file'|trans }}">{{ file.name }}</a></td>
+                            <td><a href="{{ path_for('file-show-' ~ lc, { 'uuid': file.id }) }}" class="current text-nowrap detail-link" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'show-file'|trans }}">{{ file.name }}</a></td>
                             <td data-order="{{ file.size }}"><span class="text-nowrap">{{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span></td>
+                            <td>{{ file.mimeType }}</td>
                             <td data-order="{{ file.createdAt|date('c') }}"><span class="text-nowrap">{{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
                         {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
-                            <td><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ file.name }}" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>
+                            <td data-order="0" class="text-center"><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ file.name }}" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>
                         {% endif %}
                         </tr>
                     {% endfor %}
@@ -130,5 +135,8 @@
         {% endif %}
         </div>
     </div>
+        {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
+            {{ include('partials/modal-edit-file.html.twig') }}
+        {% endif %}
     {% endif %}
 {% endblock %}

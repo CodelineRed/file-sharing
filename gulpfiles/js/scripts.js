@@ -1,4 +1,4 @@
-/*global initCookieConsent dataTablesLangUrl confirmRemove*/
+/*global initCookieConsent initEditFile dataTablesLangUrl confirmRemove*/
 'use strict';
 
 // jQuery.noConflict();
@@ -32,5 +32,6 @@
         });
         
         initCookieConsent();
+        initEditFile();
     });
 })(jQuery);

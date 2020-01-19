@@ -134,13 +134,13 @@ class User extends \App\MappedSuperclass\Base {
     }
 
     /**
-     * Get files with hidden = FALSE and file_included = FALSE
+     * Get files with access = 2 and file_included = FALSE
      * 
      * @return ArrayCollection
      */
     public function getPublicFiles() {
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('hidden', FALSE))
+            ->where(Criteria::expr()->eq('access', 2))
             ->andWhere(Criteria::expr()->eq('fileIncluded', FALSE))
             ->orderBy(['createdAt' => Criteria::DESC]);
         

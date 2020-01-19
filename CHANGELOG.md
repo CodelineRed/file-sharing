@@ -6,7 +6,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.1.0]
+## [3.2.0]
+### Added
+- 3 access states for files (public, shareable and private). Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)!
+- [`version-3.2.0-migration.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/version-3.2.0-migration.sql)
+- [`uploads.ini`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/uploads.ini) and use it in [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)
+- [`modal-edit-file.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-edit-file.html.twig)
+- [`ApiController`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/ApiController.php)
+- [screenshots](https://github.com/InsanityMeetsHH/file-sharing/tree/master/screenshots)
+
+### Changed
+- [`composer.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/composer.json) minimum php version from 5.5.0 to 5.5.9. (Because of `symfony/console`)
+- [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
+- [`Dockerfile`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/Dockerfile)
+- Docker installation steps
+- [`user/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig)
+- translation files
+- route files
+- gulp-imagemin 6.2.0 to gulp-imagemin 7.0.0
+
+### Removed
+- `modal.html.twig` and replaced by [`modal-cookie-policy.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-cookie-policy.html.twig)
+- `db-model.png` and replaced by [`data-model.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.png)
+
+### Fixed
+- wrong database name in [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)
+
+## [3.1.0] - 2020-01-04
 ### Added
 - system overview and system logs page
 - Bootstrap position utility
@@ -16,13 +42,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `"type": "project"` in `composer.json`
 
 ### Changed
-- jquery major version to minor version
-- del 4.1.0 to del 4.1.1
+- jquery 3.3.1 to jquery 3.4.1
+- del 4.1.0 to del 5.1.0
 - browser-sync 2.26.3 to browser-sync 2.26.7
 - gulp 4.0.1 to gulp 4.0.2
 - gulp-clean-css 4.1 to gulp-clean-css 4.2
-- gulp-imagemin 5.0.3 to gulp-imagemin 6.0.0
-- @fortawesome/fontawesome-free 5.8.1 to @fortawesome/fontawesome-free 5.9.0
+- gulp-imagemin 5.0.3 to gulp-imagemin 6.2.0
+- @fortawesome/fontawesome-free 5.8.1 to @fortawesome/fontawesome-free 5.12.0
 - cookieconsent 3.1.0 to cookieconsent 3.1.1
 
 ## [3.0.0] - 2019-04-23

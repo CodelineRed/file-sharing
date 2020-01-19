@@ -18,9 +18,9 @@ return [
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
-    'file-hidden' => [
-        'route'      => '/file/hidden/{uuid}/',
-        'method'     => 'App\Controller\FileController:toggleHiddenAction',
+    'file-access' => [
+        'route'      => '/file/access/{uuid}/',
+        'method'     => 'App\Controller\FileController:toggleAccessAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
@@ -96,7 +96,7 @@ return [
         'rolesDeny'  => [],
     ],
     'user-update-role' => [
-        'route'      => '/role/{role}/{name}/',
+        'route'      => '/role/{name}/{role}/',
         'method'     => 'App\Controller\UserController:updateRoleAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['superadmin'],

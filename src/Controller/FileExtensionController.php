@@ -89,8 +89,8 @@ class FileExtensionController extends BaseController {
             $fileExtension->setHidden(!$hidden);
             $this->em->persist($fileExtension);
             $this->em->flush();
-            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m' . intval($hidden), [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
-            $this->logger->info("User '" . $user->getName() . "' toggled '" . $fileExtension->getName() . "' to '" . ($hidden ? 'locked' : 'unlocked') . "' - FileExtensionController:toggleHidden");
+            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m' . intval($fileExtension->isHidden()), [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->logger->info("User '" . $user->getName() . "' toggled '" . $fileExtension->getName() . "' to '" . ($fileExtension->isHidden() ? 'locked' : 'unlocked') . "' - FileExtensionController:toggleHidden");
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
