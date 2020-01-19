@@ -123,7 +123,7 @@
                             <td>{{ file.mimeType }}</td>
                             <td data-order="{{ file.createdAt|date('c') }}"><span class="text-nowrap">{{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span></td>
                         {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
-                            <td><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ file.name }}" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>
+                            <td data-order="0" class="text-center"><a href="{{ path_for('file-remove-' ~ lc, { 'uuid': file.id }) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ file.name }}" data-toggle="tooltip" data-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a></td>
                         {% endif %}
                         </tr>
                     {% endfor %}

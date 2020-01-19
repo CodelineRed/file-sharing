@@ -96,7 +96,7 @@ return [
         'rolesDeny'  => [],
     ],
     'user-update-role' => [
-        'route'      => '/role/{role}/{name}/',
+        'route'      => '/role/{name}/{role}/',
         'method'     => 'App\Controller\UserController:updateRoleAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['superadmin'],

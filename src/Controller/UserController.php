@@ -141,7 +141,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Updates role if user
+     * Updates role from user
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
