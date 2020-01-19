@@ -1,6 +1,6 @@
 {
     "name": "file-sharing",
-    "version": "3.2.0-dev",
+    "version": "3.2.0",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",
