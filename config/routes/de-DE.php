@@ -67,6 +67,27 @@ return [
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],
+    'folder-show' => [
+        'route'      => '/de/ordner/{uuid}/',
+        'method'     => 'App\Controller\FolderController:showAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'folder-access' => [
+        'route'      => '/de/ordner/zugriff/{uuid}/',
+        'method'     => 'App\Controller\FolderController:toggleAccessAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'folder-remove' => [
+        'route'      => '/de/ordner/loeschen/{uuid}/',
+        'method'     => 'App\Controller\FolderController:removeAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
     'user-enable-two-factor' => [
         'route'      => '/de/zwei-faktor-aktivieren/',
         'method'     => 'App\Controller\UserController:enableTwoFactorAction',

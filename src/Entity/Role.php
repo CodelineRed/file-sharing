@@ -1,14 +1,16 @@
 <?php
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\MappedSuperclass\Base;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_role")
  */
-class Role extends \App\MappedSuperclass\Base {
+class Role extends Base {
     
     /**
      * @ORM\Column(type="string", unique=true)
@@ -41,7 +43,7 @@ class Role extends \App\MappedSuperclass\Base {
      * @param string $name
      */
     public function setName($name) {
-        $this->name = strtolower($name);
+        $this->name = strtolower(trim($name));
         
         return $this;
     }
@@ -49,7 +51,7 @@ class Role extends \App\MappedSuperclass\Base {
     /**
      * Get $users
      * 
-     * @return ArrayCollection
+     * @return PersistentCollection
      */
     public function getUsers() {
         return $this->users;

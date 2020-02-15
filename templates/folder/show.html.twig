@@ -1,0 +1,30 @@
+{% extends "layouts/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 mb-5">
+        {% if folder %}
+            {% if (folder.accessId == 2 or folder.accessId == 3) or folder.user.id == current_user() or has_role({0: 'superadmin'}) %}
+                <h1 class="mb-3 text-center hl-show">
+                    {{ folder.name }}
+                </h1>
+                <div class='mb-3 text-center'>
+                    <span data-toggle="tooltip" data-placement="top" title="{{ 'owner'|trans }}"><i class="fas fa-user"></i>&nbsp;<a href="{{ path_for('user-show-' ~ lc, { 'name': folder.user.name }) }}" class="current">{{ folder.user.name }}</a></span> &#124;
+                    <span data-toggle="tooltip" data-placement="top" title="{{ 'created-at'|trans }}"><i class="fas fa-clock"></i> {{ folder.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span> &#124;
+                    <span data-toggle="tooltip" data-placement="top" title="{{ folder.access.name|trans }}"><i class="fas fa-{{ folder.access.icon }} fa-fw"></i></span>
+                </div>
+                {% set returnUrl = '?return=' ~ path_for('folder-show-' ~ lc, { 'uuid': folder.id }) %}
+                {% include('partials/file-table.html.twig') %}
+            {% else %}
+                <div class="alert alert-danger text-center" role="alert">
+                    {{ 'folder-not-accessible'|trans }}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-danger text-center" role="alert">
+                {{ 'folder-not-exists'|trans }}
+            </div>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -132,7 +132,7 @@ class FileExtensionController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function showAction($request, $response, $args) {
-        $fileExtensions = $this->em->getRepository('App\Entity\FileExtension')->findAll();
+        $fileExtensions = $this->em->getRepository('App\Entity\FileExtension')->findBy([], ['name' => 'ASC']);
         
         // Render view
         return $this->view->render($response, 'file-extension/show.html.twig', array_merge($args, [

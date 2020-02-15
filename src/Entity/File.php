@@ -1,13 +1,16 @@
 <?php
 namespace App\Entity;
 
+use App\MappedSuperclass\Base;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_file")
  */
-class File extends \App\MappedSuperclass\Base {
+class File extends Base {
     
     /**
      * @ORM\Id
@@ -23,6 +26,26 @@ class File extends \App\MappedSuperclass\Base {
     private $user;
     
     /**
+     * ID of the comment related to the file
+     * 
+     * @ORM\OneToOne(targetEntity="File", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $file = NULL;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="FileExtension", inversedBy="files")
+     * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id")
+     */
+    private $extension;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Access", inversedBy="files")
+     * @ORM\JoinColumn(name="access_id", referencedColumnName="id", nullable=false)
+     */
+    protected $access;
+    
+    /**
      * @ORM\Column(type="string")
      */
     private $name;
@@ -33,12 +56,6 @@ class File extends \App\MappedSuperclass\Base {
      * @ORM\Column(type="string", name="hash_name", options={"comment": "File name in upload folder"})
      */
     private $hashName;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="FileExtension", inversedBy="files")
-     * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id")
-     */
-    private $extension;
     
     /**
      * @ORM\Column(type="string", name="mime_type")
@@ -53,26 +70,23 @@ class File extends \App\MappedSuperclass\Base {
     private $size;
     
     /**
-     * ID of the comment related to the file
-     * 
-     * @ORM\OneToOne(targetEntity="File", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="SET NULL")
-     */
-    private $file = NULL;
-    
-    /**
      * 1 if note is related to a file
      * 
      * @ORM\Column(type="boolean", name="file_included", options={"comment": "1 if note is related to a file"})
      */
     private $fileIncluded = FALSE;
     
-    /**
-     * Access tiers: 0 = private, 1 = shareable, 2 = public
+    /** 
+     * Many Files can have Many Folders.
      * 
-     * @ORM\Column(type="smallint", options={"comment": "0 = private, 1 = shareable, 2 = public"})
+     * @ORM\OneToMany(targetEntity="FileFolderJoin", mappedBy="file", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
-    protected $access = 0;
+    private $folderJoins;
+    
+    public function __construct() {
+        $this->folderJoins = new ArrayCollection();
+    }
     
     /**
      * Get $user
@@ -93,43 +107,23 @@ class File extends \App\MappedSuperclass\Base {
         
         return $this;
     }
-    
+
     /**
-     * Get $name
+     * Get $file
      * 
-     * @return string
+     * @return FileFile
      */
-    public function getName() {
-        return $this->name;
+    public function getFile() {
+        return $this->file;
     }
 
     /**
-     * Set $name
+     * Set $file
      * 
-     * @param string $name
+     * @param FileFile $file
      */
-    public function setName($name) {
-        $this->name = $name;
-        
-        return $this;
-    }
-    
-    /**
-     * Get $hashName
-     * 
-     * @return string
-     */
-    public function getHashName() {
-        return $this->hashName;
-    }
-
-    /**
-     * Set $hashName
-     * 
-     * @param string $hashName
-     */
-    public function setHashName($hashName) {
-        $this->hashName = $hashName;
+    public function setFile($file) {
+        $this->file = $file;
         
         return $this;
     }
@@ -150,6 +144,80 @@ class File extends \App\MappedSuperclass\Base {
      */
     public function setExtension($extension) {
         $this->extension = $extension;
+        
+        return $this;
+    }
+    
+    /**
+     * Get access id
+     * 
+     * @return integer
+     */
+    public function getAccessId() {
+        if ($this->access instanceof Access) {
+            return $this->access->getId();
+        }
+        
+        return 1;
+    }
+    
+    /**
+     * Get access
+     * 
+     * @return Access|null
+     */
+    public function getAccess() {
+        
+        return $this->access;
+    }
+    
+    /**
+     * Set $access
+     * 
+     * @param Access $access
+     */
+    public function setAccess(Access $access) {
+        $this->access = $access;
+        
+        return $this;
+    }
+    
+    /**
+     * Get $name
+     * 
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+
+    /**
+     * Set $name
+     * 
+     * @param string $name
+     */
+    public function setName($name) {
+        $this->name = trim($name);
+        
+        return $this;
+    }
+    
+    /**
+     * Get $hashName
+     * 
+     * @return string
+     */
+    public function getHashName() {
+        return $this->hashName;
+    }
+
+    /**
+     * Set $hashName
+     * 
+     * @param string $hashName
+     */
+    public function setHashName($hashName) {
+        $this->hashName = $hashName;
         
         return $this;
     }
@@ -193,26 +261,6 @@ class File extends \App\MappedSuperclass\Base {
         
         return $this;
     }
-
-    /**
-     * Get $file
-     * 
-     * @return FileFile
-     */
-    public function getFile() {
-        return $this->file;
-    }
-
-    /**
-     * Set $file
-     * 
-     * @param FileFile $file
-     */
-    public function setFile($file) {
-        $this->file = $file;
-        
-        return $this;
-    }
     
     /**
      * Is $fileIncluded
@@ -235,22 +283,50 @@ class File extends \App\MappedSuperclass\Base {
     }
     
     /**
-     * Is $access
+     * Get $folderJoins
      * 
-     * @return integer
+     * @return PersistentCollection
      */
-    public function getAccess() {
-        return $this->access;
+    public function getFolderJoins() {
+        return $this->folderJoins;
     }
     
     /**
-     * Set $access
+     * Get $folders
      * 
-     * @param integer $access
+     * @return array
      */
-    public function setAccess($access) {
-        $this->access = $access;
+    public function getFoldersArray() {
+        $folders = [];
+
+        foreach ($this->getUser()->getFolders() as $userFolder) {
+            $selected = FALSE;
+            $access = $userFolder->getAccess();
+            
+            foreach ($this->folderJoins as $folderJoin) {
+                if ($userFolder->getId() === $folderJoin->getFolderId()) {
+                    $selected = TRUE;
+                    break;
+                }
+            }
+            
+            $folders[] = [
+                'id' => $userFolder->getId(),
+                'name' => $userFolder->getName(),
+                'access' => $userFolder->getAccessId(),
+                'access_icon' => $access->getIcon(),
+                'access_button' => $access->getButton(),
+                'selected' => $selected,
+            ];
+        }
         
-        return $this;
+        // order by folder name ASC
+        if (count($folders)) {
+            usort($folders, function ($a, $b) {
+                return ($a['name'] < $b['name']) ? -1 : 1;
+            });
+        }
+        
+        return $folders;
     }
 }

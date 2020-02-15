@@ -1,16 +1,17 @@
 <?php
 namespace App\Entity;
 
+use App\MappedSuperclass\Base;
 use App\Utility\GeneralUtility;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="imhhfs_user")
  */
-class User extends \App\MappedSuperclass\Base {
+class User extends Base {
     
     /**
      * @ORM\Column(type="string", unique=true)
@@ -31,13 +32,6 @@ class User extends \App\MappedSuperclass\Base {
     private $role;
     
     /**
-     * One User has many RecoveryCodes.
-     * 
-     * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $recoveryCodes;
-    
-    /**
      * 1 if 2FA is enabled
      * 
      * @ORM\Column(type="boolean", name="two_factor", options={"comment": "1 if 2FA is enabled"})
@@ -56,12 +50,26 @@ class User extends \App\MappedSuperclass\Base {
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $files;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Folder", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    private $folders;
+    
+    /**
+     * One User has many RecoveryCodes.
+     * 
+     * @ORM\OneToMany(targetEntity="RecoveryCode", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $recoveryCodes;
+    
     public function __construct() {
-        $this->recoveryCodes = new ArrayCollection();
         $this->files = new ArrayCollection();
+        $this->folders = new ArrayCollection();
+        $this->recoveryCodes = new ArrayCollection();
     }
-
+    
     /**
      * Get $name
      * 
@@ -77,11 +85,11 @@ class User extends \App\MappedSuperclass\Base {
      * @param string $name
      */
     public function setName($name) {
-        $this->name = strtolower($name);
+        $this->name = strtolower(trim($name));
         
         return $this;
     }
-
+    
     /**
      * Get $pass
      * 
@@ -100,51 +108,6 @@ class User extends \App\MappedSuperclass\Base {
         $this->pass = GeneralUtility::encryptPassword($pass);
         
         return $this;
-    }
-
-    /**
-     * Get $recoveryCodes
-     * 
-     * @return ArrayCollection
-     */
-    public function getRecoveryCodes() {
-        return $this->recoveryCodes;
-    }
-
-    /**
-     * Get $files
-     * 
-     * @return ArrayCollection
-     */
-    public function getFiles() {
-        return $this->files;
-    }
-
-    /**
-     * Get files with file_included = FALSE
-     * 
-     * @return ArrayCollection
-     */
-    public function getUniqueFiles() {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('fileIncluded', FALSE))
-            ->orderBy(['createdAt' => Criteria::DESC]);
-        
-        return $this->files->matching($criteria);
-    }
-
-    /**
-     * Get files with access = 2 and file_included = FALSE
-     * 
-     * @return ArrayCollection
-     */
-    public function getPublicFiles() {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('access', 2))
-            ->andWhere(Criteria::expr()->eq('fileIncluded', FALSE))
-            ->orderBy(['createdAt' => Criteria::DESC]);
-        
-        return $this->files->matching($criteria);
     }
     
     /**
@@ -186,7 +149,7 @@ class User extends \App\MappedSuperclass\Base {
         
         return $this;
     }
-
+    
     /**
      * Get $twoFactorSecret
      * 
@@ -205,5 +168,32 @@ class User extends \App\MappedSuperclass\Base {
         $this->twoFactorSecret = $twoFactorSecret;
         
         return $this;
+    }
+    
+    /**
+     * Get $files
+     * 
+     * @return PersistentCollection
+     */
+    public function getFiles() {
+        return $this->files;
+    }
+    
+    /**
+     * Get $folders
+     * 
+     * @return PersistentCollection
+     */
+    public function getFolders() {
+        return $this->folders;
+    }
+    
+    /**
+     * Get $recoveryCodes
+     * 
+     * @return PersistentCollection
+     */
+    public function getRecoveryCodes() {
+        return $this->recoveryCodes;
     }
 }

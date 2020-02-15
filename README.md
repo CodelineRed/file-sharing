@@ -8,14 +8,14 @@ This application based on [Slim Skeleton 5](https://github.com/InsanityMeetsHH/S
 * [Node.js](http://nodejs.org/en/download/)
 * [npm](http://www.npmjs.com/get-npm) `$ npm i npm@latest -g`
 * [gulp-cli](https://www.npmjs.com/package/gulp-cli) `$ npm i gulp-cli@latest -g`
-* PHP => 5.5
-* MySQL (pdo_mysql)
+* PHP => 5.5.9
+* MySQL 5 (pdo_mysql)
 * [Docker](https://www.docker.com/) ([for installation with Docker](https://github.com/InsanityMeetsHH/file-sharing#installation-with-docker))
 
-## Installation with [Composer](https://getcomposer.org/) (Recommended)
+## Installation with [Composer](https://getcomposer.org/download/1.9.3/composer.phar) (Recommended)
 
 ```bash
-$ composer create-project insanitymeetshh/file-sharing [app-name]
+$ php composer.phar create-project insanitymeetshh/file-sharing [app-name]
 $ cd [app-name]
 $ npm i
 $ gulp build
@@ -27,9 +27,9 @@ This steps works with Windows, macOS and Linux.
 * Open a command prompt on your OS (if not already open) and navigate to the project folder
 * `$ npm i`
 * `$ gulp build`
-* Add `"platform": {"php": "7.4.1"}` to `"config"` in [`composer.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/composer.json#L46)
+* Add `"platform": {"php": "7.4.2"}` to `"config"` in [`composer.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/composer.json#L46)
 * `$ cp config\additional-settings.dist.php config\additional-settings.php`
-* Download [`composer.phar`](https://getcomposer.org/download/1.9.2/composer.phar) if not already done
+* Download [`composer.phar`](https://getcomposer.org/download/1.9.3/composer.phar) if not already done
 * `$ php composer.phar install`
 * `$ docker-compose build`
 * `$ docker-compose up -d`

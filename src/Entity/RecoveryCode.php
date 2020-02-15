@@ -1,13 +1,14 @@
 <?php
 namespace App\Entity;
 
+use App\MappedSuperclass\Base;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_recovery_code")
  */
-class RecoveryCode extends \App\MappedSuperclass\Base {
+class RecoveryCode extends Base {
     
     /**
      * @ORM\Id

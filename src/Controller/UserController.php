@@ -118,8 +118,8 @@ class UserController extends BaseController {
         return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
             'user' => $user,
             'maxFileSize' => GeneralUtility::getUploadMaxFilesize(),
-            'files' => $user->getUniqueFiles(),
-            'publicFiles' => $user->getPublicFiles(),
+            'files' => $this->em->getRepository('App\Entity\User')->findUniqueFiles($user->getFiles()),
+            'publicFiles' => $this->em->getRepository('App\Entity\User')->findPublicFiles($user->getFiles()),
             'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }
@@ -421,7 +421,8 @@ class UserController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         
         // if user exists and current user is requested user or user exists and role can edit user other
-        if ($user instanceof User && $this->currentUser === $user->getId() || ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'edit_user_other'))) {
+        if ($user instanceof User && $this->currentUser === $user->getId() 
+                || ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'update_user_other'))) {
             $hidden = $user->isHidden();
             $user->setHidden(!$hidden);
             $this->em->persist($user);
@@ -438,7 +439,7 @@ class UserController extends BaseController {
         
         if (is_string($request->getParam('return'))) {
             $redirectPath = $request->getParam('return');
-        } 
+        }
         
         return $response->withRedirect($redirectPath);
     }
@@ -455,7 +456,7 @@ class UserController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         
         // if user exists and role can delete user other
-        if ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'delete_user_other')) {
+        if ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'remove_user_other')) {
             $files = $user->getFiles();
             
             // remove all files from user

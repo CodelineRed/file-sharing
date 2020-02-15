@@ -49,8 +49,9 @@ function js() {
             config.sourcePath + 'js/lib/**/*.js',
             'node_modules/cookieconsent/src/cookieconsent.js',
             'node_modules/cssuseragent/cssua.js',
-            'node_modules/datatables/media/js/jquery.dataTables.js',
+            'node_modules/datatables.net/js/jquery.dataTables.js',
             'node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js',
+            'node_modules/string-format-js/format.js',
             config.sourcePath + 'js/plugin/**/*.js',
             config.sourcePath + 'js/module/**/*.js',
             config.sourcePath + 'js/scripts.js'

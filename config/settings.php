@@ -88,19 +88,21 @@ return [
         
         // resources for acl
         'acl_resources' => [
-            'create_user' => ['guest', 'admin', 'superadmin'],
-            'edit_user' => ['member', 'admin', 'superadmin'], // edit own user information
-            'show_user' => ['member', 'admin', 'superadmin'], // show own user information
-            'delete_user' => ['member', 'admin', 'superadmin'], // delete own user
-            'edit_user_other' => ['admin', 'superadmin'], // edit user information from other users
-            'show_user_other' => ['guest', 'member', 'admin', 'superadmin'], // show user information from other users
-            'delete_user_other' => ['superadmin'], // delete other users
             'create_role' => ['superadmin'],
-            'edit_role' => ['superadmin'],  // edit role information
+            'create_user' => ['guest', 'admin', 'superadmin'],
             'show_role' => ['admin', 'superadmin'],
-            'delete_role' => ['superadmin'], // delete role
-            'edit_file_other' => ['superadmin'], // edit file information from other users
-            'delete_file_other' => ['superadmin'], // delete files from other users
+            'show_user' => ['member', 'admin', 'superadmin'], // show own user information
+            'show_user_other' => ['guest', 'member', 'admin', 'superadmin'], // show user information from other users
+            'remove_file_other' => ['superadmin'], // delete files from other users
+            'remove_folder_other' => ['superadmin'], // delete folder from other users
+            'remove_role' => ['superadmin'], // delete role
+            'remove_user' => ['member', 'admin', 'superadmin'], // delete own user
+            'remove_user_other' => ['superadmin'], // delete other users
+            'update_file_other' => ['superadmin'], // update file information from other users
+            'update_folder_other' => ['superadmin'], // update folder information from other users
+            'update_role' => ['superadmin'],  // update role information
+            'update_user' => ['member', 'admin', 'superadmin'], // update own user information
+            'update_user_other' => ['admin', 'superadmin'], // update user information from other users
         ],
     ],
 ];

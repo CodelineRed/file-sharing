@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col-12 text-center mb-5 file-show">
         {% if file %}
-            {% if (file.access == 1 or file.access == 2) or file.user.id == current_user() or has_role({0: 'superadmin'}) %}
-                <h1 class="mb-3">
+            {% if (file.accessId == 2 or file.accessId == 3) or file.user.id == current_user() or has_role({0: 'superadmin'}) %}
+                <h1 class="mb-3 hl-show">
                     {{ file.name }}
                     {% if source %}<a href="{{ path_for('file-download-' ~ glc, { 'uuid': file.id }) }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true" data-toggle="tooltip" data-placement="top" title="{{ 'download'|trans }}"><i class="fas fa-download fa-fw"></i></a>{% endif %}
                 </h1>
@@ -13,13 +13,7 @@
                     <span data-toggle="tooltip" data-placement="top" title="{{ 'owner'|trans }}"><i class="fas fa-user"></i>&nbsp;<a href="{{ path_for('user-show-' ~ lc, { 'name': file.user.name }) }}" class="current">{{ file.user.name }}</a></span> &#124;
                     <span data-toggle="tooltip" data-placement="top" title="{{ 'file-size'|trans }}"><i class="fas fa-database"></i> {{ file.size|file_size(2, 'dp'|trans, 'ts'|trans) }}</span> &#124;
                     <span data-toggle="tooltip" data-placement="top" title="{{ 'created-at'|trans }}"><i class="fas fa-clock"></i> {{ file.createdAt|date('datetime'|trans, 'timezone'|trans) }}</span> &#124;
-                {% if file.access == 0 %}
-                    <span data-toggle="tooltip" data-placement="top" title="{{ 'locked'|trans }}"><i class="fas fa-lock fa-fw"></i></span>
-                {% elseif file.access == 1 %}
-                    <span data-toggle="tooltip" data-placement="top" title="{{ 'shareable'|trans }}"><i class="fas fa-link fa-fw"></i></span>
-                {% else %}
-                    <span data-toggle="tooltip" data-placement="top" title="{{ 'unlocked'|trans }}"><i class="fas fa-eye fa-fw"></i></span>
-                {% endif %}
+                    <span data-toggle="tooltip" data-placement="top" title="{{ file.access.name|trans }}"><i class="fas fa-{{ file.access.icon }} fa-fw"></i></span>
                 </div>
 
                 {% if file.extension.fileType.name == 'other' and source %}

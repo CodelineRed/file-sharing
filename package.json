@@ -1,6 +1,6 @@
 {
     "name": "file-sharing",
-    "version": "3.2.0",
+    "version": "3.3.0-dev",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",
@@ -37,7 +37,7 @@
         "gulp-clean-css": "^4.2.0",
         "gulp-concat": "^2.6.1",
         "gulp-eslint": "^6.0.0",
-        "gulp-imagemin": "^7.0.0",
+        "gulp-imagemin": "^7.1.0",
         "gulp-jsonminify": "^1.1.0",
         "gulp-sass": "^4.0.2",
         "gulp-sass-lint": "^1.4.0",
@@ -45,14 +45,15 @@
         "gulp-uglify": "^3.0.2"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "~5.12.0",
+        "@fortawesome/fontawesome-free": "^5.12.1",
         "bootstrap": "~4.4.1",
         "cookieconsent": "^3.1.1",
         "cookieconsent-scss-less": "^3.0.6",
         "cssuseragent": "^2.1.31",
-        "datatables": "^1.10.18",
+        "datatables.net": "^1.10.20",
         "datatables.net-bs4": "^1.10.20",
-        "jquery": "^3.4.1"
+        "jquery": "^3.4.1",
+        "string-format-js": "^1.0.0"
     },
     "scripts": {
         "postinstall": "php gulpfiles/php/npm-postinstall.php"

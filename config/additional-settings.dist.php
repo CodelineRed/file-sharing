@@ -2,6 +2,12 @@
 return [
     'settings' => [
         'displayErrorDetails' => FALSE, // set to false in production
+
+        // Renderer settings
+        'renderer' => [
+            'cache' => FALSE,  // __DIR__ . '/../cache/',
+            'debug' => FALSE,
+        ],
         
         // Doctrine settings
         'doctrine' => [
