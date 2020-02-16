@@ -18,9 +18,9 @@ return [
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
-    'file-hidden' => [
-        'route'      => '/file/hidden/{uuid}/',
-        'method'     => 'App\Controller\FileController:toggleHiddenAction',
+    'file-access' => [
+        'route'      => '/file/access/{uuid}/',
+        'method'     => 'App\Controller\FileController:toggleAccessAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
@@ -67,6 +67,27 @@ return [
         'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],
+    'folder-show' => [
+        'route'      => '/folder/{uuid}/',
+        'method'     => 'App\Controller\FolderController:showAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'file-access' => [
+        'route'      => '/folder/access/{uuid}/',
+        'method'     => 'App\Controller\FolderController:toggleAccessAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'folder-remove' => [
+        'route'      => '/folder/remove/{uuid}/',
+        'method'     => 'App\Controller\FolderController:removeAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
     'user-enable-two-factor' => [
         'route'      => '/enable-two-factor/',
         'method'     => 'App\Controller\UserController:enableTwoFactorAction',
@@ -96,7 +117,7 @@ return [
         'rolesDeny'  => [],
     ],
     'user-update-role' => [
-        'route'      => '/role/{role}/{name}/',
+        'route'      => '/role/{name}/{role}/',
         'method'     => 'App\Controller\UserController:updateRoleAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['superadmin'],

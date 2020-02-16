@@ -37,9 +37,9 @@ class FileExtensionController extends BaseController {
         $extName = $request->getParam('ext_name');
         $fileType = $request->getParam('file_type');
         $extActive = intval($request->getParam('ext_active'));
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         
         if ($request->isPost()) {
-            // if is other user and current user is alowed show_user_other
             if (is_string($fileType) && is_string($extName)) {
                 $fileExtensionSearch = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => $extName]);
                 $fileType = $this->em->getRepository('App\Entity\FileType')->findOneBy(['name' => $fileType]);
@@ -61,6 +61,7 @@ class FileExtensionController extends BaseController {
                     $this->em->persist($newFileExtension);
                     $this->em->flush();
                     $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m4', [$extName]) . ';' . self::STYLE_SUCCESS);
+                    $this->logger->info("User '" . $user->getName() . "' created '" . $extName . "' - FileExtensionController:saveCreate");
                 }
             } else {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m5') . ';' . self::STYLE_DANGER);
@@ -80,6 +81,7 @@ class FileExtensionController extends BaseController {
      */
     public function toggleHiddenAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         
         // if file extension exists
         if ($fileExtension instanceof FileExtension) {
@@ -87,7 +89,8 @@ class FileExtensionController extends BaseController {
             $fileExtension->setHidden(!$hidden);
             $this->em->persist($fileExtension);
             $this->em->flush();
-            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m' . intval($hidden), [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m' . intval($fileExtension->isHidden()), [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->logger->info("User '" . $user->getName() . "' toggled '" . $fileExtension->getName() . "' to '" . ($fileExtension->isHidden() ? 'locked' : 'unlocked') . "' - FileExtensionController:toggleHidden");
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
@@ -105,12 +108,14 @@ class FileExtensionController extends BaseController {
      */
     public function removeAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         
         // if file extension exists
         if ($fileExtension instanceof FileExtension) {
             $this->em->remove($fileExtension);
             $this->em->flush();
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-remove-m1', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
+            $this->logger->info("User '" . $user->getName() . "' removed '" . $fileExtension->getName() . "' - FileExtensionController:remove");
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-remove-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
@@ -127,7 +132,7 @@ class FileExtensionController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function showAction($request, $response, $args) {
-        $fileExtensions = $this->em->getRepository('App\Entity\FileExtension')->findAll();
+        $fileExtensions = $this->em->getRepository('App\Entity\FileExtension')->findBy([], ['name' => 'ASC']);
         
         // Render view
         return $this->view->render($response, 'file-extension/show.html.twig', array_merge($args, [

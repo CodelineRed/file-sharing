@@ -25,3 +25,20 @@ label {
 .g-recaptcha > div {
     margin: auto;
 }
+
+.btn-group-radio,
+.btn-group-checkbox {
+    .fa-check {
+        display: none;
+    }
+    
+    .active {
+        .fa-check {
+            display: inline;
+        }
+        
+        .fa-times {
+            display: none;
+        }
+    }
+}

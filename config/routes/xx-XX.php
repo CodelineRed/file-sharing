@@ -5,6 +5,48 @@
  */
 
 return [
+    'api-create-folder' => [
+        'route'      => '/api/folder/',
+        'method'     => 'App\Controller\ApiController:createFolderAction',
+        'methods'    => ['POST'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'api-get-file' => [
+        'route'      => '/api/file/{uuid}/',
+        'method'     => 'App\Controller\ApiController:getFileAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'api-get-folder' => [
+        'route'      => '/api/folder/{uuid}/',
+        'method'     => 'App\Controller\ApiController:getFolderAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'api-get-access-list' => [
+        'route'      => '/api/access/',
+        'method'     => 'App\Controller\ApiController:getAccessListAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'api-update-file' => [
+        'route'      => '/api/file/{uuid}/',
+        'method'     => 'App\Controller\ApiController:updateFileAction',
+        'methods'    => ['POST'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'api-update-folder' => [
+        'route'      => '/api/folder/{uuid}/',
+        'method'     => 'App\Controller\ApiController:UpdateFolderAction',
+        'methods'    => ['POST'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
     'file-show' => [
         'route'      => '/file/{uuid}/',
         'method'     => 'App\Controller\FileController:showAction',
@@ -19,9 +61,9 @@ return [
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
-    'file-hidden' => [
-        'route'      => '/file/hidden/{uuid}/',
-        'method'     => 'App\Controller\FileController:toggleHiddenAction',
+    'file-access' => [
+        'route'      => '/file/access/{uuid}/',
+        'method'     => 'App\Controller\FileController:toggleAccessAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
@@ -75,6 +117,27 @@ return [
         'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
+    'folder-show' => [
+        'route'      => '/folder/{uuid}/',
+        'method'     => 'App\Controller\FolderController:showAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'folder-access' => [
+        'route'      => '/folder/access/{uuid}/',
+        'method'     => 'App\Controller\FolderController:toggleAccessAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'folder-remove' => [
+        'route'      => '/folder/remove/{uuid}/',
+        'method'     => 'App\Controller\FolderController:removeAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
     'user-enable-two-factor' => [
         'route'      => '/enable-two-factor/',
         'method'     => 'App\Controller\UserController:enableTwoFactorAction',
@@ -97,7 +160,7 @@ return [
         'rolesDeny'  => [],
     ],
     'user-update-role' => [
-        'route'      => '/role/{role}/{name}/',
+        'route'      => '/role/{name}/{role}/',
         'method'     => 'App\Controller\UserController:updateRoleAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['superadmin'],
@@ -187,6 +250,20 @@ return [
         'method'     => 'App\Controller\ErrorController:unauthorizedAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'page-system' => [
+        'route'      => '/system/',
+        'method'     => 'App\Controller\PageController:systemAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'page-log' => [
+        'route'      => '/log/',
+        'method'     => 'App\Controller\PageController:logAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['superadmin'],
         'rolesDeny'  => [],
     ],
     'user-show' => [

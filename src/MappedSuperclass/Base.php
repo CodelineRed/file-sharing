@@ -4,6 +4,8 @@ namespace App\MappedSuperclass;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * This class is used for Entities
+ * 
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  */

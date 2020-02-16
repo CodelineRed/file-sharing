@@ -1,0 +1,96 @@
+{% extends "layouts/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 pt-4 mb-5">
+            <h1 class="mb-3 text-center">{{ 'page-system-label'|trans }}</h1>
+            
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-dark">
+                            <tbody>
+                                <tr>
+                                    <td>{{ 'file-sharing-version'|trans }}</td>
+                                    <td>{{ fsVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'php-version'|trans }}</td>
+                                    <td>{{ phpVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'max-file-size'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ maxFileSize }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'max-exec-time'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'seconds'|trans({0: maxExecutionTime}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'users'|trans }}</td>
+                                    <td>{{ users|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'public-users'|trans }}</td>
+                                    <td>{{ publicUsers|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'locked-users'|trans }}</td>
+                                    <td>{{ lockedUsers|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ '2fa-users'|trans }}</td>
+                                    <td>{{ tfaUsers|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'recovery-codes'|trans|raw }}</td>
+                                    <td>{{ recoveryCodes|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'roles'|trans }}</td>
+                                    <td>{{ roles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'files'|trans }}</td>
+                                    <td>{{ files|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'unique-files'|trans }}</td>
+                                    <td>{{ uniqueFiles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'public-files'|trans }}</td>
+                                    <td>{{ publicFiles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'shareable-files'|trans }}</td>
+                                    <td>{{ shareableFiles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'private-files'|trans }}</td>
+                                    <td>{{ privateFiles|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'file-extensions'|trans }}</td>
+                                    <td>{{ fileExtensions|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'public-file-extensions'|trans }}</td>
+                                    <td>{{ publicFileExtensions|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'locked-file-extensions'|trans }}</td>
+                                    <td>{{ lockedFileExtensions|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'file-types'|trans }}</td>
+                                    <td>{{ fileTypes|length|number_format(0, 'dp'|trans, 'ts'|trans) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

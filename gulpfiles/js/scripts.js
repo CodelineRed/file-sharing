@@ -1,4 +1,4 @@
-/*global initCookieConsent dataTablesLangUrl confirmRemove*/
+/*global confirmRemove initCookieConsent initCreateFolder initDataTable initUpdateFile initUpdateFolder processLocationHash*/
 'use strict';
 
 // jQuery.noConflict();
@@ -19,18 +19,16 @@
         
         // show confirm message before removing a record
         $('[data-remove]').click(function(e) {
-            if (!confirm(confirmRemove + '\n"' + $(this).data('remove') + '"')) { // eslint-disable-line  no-alert
+            if (!confirm(confirmRemove + '\n' + $(this).data('remove'))) { // eslint-disable-line  no-alert
                 e.preventDefault();
             }
         });
         
-        // initialize tables with DataTable
-        $('.data-table').DataTable({
-            'language': {
-                'url': dataTablesLangUrl
-            }
-        });
-        
         initCookieConsent();
+        initCreateFolder();
+        initDataTable();
+        initUpdateFile();
+        initUpdateFolder();
+        processLocationHash();
     });
 })(jQuery);

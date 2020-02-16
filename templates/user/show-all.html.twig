@@ -15,7 +15,7 @@
                             <th scope="col"><span class="text-nowrap">{{ 'role'|trans }}</span></th>
                             {% endif %}
                             {% if has_role({0: 'superadmin'}) %}
-                            <th scope="col"><span class="text-nowrap">Sperrzustand</span></th>
+                            <th scope="col"><span class="text-nowrap">{{ 'access'|trans }}</span></th>
                             {% endif %}
                             {% if has_role({0: 'superadmin'}) %}
                             <th scope="col"><span class="text-nowrap">{{ 'remove-user'|trans }}</span></th>
@@ -55,7 +55,7 @@
                         {% endif %}
                         {% if has_role({0: 'superadmin'}) %}
                             <td data-order="0" class="text-center">
-                                <a href="{{ path_for('user-remove-' ~ lc, { 'name': user.name }) }}?return={{ path_for('user-show-all-' ~ lc) }}" class="btn btn-danger btn-sm ml-2" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ user.name }}" data-toggle="tooltip" data-placement="top" title="{{ 'remove-user'|trans }}"><i class="fas fa-trash fa-fw"></i></a>
+                                <a href="{{ path_for('user-remove-' ~ lc, { 'name': user.name }) }}?return={{ path_for('user-show-all-' ~ lc) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ user.name }}" data-toggle="tooltip" data-placement="top" title="{{ 'remove-user'|trans }}"><i class="fas fa-trash fa-fw"></i></a>
                             </td>
                         {% endif %}
                         </tr>

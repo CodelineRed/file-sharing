@@ -42,6 +42,29 @@ class GeneralUtility {
     }
     
     /**
+     * Returns max file size for uploads given by php.ini (upload_max_filesize and post_max_size)
+     * 
+     * @return string
+     */
+    static function getUploadMaxFilesize() {
+        $postMaxSize = ini_get('post_max_size');
+        $uploadMaxSize = ini_get('upload_max_filesize');
+        $maxFileSize = '';
+        
+        // upload_max_filesize lower than post_max_size
+        if (intval($uploadMaxSize) < intval($postMaxSize)) {
+            $unit = substr($uploadMaxSize, -1);
+            $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
+        } else {
+            $unit = substr($postMaxSize, -1);
+            $maxFileSize = intval($postMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
+        }
+        
+        return $maxFileSize;
+    }
+
+
+    /**
      * Returns current user id or NULL if user not logged in.
      * 
      * @return mixed

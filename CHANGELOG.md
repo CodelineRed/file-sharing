@@ -6,7 +6,124 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0]
+## [3.3.0]
+Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)!
+
+### Added
+- [`create-folder.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/create-folder.js)
+- [`data-table.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/data-table.js)
+- [`process-location-hash.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/process-location-hash.js)
+- [`update-folder.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/update-folder.js)
+- [`_fontawesome.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_fontawesome.scss)
+- [`version-3.3.0-migration.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/version-3.2.0-migration.sql)
+- [`FolderController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FolderController.php)
+- [`Access.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/Access.php) Entity
+- [`FileFolderJoin.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/FileFolderJoin.php) Entity
+- [`Folder.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/Folder.php) Entity
+- [`BaseJoin.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/MappedSuperclass/BaseJoin.php) MappedSuperclass
+- [`AccessRepository.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Repository/AccessRepository.php)
+- [`FolderRepository.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Repository/FolderRepository.php)
+- [`UserRepository.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Repository/UserRepository.php)
+- [`folder/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/folder/show.html.twig)
+- [`file-table.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/file-table.html.twig)
+- [`folder-table.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/folder-table.html.twig)
+- [`modal-update-folder.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-update-folder.html.twig)
+- [`modal-create-folder.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-create-folder.html.twig)
+- [string-format-js](https://www.npmjs.com/package/string-format-js) 1.0.0
+
+### Changed
+- `File::$access` is now a foreign key and Access Entity
+- [`additional-settings.dist.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php)
+- [`settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php)
+- [`update-file.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/update-file.js)
+- [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
+- [`bootstrap.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/lib/bootstrap.scss)
+- [`_general.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_general.scss)
+- [`_modal.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_modal.scss)
+- [`_page.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_page.scss)
+- [`_variables.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/_variables.scss)
+- [`styles.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/styles.scss)
+- [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
+- [`ApiController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/ApiController.php)
+- [`FileController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
+- [`FileExtensionController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileExtensionController.php)
+- [`PageController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/PageController.php)
+- [`UserController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php)
+- [`Base.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/MappedSuperclass/Base.php) MappedSuperclass
+- [`file/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/file/show.html.twig)
+- [`file-extension/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/file-extension/show.html.twig)
+- [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/layouts/layout.html.twig)
+- [`alert.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/alert.html.twig) to dismissible
+- [`modal-update-file.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-update-file.html.twig)
+- [`user/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig)
+- [`user/two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/two-factor.html.twig)
+- [`Dockerfile`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/Dockerfile) to php 7.4.2
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+- [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)
+- [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- all entities
+- all translation files
+- all route files
+- all [screenshots](https://github.com/InsanityMeetsHH/file-sharing/tree/master/screenshots)
+- @fortawesome/fontawesome-free 5.12.0 to @fortawesome/fontawesome-free 5.12.1
+- gulp-imagemin 7.0.0 to gulp-imagemin 7.1.0
+
+### Removed
+- datatables 1.10.18 and replaced by datatables.net 1.10.20
+- `acl_resources['delete_*']` and replaced by `acl_resources['remove_*']`
+- `acl_resources['edit_*']` and replaced by `acl_resources['update_*']`
+- `edit-file.js` and replaced by [`update-file.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/update-file.js)
+- `modal-edit-file.html.twig` and replaced by [`modal-update-file.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-update-file.html.twig)
+
+## [3.2.0]  - 2020-01-19
+Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)!
+
+### Added
+- 3 access states for files (public, shareable and private).
+- [`version-3.2.0-migration.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/version-3.2.0-migration.sql)
+- [`uploads.ini`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/uploads.ini) and use it in [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)
+- [`modal-edit-file.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-edit-file.html.twig)
+- [`ApiController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/ApiController.php)
+- [screenshots](https://github.com/InsanityMeetsHH/file-sharing/tree/master/screenshots)
+
+### Changed
+- [`composer.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/composer.json) minimum php version from 5.5.0 to 5.5.9. (Because of `symfony/console`)
+- [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
+- [`Dockerfile`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/Dockerfile)
+- [`user/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig)
+- [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)
+- Docker installation steps
+- translation files
+- route files
+- gulp-imagemin 6.2.0 to gulp-imagemin 7.0.0
+
+### Removed
+- `modal.html.twig` and replaced by [`modal-cookie-policy.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-cookie-policy.html.twig)
+- `db-model.png` and replaced by [`data-model.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.png)
+
+### Fixed
+- wrong database name in [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)
+
+## [3.1.0] - 2020-01-04
+### Added
+- system overview and system logs page
+- Bootstrap position utility
+- [`GeneralUtility::getUploadMaxFilesize()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Utility/GeneralUtility.php)
+- `FILE_SHARING_VERSION` in [`public/index.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/index.php)
+- translations
+- `"type": "project"` in `composer.json`
+
+### Changed
+- jquery 3.3.1 to jquery 3.4.1
+- del 4.1.0 to del 5.1.0
+- browser-sync 2.26.3 to browser-sync 2.26.7
+- gulp 4.0.1 to gulp 4.0.2
+- gulp-clean-css 4.1 to gulp-clean-css 4.2
+- gulp-imagemin 5.0.3 to gulp-imagemin 6.2.0
+- @fortawesome/fontawesome-free 5.8.1 to @fortawesome/fontawesome-free 5.12.0
+- cookieconsent 3.1.0 to cookieconsent 3.1.1
+
+## [3.0.0] - 2019-04-23
 ### Added
 - `nochso/html-compress-twig` dependency
 - `google/recaptcha` dependency

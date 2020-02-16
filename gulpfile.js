@@ -20,7 +20,7 @@ function scss() {
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(prefixer({
-            browsers: ['last 2 versions'],
+            overrideBrowserslist: ['last 2 versions'],
             cascade: false
         }))
         .pipe(minifyCss({compatibility: 'ie8'}))
@@ -49,8 +49,9 @@ function js() {
             config.sourcePath + 'js/lib/**/*.js',
             'node_modules/cookieconsent/src/cookieconsent.js',
             'node_modules/cssuseragent/cssua.js',
-            'node_modules/datatables/media/js/jquery.dataTables.js',
+            'node_modules/datatables.net/js/jquery.dataTables.js',
             'node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js',
+            'node_modules/string-format-js/format.js',
             config.sourcePath + 'js/plugin/**/*.js',
             config.sourcePath + 'js/module/**/*.js',
             config.sourcePath + 'js/scripts.js'
@@ -86,7 +87,7 @@ function img() {
     return gulp.src(config.sourcePath + 'img/**/*.{png,gif,jpg,jpeg,ico,xml,json,svg}')
         .pipe(imagemin([
             imagemin.gifsicle({interlaced: true}),
-            imagemin.jpegtran({progressive: true}),
+            imagemin.mozjpeg({progressive: true}),
             imagemin.optipng({optimizationLevel: 5}),
             imagemin.svgo({
                 plugins: [

@@ -8,24 +8,14 @@ a {
     }
 }
 
-.modal {
-    color: $white;
-    
-    table {
-        @include font-size($font-size-base * .75);
-    }
-}
-
 .custom-file-label {
     overflow: hidden;
 }
 
-.file-show {
-    h1 {
-        @extend .hyphenate;
-        overflow: hidden;
-        padding-bottom: 5px;
-    }
+.hl-show {
+    @extend .hyphenate;
+    overflow: hidden;
+    padding-bottom: 5px;
 }
 
 button {

@@ -1,0 +1,33 @@
+<div class="modal fade" id="update-file" tabindex="-1" role="dialog" aria-labelledby="update-file-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="update-file-title">{{ 'update-file'|trans }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="update-file-name" class="col-form-label">{{ 'file-name'|trans }}:</label>
+                        <input type="text" class="form-control" id="update-file-name" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                        <div class="mb-2">{{ 'folder'|trans }}: </div>
+                        <div class="btn-group-toggle btn-group-checkbox btn-group-folder" data-toggle="buttons"></div>
+                    </div>
+                    <div class="form-group mb-0">
+                        <div class="mb-2">{{ 'access'|trans }}: </div>
+                        <div class="btn-group-toggle btn-group-radio btn-group-access" data-toggle="buttons"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="d-inline-block float-left" data-toggle="tooltip" data-placement="top" title="{{ 'create-folder'|trans }}"><a href="#" data-create-folder="{{ path_for('api-create-folder-' ~ glc) }}" data-get-access-list="{{ path_for('api-get-access-list-' ~ glc) }}" data-file-id="" data-toggle="modal" data-target="#create-folder" class="btn btn-success btn-create-folder" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-fw fa-md fa-folder-plus"></i></a></span>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'close'|trans }}</button>
+                <button type="button" class="btn btn-primary submit-form" disabled>{{ 'save'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

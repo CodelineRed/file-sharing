@@ -80,25 +80,13 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function showAction($request, $response, $args) {
-        $postMaxSize = ini_get('post_max_size');
-        $uploadMaxSize = ini_get('upload_max_filesize');
-        
-        // upload_max_filesize lower than post_max_size
-        if (intval($uploadMaxSize) < intval($postMaxSize)) {
-            $unit = substr($uploadMaxSize, -1);
-            $maxFileSize = intval($uploadMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
-        } else {
-            $unit = substr($postMaxSize, -1);
-            $maxFileSize = intval($postMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
-        }
-        
         // if is other user and current user is alowed show_user_other
         if (isset($args['name']) && $this->acl->isAllowed($this->currentRole, 'show_user_other')) {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
             
             // if user exists
             if ($user instanceof User && !$user->isHidden()) {
-                $this->logger->info("User '" . $args['name'] . "' found - UserController:show");
+                //$this->logger->info("User '" . $args['name'] . "' found - UserController:show");
             } elseif ($this->currentRole !== 'superadmin' || $user === NULL) {
                 // if user exits and is hidden
                 if ($user instanceof User && $user->isHidden()) {
@@ -129,9 +117,9 @@ class UserController extends BaseController {
         // Render view
         return $this->view->render($response, 'user/show.html.twig', array_merge($args, [
             'user' => $user,
-            'maxFileSize' => $maxFileSize,
-            'files' => $user->getUniqueFiles(),
-            'publicFiles' => $user->getPublicFiles(),
+            'maxFileSize' => GeneralUtility::getUploadMaxFilesize(),
+            'files' => $this->em->getRepository('App\Entity\User')->findUniqueFiles($user->getFiles()),
+            'publicFiles' => $this->em->getRepository('App\Entity\User')->findPublicFiles($user->getFiles()),
             'roles' => $this->em->getRepository('App\Entity\Role')->findAll(),
         ]));
     }
@@ -153,7 +141,7 @@ class UserController extends BaseController {
     }
     
     /**
-     * Updates role if user
+     * Updates role from user
      * 
      * @param \Slim\Http\Request $request
      * @param \Slim\Http\Response $response
@@ -161,6 +149,7 @@ class UserController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function updateRoleAction($request, $response, $args) {
+        $currentUser = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => $args['role']]);
         
@@ -189,6 +178,7 @@ class UserController extends BaseController {
             $redirectPath = $request->getParam('return');
         } 
         
+        $this->logger->info("User '" . $currentUser->getName() . "' changed role of '" . $user->getName() . "' to '" . $role->getName() . "' - UserController:updateRole");
         return $response->withRedirect($redirectPath);
     }
     
@@ -431,12 +421,13 @@ class UserController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         
         // if user exists and current user is requested user or user exists and role can edit user other
-        if ($user instanceof User && $this->currentUser === $user->getId() || ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'edit_user_other'))) {
+        if ($user instanceof User && $this->currentUser === $user->getId() 
+                || ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'update_user_other'))) {
             $hidden = $user->isHidden();
             $user->setHidden(!$hidden);
             $this->em->persist($user);
             $this->em->flush();
-            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($hidden), [
+            $this->flash->addMessage('message', LanguageUtility::trans('user-hidden-m' . intval($user->isHidden()), [
                 $args['name'],
                 $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args)
             ]) . ';' . self::STYLE_SUCCESS);
@@ -448,7 +439,7 @@ class UserController extends BaseController {
         
         if (is_string($request->getParam('return'))) {
             $redirectPath = $request->getParam('return');
-        } 
+        }
         
         return $response->withRedirect($redirectPath);
     }
@@ -465,7 +456,7 @@ class UserController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
         
         // if user exists and role can delete user other
-        if ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'delete_user_other')) {
+        if ($user instanceof User && $this->acl->isAllowed($this->currentRole, 'remove_user_other')) {
             $files = $user->getFiles();
             
             // remove all files from user

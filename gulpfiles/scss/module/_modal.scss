@@ -1,0 +1,28 @@
+.modal {
+    color: $white;
+    
+    table {
+        @include font-size($font-size-base * .75);
+    }
+    
+    .btn-group-toggle {
+        max-height: 130px;
+        overflow-y: auto;
+        
+        @include media-breakpoint-up(md) {
+            max-height: 210px;
+        }
+    }
+    
+    .submit-form {
+        &[disabled] {
+            .fas {
+                display: inline-block;
+            }
+        }
+        
+        .fas {
+            display: none;
+        }
+    }
+}

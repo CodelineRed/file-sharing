@@ -12,6 +12,7 @@ if (PHP_SAPI == 'cli-server') {
 //error_reporting(E_ALL);
 //ini_set('display_errors', TRUE);
 //ini_set('display_startup_errors', TRUE);
+define('FILE_SHARING_VERSION', '3.3.0');
 
 require __DIR__ . '/../vendor/autoload.php';
 

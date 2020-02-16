@@ -6,7 +6,7 @@ volumes:
         driver: local
 
 services:
-    db:
+    database:
         image: mysql:5.7
         restart: always
         container_name: file-sharing-db
@@ -32,7 +32,7 @@ services:
             docker: "true"
             #APP_DB_HOST: db
             APP_DB_PORT: 3306
-            APP_DB_NAME: slim_file_sharing
+            APP_DB_NAME: imhh_file_sharing
             APP_DB_USER: dockeruser
             APP_DB_PASSWORD: dockerpw
             #APP_DB_SOCKET: /Applications/MAMP/tmp/mysql/mysql.sock
@@ -44,8 +44,9 @@ services:
         volumes:
             - .:/var/www
             - logs:/var/www/logs
+            - ./config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
         depends_on:
-            - db
+            - database
     
     # http://localhost:9999
     adminer:

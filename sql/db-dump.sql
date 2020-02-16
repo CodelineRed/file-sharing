@@ -5,16 +5,38 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+
+DROP TABLE IF EXISTS `imhhfs_access`;
+CREATE TABLE `imhhfs_access` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `icon` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Icon CSS class',
+  `button` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Button CSS class',
+  `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_7758B5DF5E237E06` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `imhhfs_access` (`id`, `name`, `icon`, `button`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1,	'private',	'lock',	'success',	0,	0,	now(),	now()),
+(2,	'shareable',	'link',	'warning',	0,	0,	now(),	now()),
+(3,	'public',	'eye',	'danger',	0,	0,	now(),	now()),
+
+
 DROP TABLE IF EXISTS `imhhfs_file`;
 CREATE TABLE `imhhfs_file` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `file_extension_id` int(11) DEFAULT NULL,
+  `access_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'File name in upload folder',
-  `file_extension_id` int(11) DEFAULT NULL,
   `mime_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Size in bytes',
-  `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `file_included` tinyint(1) NOT NULL COMMENT '1 if note is related to a file',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
@@ -88,6 +110,21 @@ INSERT INTO `imhhfs_file_extension` (`id`, `file_type_id`, `name`, `deleted`, `h
 (40,	5,	'.xlsx',	0,	0,	now(),	now()),
 (41,	5,	'.pptx',	0,	0,	now(),	now());
 
+
+DROP TABLE IF EXISTS `imhhfs_file_folder_join`;
+CREATE TABLE `imhhfs_file_folder_join` (
+  `file_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `folder_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  PRIMARY KEY (`file_id`,`folder_id`),
+  KEY `IDX_C8FE38693CB796C` (`file_id`),
+  KEY `IDX_C8FE386162CB942` (`folder_id`),
+  CONSTRAINT `FK_DC91FF76162CB942` FOREIGN KEY (`folder_id`) REFERENCES `imhhfs_folder` (`id`),
+  CONSTRAINT `FK_DC91FF7693CB796C` FOREIGN KEY (`file_id`) REFERENCES `imhhfs_file` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 DROP TABLE IF EXISTS `imhhfs_file_type`;
 CREATE TABLE `imhhfs_file_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -106,6 +143,25 @@ INSERT INTO `imhhfs_file_type` (`id`, `name`, `deleted`, `hidden`, `updated_at`,
 (3,	'audio',	0,	0,	now(),	now()),
 (4,	'text',	0,	0,	now(),	now()),
 (5,	'other',	0,	0,	now(),	now());
+
+
+DROP TABLE IF EXISTS `imhhfs_folder`;
+CREATE TABLE `imhhfs_folder` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `access_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  PRIMARY KEY (`id`),
+  KEY `IDX_9D939746A76ED395` (`user_id`),
+  KEY `IDX_9D9397464FEA67CF` (`access_id`),
+  CONSTRAINT `FK_9D9397464FEA67CF` FOREIGN KEY (`access_id`) REFERENCES `imhhfs_access` (`id`),
+  CONSTRAINT `FK_9D939746A76ED395` FOREIGN KEY (`user_id`) REFERENCES `imhhfs_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `imhhfs_recovery_code`;
 CREATE TABLE `imhhfs_recovery_code` (
@@ -140,6 +196,7 @@ INSERT INTO `imhhfs_role` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `cre
 (3,	'admin',	0,	0,	now(),	now()),
 (4,	'superadmin',	0,	0,	now(),	now());
 
+
 DROP TABLE IF EXISTS `imhhfs_user`;
 CREATE TABLE `imhhfs_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -158,5 +215,6 @@ CREATE TABLE `imhhfs_user` (
   CONSTRAINT `FK_F3F659DCD60322AC` FOREIGN KEY (`role_id`) REFERENCES `imhhfs_role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- login: user / password
 INSERT INTO `imhhfs_user` (`id`, `role_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1,	4,	'user',	'$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K',	0,	'',	0,	0,	now(),	now());

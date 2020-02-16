@@ -1,14 +1,16 @@
 <?php
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\MappedSuperclass\Base;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="imhhfs_file_extension")
  */
-class FileExtension extends \App\MappedSuperclass\Base {
+class FileExtension extends Base {
     
     /**
      * @ORM\Column(type="string", unique=true)
@@ -45,7 +47,7 @@ class FileExtension extends \App\MappedSuperclass\Base {
      * @param string $name
      */
     public function setName($name) {
-        $this->name = strtolower($name);
+        $this->name = strtolower(trim($name));
         
         return $this;
     }
@@ -68,5 +70,14 @@ class FileExtension extends \App\MappedSuperclass\Base {
         $this->fileType = $fileType;
         
         return $this;
+    }
+    
+    /**
+     * Get $files
+     * 
+     * @return PersistentCollection
+     */
+    public function getFiles() {
+        return $this->files;
     }
 }
