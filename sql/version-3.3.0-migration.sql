@@ -25,6 +25,6 @@ CREATE TABLE `imhhfs_access` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `imhhfs_access` (`id`, `name`, `icon`, `button`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
-(1,	'private',	'lock',	'success',	0,	0,	'2020-02-03 13:56:16',	'2020-02-03 13:56:16'),
-(2,	'shareable',	'link',	'warning',	0,	0,	'2020-02-03 13:56:44',	'2020-02-03 13:56:44'),
-(3,	'public',	'eye',	'danger',	0,	0,	'2020-02-03 13:56:59',	'2020-02-03 13:56:59');
+(1,	'private',	'lock',	'success',	0,	0,	now(),	now()),
+(2,	'shareable',	'link',	'warning',	0,	0,	now(),	now()),
+(3,	'public',	'eye',	'danger',	0,	0,	now(),	now());

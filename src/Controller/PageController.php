@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Utility\GeneralUtility;
 use App\Utility\LanguageUtility;
 
@@ -27,11 +28,14 @@ class PageController extends BaseController {
             return $this->view->render($response, 'partials/construction.html.twig', array_merge($args, []));
         } else {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
-            return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]));
+            
+            if ($user instanceof User) {
+                return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]));
+            }
         }
         
         // Render view
-        return $this->view->render($response, 'page/index.html.twig', array_merge($args, []));
+        return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
     }
 
     /**

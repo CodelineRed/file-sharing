@@ -30,27 +30,29 @@ class ApiController extends BaseController {
             $host = ($request->getServerParam('SERVER_PORT') == '80' ? 'http' : 'https') . '://' . $request->getServerParam('HTTP_HOST');
             $access = $this->em->getRepository('App\Entity\Access')->findOneBy(['id' => (int)$request->getParam('access')]);
             
-            $folder = new Folder();
-            $folder->setName($request->getParam('name'))
-                ->setUser($user)
-                ->setHidden(FALSE)
-                ->setAccess($access);
+            if ($access instanceof Access) {
+                $folder = new Folder();
+                $folder->setName($request->getParam('name'))
+                    ->setUser($user)
+                    ->setHidden(FALSE)
+                    ->setAccess($access);
 
-            $this->em->persist($folder);
-            $this->em->flush();
+                $this->em->persist($folder);
+                $this->em->flush();
 
-            return json_encode([
-                'result' => TRUE,
-                'id' => $folder->getId(),
-                'name' => $folder->getName(),
-                'access' => $folder->getAccessId(),
-                'access_icon' => $access->getIcon(),
-                'access_button' => $access->getButton(),
-                'created_at' => $folder->getCreatedAt(),
-                'link' => $host . $this->router->pathFor('folder-show-' . LanguageUtility::getLocale(), ['uuid' => $folder->getId()]),
-                'user_name' => $folder->getUser()->getName(),
-                'user_link' => $host . $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $folder->getUser()->getName()]),
-            ]);
+                return json_encode([
+                    'result' => TRUE,
+                    'id' => $folder->getId(),
+                    'name' => $folder->getName(),
+                    'access' => $folder->getAccessId(),
+                    'access_icon' => $access->getIcon(),
+                    'access_button' => $access->getButton(),
+                    'created_at' => $folder->getCreatedAt(),
+                    'link' => $host . $this->router->pathFor('folder-show-' . LanguageUtility::getLocale(), ['uuid' => $folder->getId()]),
+                    'user_name' => $folder->getUser()->getName(),
+                    'user_link' => $host . $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $folder->getUser()->getName()]),
+                ]);
+            }
         }
         
         return json_encode(['result' => FALSE]);
@@ -186,7 +188,12 @@ class ApiController extends BaseController {
                 || $this->currentRole === 'superadmin') {
             $host = ($request->getServerParam('SERVER_PORT') == '80' ? 'http' : 'https') . '://' . $request->getServerParam('HTTP_HOST');
             $file->setName($request->getParam('name'));
-            $file->setAccess($this->em->getRepository('App\Entity\Access')->findOneBy(['id' => (int)$request->getParam('access')]));
+            $accessParam = $this->em->getRepository('App\Entity\Access')->findOneBy(['id' => (int)$request->getParam('access')]);
+            
+            if ($accessParam instanceof Access) {
+                $file->setAccess($accessParam);
+            }
+            
             $access = $file->getAccess();
             $folders = $request->getParam('folders');
             
@@ -252,7 +259,12 @@ class ApiController extends BaseController {
                 || $this->currentRole === 'superadmin') {
             $host = ($request->getServerParam('SERVER_PORT') == '80' ? 'http' : 'https') . '://' . $request->getServerParam('HTTP_HOST');
             $folder->setName($request->getParam('name'));
-            $folder->setAccess($this->em->getRepository('App\Entity\Access')->findOneBy(['id' => (int)$request->getParam('access')]));
+            $accessParam = $this->em->getRepository('App\Entity\Access')->findOneBy(['id' => (int)$request->getParam('access')]);
+            
+            if ($accessParam instanceof Access) {
+                $folder->setAccess($accessParam);
+            }
+            
             $access = $folder->getAccess();
             $this->em->flush();
             
@@ -263,6 +275,7 @@ class ApiController extends BaseController {
                 'access' => $folder->getAccessId(),
                 'access_icon' => $access->getIcon(),
                 'access_button' => $access->getButton(),
+                'access_list' => $this->em->getRepository('App\Entity\Access')->findAllArray(),
                 'created_at' => $folder->getCreatedAt(),
                 'link' => $host . $this->router->pathFor('folder-show-' . LanguageUtility::getLocale(), ['uuid' => $folder->getId()]),
                 'user_name' => $folder->getUser()->getName(),

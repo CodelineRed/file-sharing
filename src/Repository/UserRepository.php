@@ -30,9 +30,7 @@ class UserRepository extends EntityRepository {
      * @return boolean|Collection
      */
     public function findPublicFiles(PersistentCollection $files) {
-        $access = $this->getEntityManager()
-                ->getRepository('App\Entity\Access')
-                ->findOneBy(['id' => 3]);
+        $access = $this->getEntityManager()->getRepository('App\Entity\Access')->findOneBy(['id' => 3]);
         
         if ($access instanceof Access) {
             $criteria = Criteria::create()

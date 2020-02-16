@@ -58,12 +58,14 @@ class FolderController extends BaseController {
 
             // if current user is owner of folder or role can edit folder other
             if ($folders->contains($folder) || $this->acl->isAllowed($this->currentRole, 'update_folder_other')) {
-                $accessId = ($folder->getAccessId() + 1) < 4 ? ($folder->getAccessId() + 1) : 1;
+                $accessId = ($folder->getAccessId() + 1) <= count($this->em->getRepository('App\Entity\Access')->findAllArray()) ? ($folder->getAccessId() + 1) : 1;
                 $access = $this->em->getRepository('App\Entity\Access')->findOneBy(['id' => $accessId]);
                 
-                $folder->setAccess($access);
-                $this->em->persist($folder);
-                $this->em->flush();
+                if ($access instanceof Access) {
+                    $folder->setAccess($access);
+                    $this->em->persist($folder);
+                    $this->em->flush();
+                }
                 
                 // if owner of folder not requested user
                 if ($folder->getUser()->getId() !== $user->getId()) {

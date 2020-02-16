@@ -117,6 +117,7 @@ class FileController extends BaseController {
         if ($request->isPost()) {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
             $access = $this->em->getRepository('App\Entity\Access')->findOneBy(['id' => 1]);
+            $noteExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => '.txt']);
             $files = $request->getUploadedFiles();
             $fileNote = NULL;
             $fileIncluded = (int)$request->getParam('file_included');
@@ -128,9 +129,7 @@ class FileController extends BaseController {
             }
             
             // if not empty
-            if (!empty($note)) {
-                $noteExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => '.txt']);
-                
+            if (!empty($note) && $access instanceof Access && $noteExtension instanceof FileExtension) {
                 do {
                     $noteFileName = 'note-' . GeneralUtility::generateCode(10) . '.txt';
                     $noteHashName = GeneralUtility::generateCode(10) . substr(md5($noteFileName), 0, 10);
@@ -150,7 +149,7 @@ class FileController extends BaseController {
             }
             
             // if "upload" exists
-            if (isset($files['upload']) && $files['upload'] instanceof \Slim\Http\UploadedFile) {
+            if (isset($files['upload']) && $files['upload'] instanceof \Slim\Http\UploadedFile && $access instanceof Access) {
                 $upload = $files['upload'];
                 
                 // if upload is ok
@@ -237,12 +236,14 @@ class FileController extends BaseController {
 
             // if current user is owner of file or role can edit file other
             if ($files->contains($file) || $this->acl->isAllowed($this->currentRole, 'update_file_other')) {
-                $accessId = ($file->getAccessId() + 1) < 4 ? ($file->getAccessId() + 1) : 1;
+                $accessId = ($file->getAccessId() + 1) <= count($this->em->getRepository('App\Entity\Access')->findAllArray()) ? ($file->getAccessId() + 1) : 1;
                 $access = $this->em->getRepository('App\Entity\Access')->findOneBy(['id' => $accessId]);
                 
-                $file->setAccess($access);
-                $this->em->persist($file);
-                $this->em->flush();
+                if ($access instanceof Access) {
+                    $file->setAccess($access);
+                    $this->em->persist($file);
+                    $this->em->flush();
+                }
                 
                 // if owner of file not requested user
                 if ($file->getUser()->getId() !== $user->getId()) {
