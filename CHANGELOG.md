@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.3.0]
+## [3.4.0]
+### Changed
+- [`file-extension/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/file-extension/show.html.twig)
+
+## [3.3.0] - 2020-02-16
 Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)!
 
 ### Added
@@ -75,7 +79,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 - `edit-file.js` and replaced by [`update-file.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/update-file.js)
 - `modal-edit-file.html.twig` and replaced by [`modal-update-file.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-update-file.html.twig)
 
-## [3.2.0]  - 2020-01-19
+## [3.2.0] - 2020-01-19
 Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)!
 
 ### Added
