@@ -7,8 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [3.4.0]
+### Added
+- [`FileExtension::uniqueFilesQuantity()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/FileExtension.php)
+
 ### Changed
-- [`file-extension/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/file-extension/show.html.twig)
+- [`_timeline.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_timeline.scss)
+- [`.gitignore`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/.gitignore)
+- margins and paddings of headline in some twig templates
+
+### Fixed
+- `Undefined index REQUEST_SCHEME` in [`LanguageExtension.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/LanguageExtension.php)
+- column Files always "0" in [`user/show-all.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show-all.html.twig)
 
 ## [3.3.0] - 2020-02-16
 Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)!

@@ -8,7 +8,26 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\PersistentCollection;
 
 class UserRepository extends EntityRepository {
-    
+
+    /**
+     * @return array|mixed
+     */
+//    public function findAll() {
+//        $qb = $this->getEntityManager()->createQueryBuilder();
+//        $qb2 = $this->getEntityManager()->createQueryBuilder();
+//
+//        $qb->select('u')
+//            ->addSelect('(' . $qb2->select("COUNT(fi.id)")
+//                ->from("App\Entity\File", "fi")
+//                ->leftJoin('fi.user', 'u2', 'WITH', 'fi.user = u2.id')
+//                ->where("fi.fileIncluded = 0")
+//                ->groupBy('fi.fileIncluded')
+//                ->getDQL() . ') AS uniqueFilesQuantity')
+//            ->from('App\Entity\User', 'u');
+//
+//        return $qb->getQuery()->getResult();
+//    }
+
     /**
      * Find files with file_included = FALSE
      * 

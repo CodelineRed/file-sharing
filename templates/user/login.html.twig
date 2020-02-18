@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <h1 class="text-center my-3">{{ 'login'|trans }}</h1>
+            <h1 class="text-center mb-4">{{ 'login'|trans }}</h1>
             <form action="{{ path_for('user-login-validate-' ~ glc) }}" method="post">
                 <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                 <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">

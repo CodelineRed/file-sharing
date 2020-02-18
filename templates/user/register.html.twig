@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <h1 class="text-center my-3">{{ 'user-register-label'|trans }}</h1>
+            <h1 class="text-center mb-4">{{ 'user-register-label'|trans }}</h1>
             <form action="{{ path_for('user-register-save-' ~ lc) }}" method="post">
                 <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                 <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
