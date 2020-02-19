@@ -29,9 +29,9 @@ INSERT INTO `imhhfs_access` (`id`, `name`, `icon`, `button`, `deleted`, `hidden`
 DROP TABLE IF EXISTS `imhhfs_file`;
 CREATE TABLE `imhhfs_file` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `file_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `file_extension_id` int(11) DEFAULT NULL,
+  `file_extension_id` int(11) NOT NULL,
   `access_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `hash_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'File name in upload folder',
@@ -46,6 +46,8 @@ CREATE TABLE `imhhfs_file` (
   UNIQUE KEY `UNIQ_F2FAB98593CB796C` (`file_id`),
   KEY `IDX_F2FAB985A76ED395` (`user_id`),
   KEY `IDX_F2FAB985AB8C6E61` (`file_extension_id`),
+  KEY `IDX_F2FAB9854FEA67CF` (`access_id`),
+  CONSTRAINT `FK_F2FAB9854FEA67CF` FOREIGN KEY (`access_id`) REFERENCES `imhhfs_access` (`id`),
   CONSTRAINT `FK_F2FAB98593CB796C` FOREIGN KEY (`file_id`) REFERENCES `imhhfs_file` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_F2FAB985A76ED395` FOREIGN KEY (`user_id`) REFERENCES `imhhfs_user` (`id`),
   CONSTRAINT `FK_F2FAB985AB8C6E61` FOREIGN KEY (`file_extension_id`) REFERENCES `imhhfs_file_extension` (`id`)
@@ -55,7 +57,7 @@ CREATE TABLE `imhhfs_file` (
 DROP TABLE IF EXISTS `imhhfs_file_extension`;
 CREATE TABLE `imhhfs_file_extension` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `file_type_id` int(11) DEFAULT NULL,
+  `file_type_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
@@ -120,8 +122,8 @@ CREATE TABLE `imhhfs_file_folder_join` (
   PRIMARY KEY (`file_id`,`folder_id`),
   KEY `IDX_C8FE38693CB796C` (`file_id`),
   KEY `IDX_C8FE386162CB942` (`folder_id`),
-  CONSTRAINT `FK_DC91FF76162CB942` FOREIGN KEY (`folder_id`) REFERENCES `imhhfs_folder` (`id`),
-  CONSTRAINT `FK_DC91FF7693CB796C` FOREIGN KEY (`file_id`) REFERENCES `imhhfs_file` (`id`)
+  CONSTRAINT `FK_C8FE386162CB942` FOREIGN KEY (`folder_id`) REFERENCES `imhhfs_folder` (`id`),
+  CONSTRAINT `FK_C8FE38693CB796C` FOREIGN KEY (`file_id`) REFERENCES `imhhfs_file` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -148,7 +150,7 @@ INSERT INTO `imhhfs_file_type` (`id`, `name`, `deleted`, `hidden`, `updated_at`,
 DROP TABLE IF EXISTS `imhhfs_folder`;
 CREATE TABLE `imhhfs_folder` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `access_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL,
@@ -166,7 +168,7 @@ CREATE TABLE `imhhfs_folder` (
 DROP TABLE IF EXISTS `imhhfs_recovery_code`;
 CREATE TABLE `imhhfs_recovery_code` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Encoded recovery code',
   `deleted` tinyint(1) NOT NULL,
   `hidden` tinyint(1) NOT NULL,
@@ -200,7 +202,7 @@ INSERT INTO `imhhfs_role` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `cre
 DROP TABLE IF EXISTS `imhhfs_user`;
 CREATE TABLE `imhhfs_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_id` int(11) DEFAULT NULL,
+  `role_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `pass` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Encoded password',
   `two_factor` tinyint(1) NOT NULL COMMENT '1 if 2FA is enabled',

@@ -21,7 +21,7 @@ class Folder extends Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="files")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
     

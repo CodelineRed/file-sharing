@@ -21,7 +21,7 @@ class File extends Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="files")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
     
@@ -35,7 +35,7 @@ class File extends Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="FileExtension", inversedBy="files")
-     * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id", nullable=false)
      */
     private $extension;
     

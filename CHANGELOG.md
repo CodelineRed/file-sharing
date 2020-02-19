@@ -8,12 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.4.0]
 ### Added
+- [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
+- [`data-model.dia`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.dia)
 - [`FileExtension::uniqueFilesQuantity()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/FileExtension.php)
+- `nullable=false` to the most of `@ORM\JoinColumn`
 
 ### Changed
 - [`_timeline.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_timeline.scss)
+- [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
 - [`.gitignore`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/.gitignore)
 - margins and paddings of headline in some twig templates
+
+### Removed
+- `data-model.png` and replaced by [`data-model-adminer.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-adminer.png)
 
 ### Fixed
 - `Undefined index REQUEST_SCHEME` in [`LanguageExtension.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/LanguageExtension.php)
@@ -112,7 +119,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 
 ### Removed
 - `modal.html.twig` and replaced by [`modal-cookie-policy.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-cookie-policy.html.twig)
-- `db-model.png` and replaced by [`data-model.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.png)
+- `db-model.png` and replaced by [`data-model.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
 
 ### Fixed
 - wrong database name in [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)

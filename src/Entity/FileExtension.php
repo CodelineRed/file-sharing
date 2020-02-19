@@ -19,7 +19,7 @@ class FileExtension extends Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="FileType", inversedBy="fileExtensions")
-     * @ORM\JoinColumn(name="file_type_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="file_type_id", referencedColumnName="id", nullable=false)
      */
     private $fileType;
     

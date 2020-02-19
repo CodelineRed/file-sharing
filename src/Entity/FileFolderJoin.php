@@ -13,14 +13,14 @@ class FileFolderJoin extends BaseJoin {
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="File", inversedBy="folderJoins")
-     * @ORM\JoinColumn(name="file_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=false)
      */
     private $file;
     
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Folder", inversedBy="fileJoins")
-     * @ORM\JoinColumn(name="folder_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="folder_id", referencedColumnName="id", nullable=false)
      */
     private $folder;
     
