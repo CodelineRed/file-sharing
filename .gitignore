@@ -15,9 +15,18 @@ scripts.js.map
 composer.phar
 additional-settings.php
 gulpfile-config.json
+gulpfile.json
 
-# Created by https://www.gitignore.io/api/node,linux,macos,windows,netbeans,phpstorm
-# Edit at https://www.gitignore.io/?templates=node,linux,macos,windows,netbeans,phpstorm
+# Created by https://www.gitignore.io/api/node,linux,macos,windows,netbeans,phpstorm,composer
+# Edit at https://www.gitignore.io/?templates=node,linux,macos,windows,netbeans,phpstorm,composer
+
+### Composer ###
+composer.phar
+/vendor/
+
+# Commit your application's lock file https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
+# composer.lock
 
 ### Linux ###
 *~
@@ -291,4 +300,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/node,linux,macos,windows,netbeans,phpstorm
+# End of https://www.gitignore.io/api/node,linux,macos,windows,netbeans,phpstorm,composer

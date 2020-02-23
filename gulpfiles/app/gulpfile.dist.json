@@ -1,0 +1,6 @@
+{
+    "localServer": "http://127.0.0.1:3050/",
+    "sourcePath": "gulpfiles/",
+    "publicPath": "public/",
+    "env": "prod"
+}

@@ -11,16 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
 - [`data-model.dia`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.dia)
 - [`FileExtension::uniqueFilesQuantity()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/FileExtension.php)
+- [`gulp-if`](https://www.npmjs.com/package/gulp-if) module
 - `nullable=false` to the most of `@ORM\JoinColumn`
 
 ### Changed
+- [`create-folder.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/create-folder.js)
 - [`_timeline.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_timeline.scss)
+- [`npm-postinstall.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/php/npm-postinstall.php)
 - [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
 - [`.gitignore`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/.gitignore)
+- [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)
+- [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- js files to ES6
 - margins and paddings of headline in some twig templates
+- vanilla-lazyload 8.17.0 to vanilla-lazyload 12.4.0
 
 ### Removed
 - `data-model.png` and replaced by [`data-model-adminer.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-adminer.png)
+- gulpfile-config.dist.json and replaced with [`src/app/gulpfile.dist.json`](https://github.com/InsanityMeetsHH/gulp-templating/blob/master/src/app/gulpfile.dist.json)
+- gulp-uglify and replaced with gulp-uglify-es
 
 ### Fixed
 - `Undefined index REQUEST_SCHEME` in [`LanguageExtension.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/LanguageExtension.php)
@@ -331,7 +340,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 ## [2.0.0] - 2018-10-10
 ### Added
 - Upgrade from [Slim Skeleton Fork 4.3](https://github.com/InsanityMeetsHH/Slim-Skeleton/tree/4.3.0) to [Slim Skeleton Fork 5.0.5](https://github.com/InsanityMeetsHH/Slim-Skeleton/tree/5.0.5)
-- Upgrade from [Gulp Templating 3.0](https://github.com/InsanityMeetsHH/gulp-templating/tree/3.0.0) to [Gulp Templating 3.1](https://github.com/InsanityMeetsHH/gulp-templating/tree/3.1.0)
+- Upgrade from [Gulp Templating 3.0](https://github.com/InsanityMeetsHH/file-sharing/tree/3.0.0) to [Gulp Templating 3.1](https://github.com/InsanityMeetsHH/file-sharing/tree/3.1.0)
 - [`cookieconsent.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/cookieconsent.js)
 - [`cookieconsent.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/plugin/cookieconsent.scss)
 - [`_switch.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_switch.scss)

@@ -8,7 +8,7 @@ This application based on [Slim Skeleton 5](https://github.com/InsanityMeetsHH/S
 * [Node.js](http://nodejs.org/en/download/)
 * [npm](http://www.npmjs.com/get-npm) `$ npm i npm@latest -g`
 * [gulp-cli](https://www.npmjs.com/package/gulp-cli) `$ npm i gulp-cli@latest -g`
-* PHP => 5.5.9
+* PHP >= 5.5.9
 * MySQL 5 (pdo_mysql)
 * [Docker](https://www.docker.com/) ([for installation with Docker](https://github.com/InsanityMeetsHH/file-sharing#installation-with-docker))
 
@@ -34,7 +34,7 @@ This steps works with Windows, macOS and Linux.
 * `$ docker-compose build`
 * `$ docker-compose up -d`
 * `$ docker inspect file-sharing-db` search for `IPAddress` from `DIRNAME_default` (at the bottom) and set IP (e.g. 172.20.0.2 often by me) as Doctrine `host` in `config\additional-settings.php`
-* Open [localhost:8080](http://localhost:8080) for website or [localhost:9999](http://localhost:9999) for database gui
+* Open [localhost:3050](http://localhost:3050) for website or [localhost:9999](http://localhost:9999) for database gui
 * Adminer login: user = root, pass = rootdockerpw, host = IP from `IPAddress`
 * If you want to remove a container `$ docker rm [container-name] -f` e.g. `$ docker rm file-sharing-db -f`
 * If you want to remove a volume `$ docker volume rm [volume-name]` e.g. `$ docker volume rm DIRNAME_db_data` (first remove matching container)

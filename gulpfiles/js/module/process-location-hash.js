@@ -7,7 +7,7 @@
  */
 function processLocationHash() {
     (function($) {
-        var hash = window.location.hash;
+        let hash = window.location.hash;
         
         if (typeof hash === 'string' && hash !== '') {
             if (/Tab/.test(hash)) {

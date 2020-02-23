@@ -1,18 +1,20 @@
-var browserSync = require('browser-sync').create();
-var del         = require('del');
-var gulp        = require('gulp');
-var prefixer    = require('gulp-autoprefixer');
-var minifyCss   = require('gulp-clean-css');
-var concat      = require('gulp-concat');
-var eslint      = require('gulp-eslint');
-var imagemin    = require('gulp-imagemin');
-var minifyJson  = require('gulp-jsonminify');
-var sass        = require('gulp-sass');
-var sassLint    = require('gulp-sass-lint');
-var sourcemaps  = require('gulp-sourcemaps');
-var uglify      = require('gulp-uglify');
+const browserSync = require('browser-sync').create();
+const del         = require('del');
+const gulp        = require('gulp');
+const prefixer    = require('gulp-autoprefixer');
+const minifyCss   = require('gulp-clean-css');
+const concat      = require('gulp-concat');
+const eslint      = require('gulp-eslint');
+const gulpIf      = require('gulp-if');
+const minifyImg   = require('gulp-imagemin');
+const minifyJson  = require('gulp-jsonminify');
+const sass        = require('gulp-sass');
+const sassLint    = require('gulp-sass-lint');
+const sourcemaps  = require('gulp-sourcemaps');
+const uglify      = require('gulp-uglify-es').default;
 
-var config      = require('./gulpfile-config.json');
+const config      = require('./gulpfiles/app/gulpfile.json');
+const isEnv       = require('./gulpfiles/app/is-env');
 
 // processing scss to css and minify result
 function scss() {
@@ -23,7 +25,7 @@ function scss() {
             overrideBrowserslist: ['last 2 versions'],
             cascade: false
         }))
-        .pipe(minifyCss({compatibility: 'ie8'}))
+        .pipe(gulpIf(isEnv(['test', 'prod'], config.env), minifyCss({compatibility: 'ie8'})))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.publicPath + 'css/'));
 }
@@ -35,7 +37,7 @@ function scssLint() {
             // exclude third party and special files
             '!' + config.sourcePath + 'scss/module/_datatables.scss'
         ])
-        .pipe(sassLint(require('./scss-lint.json')))
+        .pipe(sassLint(require('./gulpfiles/app/scss-lint.json')))
         .pipe(sassLint.format())
         .pipe(sassLint.failOnError());
 }
@@ -58,7 +60,7 @@ function js() {
         ])
         .pipe(sourcemaps.init())
         .pipe(concat('scripts.js'))
-        .pipe(uglify())
+        .pipe(gulpIf(isEnv(['test', 'prod'], config.env), uglify()))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.publicPath + 'js/'));
 }
@@ -68,7 +70,7 @@ function jsLint() {
     return gulp.src([
             config.sourcePath + 'js/**/*.js'
         ])
-        .pipe(eslint(require('./js-lint.json')))
+        .pipe(eslint(require('./gulpfiles/app/js-lint.json')))
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
 }
@@ -85,11 +87,11 @@ function json() {
 // compress images
 function img() {
     return gulp.src(config.sourcePath + 'img/**/*.{png,gif,jpg,jpeg,ico,xml,json,svg}')
-        .pipe(imagemin([
-            imagemin.gifsicle({interlaced: true}),
-            imagemin.mozjpeg({progressive: true}),
-            imagemin.optipng({optimizationLevel: 5}),
-            imagemin.svgo({
+        .pipe(minifyImg([
+            minifyImg.gifsicle({interlaced: true}),
+            minifyImg.mozjpeg({progressive: true}),
+            minifyImg.optipng({optimizationLevel: 5}),
+            minifyImg.svgo({
                 plugins: [
                     {removeViewBox: true},
                     {cleanupIDs: false}
@@ -115,8 +117,8 @@ function svg() {
 //            'node_modules/@fortawesome/fontawesome-free/sprites/**',
             config.sourcePath + 'svg/**/*.svg'
         ])
-        .pipe(imagemin([
-            imagemin.svgo({
+        .pipe(minifyImg([
+            minifyImg.svgo({
                 plugins: [
                     {removeViewBox: true},
                     {cleanupIDs: false}
@@ -142,6 +144,11 @@ function cleanUp() {
 function browserSyncInit(done) {
     // start browsersync
     browserSync.init({
+        port: 3000,
+        ui: {
+            port: 3001
+        },
+        // ui: false, // enable in production
         proxy: config.localServer
     });
     done();
