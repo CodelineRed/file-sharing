@@ -8,14 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.4.0]
 ### Added
+- [`upload-file-form.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/upload-file-form.js)
 - [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
 - [`data-model.dia`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.dia)
 - [`FileExtension::uniqueFilesQuantity()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Twig/FileExtension.php)
 - [`gulp-if`](https://www.npmjs.com/package/gulp-if) module
 - `nullable=false` to the most of `@ORM\JoinColumn`
+- ability to save notes without clicking file included button
 
 ### Changed
 - [`create-folder.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/create-folder.js)
+- [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
 - [`_timeline.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_timeline.scss)
 - [`npm-postinstall.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/php/npm-postinstall.php)
 - [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
@@ -23,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)
 - [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
 - js files to ES6
+- php translation files
 - margins and paddings of headline in some twig templates
 - vanilla-lazyload 8.17.0 to vanilla-lazyload 12.4.0
 

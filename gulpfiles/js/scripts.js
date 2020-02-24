@@ -1,4 +1,4 @@
-/*global confirmRemove initCookieConsent initCreateFolder initDataTable initUpdateFile initUpdateFolder processLocationHash*/
+/*global confirmRemove initCookieConsent initCreateFolder initDataTable initUpdateFile initUpdateFolder initUploadFileForm processLocationHash*/
 'use strict';
 
 // jQuery.noConflict();
@@ -6,11 +6,6 @@
     $(document).ready(function() {
         $('html').removeClass('no-js');
         $('[data-toggle="tooltip"]').tooltip();
-        
-        // display selected file in label tag
-        $('input[type="file"]').change(function(e) {
-            $(this).next().text(e.target.files[0].name);
-        });
         
         // disable submit button after submit
         $('form').submit(function(e) {
@@ -29,6 +24,7 @@
         initDataTable();
         initUpdateFile();
         initUpdateFolder();
+        initUploadFileForm();
         processLocationHash();
     });
 })(jQuery);

@@ -106,7 +106,7 @@ return [
     'update-file' => 'Edit file',
     'update-folder' => 'Edit folder',
     'updated-at' => 'Updated at',
-    'upload' => 'Upload',
+    'upload' => 'Upload / Save',
     'upload-file' => 'Upload file',
     'user' => 'User',
     'user-is-hidden' => 'User is locked',

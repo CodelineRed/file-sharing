@@ -106,7 +106,7 @@ return [
     'update-file' => 'Datei bearbeiten',
     'update-folder' => 'Ordner bearbeiten',
     'updated-at' => 'Bearbeitet am',
-    'upload' => 'Hochladen',
+    'upload' => 'Hochladen / Speichern',
     'upload-file' => 'Datei hochladen',
     'user' => 'Benutzer',
     'user-is-hidden' => 'Benutzer ist gesperrt',
