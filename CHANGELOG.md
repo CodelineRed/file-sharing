@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [`_timeline.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_timeline.scss)
 - [`npm-postinstall.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/php/npm-postinstall.php)
 - [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
+- [`Setup.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Composer/Setup.php)
+- [`UserController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php)
 - [`.gitignore`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/.gitignore)
 - [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)
 - [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)

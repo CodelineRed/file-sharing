@@ -9,7 +9,9 @@ function initUploadFileForm() {
     (function($) {
         // display selected file in label tag
         $('input[type="file"]').change(function(e) {
-            $(this).next().text(e.target.files[0].name);
+            if (typeof e.target.files[0] === 'object') {
+                $(this).next().text(e.target.files[0].name);
+            }
         });
         
         // disable file_included if note has changed and file is empty
