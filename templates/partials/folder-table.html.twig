@@ -1,5 +1,6 @@
-{% set dataTableOrder = '[[ 3, "desc" ]]' %}
 {% set dataTableColumns = '[{ "orderSequence": [ "desc", "asc" ] }, null, { "orderSequence": [ "desc", "asc" ] }, { "orderSequence": [ "desc", "asc" ] }, null]' %}
+{% set dataTableOrder = '[[ 3, "desc" ]]' %}
+{% set dataTableId = 'memberFolderTable' %}
 
 {% if user.folders|length > 0 %}
     <div class="mb-2 text-center">
@@ -7,7 +8,7 @@
     </div>
     
     <div class="table-responsive">
-        <table class="table table-striped table-dark data-table" data-order='{{ dataTableOrder }}' data-columns='{{ dataTableColumns }}'>
+        <table id="{{ dataTableId }}" class="table table-striped table-dark data-table" data-order='{{ dataTableOrder }}' data-columns='{{ dataTableColumns }}'>
             <thead>
                 <tr>
                     <th scope="col"><span class="text-nowrap">{{ 'folder-access'|trans }}</span></th>

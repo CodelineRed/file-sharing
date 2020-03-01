@@ -1,17 +1,19 @@
-{% set dataTableOrder = '[[ 3, "desc" ]]' %}
 {% set dataTableColumns = '[null, { "orderSequence": [ "desc", "asc" ] }, null, { "orderSequence": [ "desc", "asc" ] }]' %}
+{% set dataTableOrder = '[[ 3, "desc" ]]' %}
+{% set dataTableId = 'guestFileTable' %}
 
 {# if is superadmin or user is current user #}
 {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
-    {% set dataTableOrder = '[[ 4, "desc" ]]' %}
     {% set dataTableColumns = '[{ "orderSequence": [ "desc", "asc" ] }, null, { "orderSequence": [ "desc", "asc" ] }, null, { "orderSequence": [ "desc", "asc" ] }, null]' %}
+    {% set dataTableOrder = '[[ 4, "desc" ]]' %}
+    {% set dataTableId = 'memberFileTable' %}
     {% set publicFiles = files %}
 {% endif %}
 
 {# if files available #}
 {% if publicFiles|length > 0 %}
     <div class="table-responsive">
-        <table class="table table-striped table-dark data-table" data-order='{{ dataTableOrder }}' data-columns='{{ dataTableColumns }}'>
+        <table id="{{ dataTableId }}" class="table table-striped table-dark data-table" data-order='{{ dataTableOrder }}' data-columns='{{ dataTableColumns }}'>
             <thead>
                 <tr>
                 {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}

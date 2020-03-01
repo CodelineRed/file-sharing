@@ -6,7 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.4.0]
+## [3.5.0]
+### Changed
+- [`data-table.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/data-table.js)
+- [`process-location-hash.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/process-location-hash.js)
+- [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
+- [`partials/file-table.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/file-table.html.twig)
+- [`partials/folder-table.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/folder-table.html.twig)
+- [`user/show-all.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show-all.html.twig)
+- [`user/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig)
+
+## [3.4.0] - 2020-02-29
 ### Added
 - [`upload-file-form.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/upload-file-form.js)
 - [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
@@ -146,7 +156,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 - [`GeneralUtility::getUploadMaxFilesize()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Utility/GeneralUtility.php)
 - `FILE_SHARING_VERSION` in [`public/index.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/index.php)
 - translations
-- `"type": "project"` in `composer.json`
+- `"type": "project"` in [`composer.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/composer.json)
 
 ### Changed
 - jquery 3.3.1 to jquery 3.4.1

@@ -19,6 +19,14 @@
             }
         });
         
+        $('[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            window.location.hash = $(e.target).data('id');
+        });
+        
+        $('.modal').on('shown.bs.modal', function(e) {
+            $(this).find('input[type="text"]').first().focus();
+        });
+        
         initCookieConsent();
         initCreateFolder();
         initDataTable();

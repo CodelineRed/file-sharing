@@ -11,7 +11,7 @@ function processLocationHash() {
         
         if (typeof hash === 'string' && hash !== '') {
             if (/Tab/.test(hash)) {
-                $(hash).click();
+                $('[data-id="' + hash.substr(1) + '"]').click();
             }
         }
     })(jQuery);
