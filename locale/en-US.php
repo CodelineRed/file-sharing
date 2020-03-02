@@ -127,6 +127,7 @@ return [
     'file-upload-m3' => 'An error occoured (code: %1$s)',
     'file-upload-m4' => 'File could not uploaded',
     'file-upload-m5' => 'Note "%1$s" was created',
+    'file-upload-m6' => 'Reached upload limit',
     'file-extension-create-m1' => 'File extension exists',
     'file-extension-create-m2' => 'File type doesn\'t exists',
     'file-extension-create-m3' => 'File extension not allowed',

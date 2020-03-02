@@ -199,10 +199,30 @@ INSERT INTO `imhhfs_role` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `cre
 (4,	'superadmin',	0,	0,	now(),	now());
 
 
+DROP TABLE IF EXISTS `imhhfs_upload_limit`;
+CREATE TABLE `imhhfs_upload_limit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Size in bytes',
+  `files` int(11) NOT NULL COMMENT 'Max File quantity',
+  `folders` int(11) NOT NULL COMMENT 'Max Folder quantity',
+  `deleted` tinyint(1) NOT NULL,
+  `hidden` tinyint(1) NOT NULL,
+  `updated_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  `created_at` datetime NOT NULL COMMENT 'Date and time in UTC',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_512E45B65E237E06` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `imhhfs_upload_limit` (`id`, `name`, `size`, `files`, `folders`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1,	'general',	'104857600',	250,	250,	0,	0,	now(),	now());
+
+
 DROP TABLE IF EXISTS `imhhfs_user`;
 CREATE TABLE `imhhfs_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
+  `upload_limit_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `pass` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Encoded password',
   `two_factor` tinyint(1) NOT NULL COMMENT '1 if 2FA is enabled',
@@ -214,9 +234,10 @@ CREATE TABLE `imhhfs_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_F3F659DC5E237E06` (`name`),
   KEY `IDX_F3F659DCD60322AC` (`role_id`),
-  CONSTRAINT `FK_F3F659DCD60322AC` FOREIGN KEY (`role_id`) REFERENCES `imhhfs_role` (`id`)
+  CONSTRAINT `FK_F3F659DCD60322AC` FOREIGN KEY (`role_id`) REFERENCES `imhhfs_role` (`id`),
+  CONSTRAINT `FK_F3F659DCE62AB99F` FOREIGN KEY (`upload_limit_id`) REFERENCES `imhhfs_upload_limit` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- login: user / password
-INSERT INTO `imhhfs_user` (`id`, `role_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
-(1,	4,	'user',	'$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K',	0,	'',	0,	0,	now(),	now());
+INSERT INTO `imhhfs_user` (`id`, `role_id`, `upload_limit_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1,	4,	1,	'user',	'$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K',	0,	'',	0,	0,	now(),	now());

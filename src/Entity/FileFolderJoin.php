@@ -91,6 +91,7 @@ class FileFolderJoin extends BaseJoin {
      * Set $file
      * 
      * @param FileFile $file
+     * @return FileFolderJoin
      */
     public function setFile($file) {
         $this->file = $file;
@@ -111,6 +112,7 @@ class FileFolderJoin extends BaseJoin {
      * Set $folder
      * 
      * @param Folder $folder
+     * @return FileFolderJoin
      */
     public function setFolder($folder) {
         $this->folder = $folder;

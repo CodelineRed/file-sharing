@@ -62,4 +62,20 @@ class UserRepository extends EntityRepository {
         
         return FALSE;
     }
+
+    /**
+     * Returns disk usage in bytes
+     *
+     * @param PersistentCollection $files
+     * @return integer
+     */
+    public function getDiskUsage(PersistentCollection $files) {
+        $diskUsage = 0;
+
+        foreach ($files as $file) {
+            $diskUsage += intval($file->getSize());
+        }
+
+        return $diskUsage;
+    }
 }

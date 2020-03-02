@@ -61,6 +61,7 @@ class Folder extends Base {
      * Set $user
      * 
      * @param User $user
+     * @return Folder
      */
     public function setUser($user) {
         $this->user = $user;
@@ -81,6 +82,7 @@ class Folder extends Base {
      * Set $name
      * 
      * @param string $name
+     * @return Folder
      */
     public function setName($name) {
         $this->name = trim($name);
@@ -115,6 +117,7 @@ class Folder extends Base {
      * Set $access
      * 
      * @param Access $access
+     * @return Folder
      */
     public function setAccess(Access $access) {
         $this->access = $access;

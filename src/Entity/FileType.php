@@ -39,6 +39,7 @@ class FileType extends Base {
      * Set $name
      * 
      * @param string $name
+     * @return FileType
      */
     public function setName($name) {
         $this->name = strtolower(trim($name));

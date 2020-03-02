@@ -7,10 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [3.5.0]
+Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md#upgrade-from-340-to-350)!
+
+### Added
+- [`version-3.5.0-migration.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/version-3.5.0-migration.sql)
+- [`UploadLimit.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/UploadLimit.php) Entity
+- [`UserRepository::getDiskUsage()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Repository/UserRepository.php)
+- upload limit feature
+- save table state feature
+- reopen tab feature
+- `@return` in PHPDoc for all entities
+
 ### Changed
 - [`data-table.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/data-table.js)
 - [`process-location-hash.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/process-location-hash.js)
 - [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
+- [`data-model-adminer.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-adminer.png)
+- [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
+- [`data-model.dia`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.dia)
+- [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
+- [`FileController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
 - [`partials/file-table.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/file-table.html.twig)
 - [`partials/folder-table.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/folder-table.html.twig)
 - [`user/show-all.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show-all.html.twig)
@@ -52,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - column Files always "0" in [`user/show-all.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show-all.html.twig)
 
 ## [3.3.0] - 2020-02-16
-Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)!
+Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md#upgrade-from-320-to-330)!
 
 ### Added
 - [`create-folder.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/create-folder.js)
@@ -121,7 +137,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 - `modal-edit-file.html.twig` and replaced by [`modal-update-file.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-update-file.html.twig)
 
 ## [3.2.0] - 2020-01-19
-Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md)!
+Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md#upgrade-from-310-to-320)!
 
 ### Added
 - 3 access states for files (public, shareable and private).

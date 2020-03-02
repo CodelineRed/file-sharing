@@ -45,6 +45,7 @@ class FileExtension extends Base {
      * Set $name
      * 
      * @param string $name
+     * @return FileExtension
      */
     public function setName($name) {
         $this->name = strtolower(trim($name));
@@ -65,6 +66,7 @@ class FileExtension extends Base {
      * Set $fileType
      * 
      * @param FileType $fileType
+     * @return FileExtension
      */
     public function setFileType($fileType) {
         $this->fileType = $fileType;

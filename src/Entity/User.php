@@ -32,6 +32,12 @@ class User extends Base {
     private $role;
     
     /**
+     * @ORM\ManyToOne(targetEntity="UploadLimit", inversedBy="users")
+     * @ORM\JoinColumn(name="upload_limit_id", referencedColumnName="id", nullable=false)
+     */
+    private $uploadLimit;
+    
+    /**
      * 1 if 2FA is enabled
      * 
      * @ORM\Column(type="boolean", name="two_factor", options={"comment": "1 if 2FA is enabled"})
@@ -83,6 +89,7 @@ class User extends Base {
      * Set $name
      * 
      * @param string $name
+     * @return User
      */
     public function setName($name) {
         $this->name = strtolower(trim($name));
@@ -103,6 +110,7 @@ class User extends Base {
      * Set $pass
      * 
      * @param string $pass
+     * @return User
      */
     public function setPass($pass) {
         $this->pass = GeneralUtility::encryptPassword($pass);
@@ -123,9 +131,31 @@ class User extends Base {
      * Set $role
      * 
      * @param Role $role
+     * @return User
      */
     public function setRole($role) {
         $this->role = $role;
+        
+        return $this;
+    }
+    
+    /**
+     * Get $uploadLimit
+     * 
+     * @return UploadLimit
+     */
+    public function getUploadLimit() {
+        return $this->uploadLimit;
+    }
+    
+    /**
+     * Set $uploadLimit
+     * 
+     * @param UploadLimit $uploadLimit
+     * @return User
+     */
+    public function setUploadLimit($uploadLimit) {
+        $this->uploadLimit = $uploadLimit;
         
         return $this;
     }
@@ -143,6 +173,7 @@ class User extends Base {
      * Set $twoFactor
      * 
      * @param boolean $twoFactor
+     * @return User
      */
     public function setTwoFactor($twoFactor) {
         $this->twoFactor = $twoFactor;
@@ -163,6 +194,7 @@ class User extends Base {
      * Set $twoFactorSecret
      * 
      * @param string $twoFactorSecret
+     * @return User
      */
     public function setTwoFactorSecret($twoFactorSecret) {
         $this->twoFactorSecret = $twoFactorSecret;
