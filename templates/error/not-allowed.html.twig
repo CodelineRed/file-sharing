@@ -1,5 +1,10 @@
 {% extends "layouts/layout.html.twig" %}
 
 {% block content %}
-    <div class="h1 text-center">{{ 'not-allowed-method'|trans }}: {{ methods }}</div>
+    <div class="row">
+        <div class="col-12">
+            <div class="h1 text-center">{{ 'not-allowed-method'|trans }}: {{ methods }}</div>
+            {% include('partials/error-animation.html.twig') %}
+        </div>
+    </div>
 {% endblock %}

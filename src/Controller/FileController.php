@@ -53,8 +53,16 @@ class FileController extends BaseController {
         // if file exits and accessible or current user is owner of file
         if ($file instanceof File && ($file->getAccessId() === 2 || $file->getAccessId() === 3) || $this->currentUser === $file->getUser()->getId()) {
             if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
+                $fileName = $file->getName();
+
+                // if dot exists in file name
+                if (is_int(strrpos($fileName, '.'))) {
+                    // remove file extension in file name
+                    $fileName = substr($fileName, 0, strrpos($fileName, '.'));
+                }
+
                 header("Content-Type: " . $file->getMimeType());
-                header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
+                header("Content-Disposition: attachment; filename=\"" . $fileName . $file->getExtension()->getName() . "\"");
                 flush();
                 readfile($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
             }

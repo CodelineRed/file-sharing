@@ -1,5 +1,10 @@
 {% extends "layouts/layout.html.twig" %}
 
 {% block content %}
-    <div class="h1 text-center">{{ 'failed-csrf'|trans }}</div>
+    <div class="row">
+        <div class="col-12">
+            <div class="h1 text-center">{{ 'failed-csrf'|trans }}</div>
+            {% include('partials/error-animation.html.twig') %}
+        </div>
+    </div>
 {% endblock %}

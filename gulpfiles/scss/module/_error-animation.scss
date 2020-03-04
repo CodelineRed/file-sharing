@@ -1,0 +1,19 @@
+.error-animation {
+    @include media-breakpoint-up(md) {
+        width: 75%;
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: 50%;
+    }
+}
+
+@keyframes bumpy-road {
+    from {
+        top: 0;
+    }
+
+    to {
+        top: 50px;
+    }
+}

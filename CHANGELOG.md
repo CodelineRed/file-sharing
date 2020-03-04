@@ -10,18 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md#upgrade-from-340-to-350)!
 
 ### Added
+- rotated-flipped to [`fontawesome.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/lib/fontawesome.scss)
+- [`_error-animation.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_error-animation.scss)
 - [`version-3.5.0-migration.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/version-3.5.0-migration.sql)
 - [`UploadLimit.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Entity/UploadLimit.php) Entity
 - [`UserRepository::getDiskUsage()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Repository/UserRepository.php)
+- [`partials/error-animation.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/error-animation.html.twig)
 - upload limit feature
 - save table state feature
 - reopen tab feature
 - `@return` in PHPDoc for all entities
+- SVG icons from [Fontawesome.com](https://fontawesome.com) for error animation
 
 ### Changed
 - [`data-table.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/data-table.js)
 - [`process-location-hash.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/process-location-hash.js)
 - [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
+- [`styles.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/styles.scss)
 - [`data-model-adminer.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-adminer.png)
 - [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
 - [`data-model.dia`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.dia)
@@ -31,6 +36,10 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 - [`partials/folder-table.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/folder-table.html.twig)
 - [`user/show-all.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show-all.html.twig)
 - [`user/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig)
+- all error pages
+
+### Fixed
+- file extension on download in [`FileController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
 
 ## [3.4.0] - 2020-02-29
 ### Added
