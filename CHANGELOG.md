@@ -169,7 +169,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 
 ### Removed
 - `modal.html.twig` and replaced by [`modal-cookie-policy.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-cookie-policy.html.twig)
-- `db-model.png` and replaced by [`data-model.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
+- `db-model.png` and replaced by [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
 
 ### Fixed
 - wrong database name in [`docker-compose.yml`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/docker-compose.yml)
