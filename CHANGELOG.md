@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.5.0]
+## [3.5.1]
+### Changed
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+
+
+## [3.5.0] - 2020-03-09
 Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md#upgrade-from-340-to-350)!
 
 ### Added
