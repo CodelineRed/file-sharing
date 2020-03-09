@@ -28,8 +28,8 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 - [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
 - [`styles.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/styles.scss)
 - [`data-model-adminer.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-adminer.png)
-- [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
 - [`data-model.dia`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model.dia)
+- [`data-model-dia.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/screenshots/data-model-dia.png)
 - [`db-dump.sql`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/sql/db-dump.sql)
 - [`FileController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
 - [`partials/file-table.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/file-table.html.twig)
@@ -40,6 +40,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 
 ### Fixed
 - file extension on download in [`FileController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FileController.php)
+- application crash on download, if file name has some forbidden special chars
 
 ## [3.4.0] - 2020-02-29
 ### Added
