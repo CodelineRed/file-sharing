@@ -23,7 +23,7 @@
         <meta name="theme-color" content="#000000">
         <link rel="shortcut icon" href="img/favicons/favicon.ico">
         <link href="//fonts.googleapis.com/css?family=Lato:300" rel="stylesheet" type="text/css">
-        <link href="{{ base_url() }}/css/styles.css?v=3.5.0-dev" rel="stylesheet" type="text/css">
+        <link href="{{ base_url() }}/css/styles.css?v=3.5.0" rel="stylesheet" type="text/css">
         <script type="application/javascript">
             function setCookie(e,t,n){var o=new Date;o.setTime(o.getTime()+24*n*60*60*1e3);var i="expires="+o.toUTCString();document.cookie=e+"="+t+";"+i+";path=/"}
             function getCookie(e){for(var t=e+"=",n=decodeURIComponent(document.cookie).split(";"),o=0;o<n.length;o++){for(var i=n[o];" "==i.charAt(0);)i=i.substring(1);if(0==i.indexOf(t))return i.substring(t.length,i.length)}return""}
@@ -62,7 +62,7 @@
             <div class="container"></div>
         </footer>
         {% include('partials/modal-cookie-policy.html.twig') %}
-        <script src="{{ base_url() }}/js/scripts.js?v=3.5.0-dev"></script>
+        <script src="{{ base_url() }}/js/scripts.js?v=3.5.0"></script>
     {% if settings.recaptcha.site and settings.recaptcha.site|length > 20 %}
         <script src="https://www.google.com/recaptcha/api.js?hl={{ current_locale()|slice(0, 2) }}"></script>
     {% endif %}
