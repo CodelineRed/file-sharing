@@ -6,10 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.5.1]
-### Changed
-- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+## [3.6.0]
+### Added
+- [`src/app/lint.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/lint.js)
 
+### Changed
+- [`src/app/js-lint.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/js-lint.json)
+- [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
 
 ## [3.5.0] - 2020-03-09
 Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md#upgrade-from-340-to-350)!
