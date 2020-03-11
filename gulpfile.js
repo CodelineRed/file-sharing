@@ -15,6 +15,7 @@ const uglify      = require('gulp-uglify-es').default;
 
 const config      = require('./gulpfiles/app/gulpfile.json');
 const isEnv       = require('./gulpfiles/app/is-env');
+const lint        = require('./gulpfiles/app/lint');
 
 // processing scss to css and minify result
 function scss() {
@@ -32,14 +33,7 @@ function scss() {
 
 // lint scss files
 function scssLint() {
-    return gulp.src([
-            config.sourcePath + 'scss/**/*.scss',
-            // exclude third party and special files
-            '!' + config.sourcePath + 'scss/module/_datatables.scss'
-        ])
-        .pipe(sassLint(require('./gulpfiles/app/scss-lint.json')))
-        .pipe(sassLint.format())
-        .pipe(sassLint.failOnError());
+    return lint(gulp, sassLint, [config.sourcePath + 'scss/**/*.scss', '!' + config.sourcePath + 'scss/module/_datatables.scss'], 'scss');
 }
 
 // concatinate and uglify js files
@@ -67,12 +61,7 @@ function js() {
 
 // lint js files
 function jsLint() {
-    return gulp.src([
-            config.sourcePath + 'js/**/*.js'
-        ])
-        .pipe(eslint(require('./gulpfiles/app/js-lint.json')))
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
+    return lint(gulp, eslint, [config.sourcePath + 'js/**/*.js'], 'js');
 }
 
 // copy all json files and minify
