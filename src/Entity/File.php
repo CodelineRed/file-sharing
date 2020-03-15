@@ -21,7 +21,7 @@ class File extends Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="files")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
     
@@ -35,7 +35,7 @@ class File extends Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="FileExtension", inversedBy="files")
-     * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id", nullable=false)
      */
     private $extension;
     
@@ -101,6 +101,7 @@ class File extends Base {
      * Set $user
      * 
      * @param User $user
+     * @return File
      */
     public function setUser($user) {
         $this->user = $user;
@@ -121,6 +122,7 @@ class File extends Base {
      * Set $file
      * 
      * @param FileFile $file
+     * @return File
      */
     public function setFile($file) {
         $this->file = $file;
@@ -141,6 +143,7 @@ class File extends Base {
      * Set $extension
      * 
      * @param FileExtension $extension
+     * @return File
      */
     public function setExtension($extension) {
         $this->extension = $extension;
@@ -175,6 +178,7 @@ class File extends Base {
      * Set $access
      * 
      * @param Access $access
+     * @return File
      */
     public function setAccess(Access $access) {
         $this->access = $access;
@@ -195,6 +199,7 @@ class File extends Base {
      * Set $name
      * 
      * @param string $name
+     * @return File
      */
     public function setName($name) {
         $this->name = trim($name);
@@ -215,6 +220,7 @@ class File extends Base {
      * Set $hashName
      * 
      * @param string $hashName
+     * @return File
      */
     public function setHashName($hashName) {
         $this->hashName = $hashName;
@@ -235,6 +241,7 @@ class File extends Base {
      * Set $mimeType
      * 
      * @param string $mimeType
+     * @return File
      */
     public function setMimeType($mimeType) {
         $this->mimeType = $mimeType;
@@ -255,6 +262,7 @@ class File extends Base {
      * Set $size
      * 
      * @param string|integer $size
+     * @return File
      */
     public function setSize($size) {
         $this->size = (string)$size;
@@ -275,6 +283,7 @@ class File extends Base {
      * Set $fileIncluded
      * 
      * @param boolean $fileIncluded
+     * @return File
      */
     public function setFileIncluded($fileIncluded) {
         $this->fileIncluded = $fileIncluded;

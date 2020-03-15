@@ -7,11 +7,11 @@
  */
 function processLocationHash() {
     (function($) {
-        var hash = window.location.hash;
+        let hash = window.location.hash;
         
         if (typeof hash === 'string' && hash !== '') {
             if (/Tab/.test(hash)) {
-                $(hash).click();
+                $('[data-id="' + hash.substr(1) + '"]').click();
             }
         }
     })(jQuery);

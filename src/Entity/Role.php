@@ -41,6 +41,7 @@ class Role extends Base {
      * Set $name
      * 
      * @param string $name
+     * @return Role
      */
     public function setName($name) {
         $this->name = strtolower(trim($name));

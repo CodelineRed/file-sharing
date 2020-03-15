@@ -9,11 +9,11 @@
 function initUpdateFolder() {
     (function($) {
         // 1: button class, 2: active class, 3: label, 4: access icon, 5: value, 6: checked attribute
-        var btnAccessTpl = '<label class="btn btn-%s btn-sm mr-2 mb-2 %s">%s <i class="fas fa-fw fa-check"></i><i class="fas fa-fw fa-times"></i> <i class="fas fa-%s"></i><input value="%s" type="radio" class="update-folder-access" name="update_folder_access" %s/></label>';
+        let btnAccessTpl = '<label class="btn btn-%s btn-sm mr-2 mb-2 %s">%s <i class="fas fa-fw fa-check"></i><i class="fas fa-fw fa-times"></i> <i class="fas fa-%s"></i><input value="%s" type="radio" class="update-folder-access" name="update_folder_access" %s/></label>';
         
         $('#update-folder').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var modal = $(this);
+            let button = $(event.relatedTarget);
+            let modal = $(this);
             
             modal.find('.modal-footer button.submit-form').prop('disabled', true);
             modal.find('#update-folder-name').val('');
@@ -44,7 +44,7 @@ function initUpdateFolder() {
             
             modal.find('button.submit-form').unbind('click');
             modal.find('button.submit-form').click(function() {
-                var folder = {
+                let folder = {
                     name: modal.find('#update-folder-name').val(),
                     access: modal.find('input.update-folder-access:checked').val()
                 };

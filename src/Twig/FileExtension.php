@@ -1,6 +1,9 @@
 <?php
 namespace App\Twig;
 
+use App\Container\AppContainer;
+use Doctrine\ORM\PersistentCollection;
+
 /**
  * File twig extension
  */
@@ -32,9 +35,10 @@ class FileExtension extends \Twig_Extension {
     public function getFilters() {
         return [
             new \Twig_SimpleFilter('file_size', [$this, 'fileSize']),
+            new \Twig_SimpleFilter('unique_files_quantity', [$this, 'uniqueFilesQuantity']),
         ];
     }
-    
+
     /**
      * Returns file size in human readable format
      * Sample: {{ file.size|file_size(2, '.', ',', 'MB') }}
@@ -65,5 +69,16 @@ class FileExtension extends \Twig_Extension {
         }
         
         return number_format(intval($bytes) / constant('\App\Twig\FileExtension::' . strtoupper($unit)), $decimals, $decimalPoint, $thousandsSeparator) . ' ' . $unit;
+    }
+
+    /**
+     * Returns quantity of unique files
+     *
+     * @param PersistentCollection $files
+     * @return mixed
+     */
+    public function uniqueFilesQuantity(PersistentCollection $files) {
+        $em = AppContainer::getInstance()->getContainer()->get('em');
+        return $em->getRepository('App\Entity\User')->findUniqueFiles($files)->count();
     }
 }

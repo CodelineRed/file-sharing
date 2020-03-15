@@ -8,13 +8,13 @@
 function initCreateFolder() {
     (function($) {
         // 1: button class, 2: active class, 3: label, 4: access icon, 5: value, 6: checked attribute
-        var btnAccessTpl = '<label class="btn btn-%s btn-sm mr-2 mb-2 %s">%s <i class="fas fa-fw fa-check"></i><i class="fas fa-fw fa-times"></i> <i class="fas fa-%s"></i><input value="%s" type="radio" class="create-folder-access" name="create_folder_access" %s/></label>';
+        let btnAccessTpl = '<label class="btn btn-%s btn-sm mr-2 mb-2 %s">%s <i class="fas fa-fw fa-check"></i><i class="fas fa-fw fa-times"></i> <i class="fas fa-%s"></i><input value="%s" type="radio" class="create-folder-access" name="create_folder_access" %s/></label>';
         
         $('#create-folder').on('show.bs.modal', function(event) {
             $('#update-file').modal('hide');
-            var button = $(event.relatedTarget);
-            var modal = $(this);
-            var fileId = button.data('file-id');
+            let button = $(event.relatedTarget);
+            let modal = $(this);
+            let fileId = button.data('file-id');
             
             modal.find('.modal-footer button.submit-form').prop('disabled', true);
             modal.find('#create-folder-name').val('');
@@ -31,7 +31,7 @@ function initCreateFolder() {
                         
                         if (typeof data.access_list === 'object' && Object.keys(data.access_list).length) {
                             $.each(data.access_list, function(index, access){
-                                modal.find('.btn-group-access').append(btnAccessTpl.format(access.button, (data.access === access.id ? 'active' : ''), access.trans, access.icon, access.id, (data.access === access.id ? 'checked' : '')));
+                                modal.find('.btn-group-access').append(btnAccessTpl.format(access.button, (index === 0 ? 'active' : ''), access.trans, access.icon, access.id, (index === 0 ? 'checked' : '')));
                             });
                         }
                     }
@@ -44,7 +44,7 @@ function initCreateFolder() {
             
             modal.find('button.submit-form').unbind('click');
             modal.find('button.submit-form').click(function() {
-                var folder = {
+                let folder = {
                     name: modal.find('#create-folder-name').val(),
                     access: modal.find('input.create-folder-access:checked').val()
                 };

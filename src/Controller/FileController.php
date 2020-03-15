@@ -53,8 +53,16 @@ class FileController extends BaseController {
         // if file exits and accessible or current user is owner of file
         if ($file instanceof File && ($file->getAccessId() === 2 || $file->getAccessId() === 3) || $this->currentUser === $file->getUser()->getId()) {
             if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
+                $fileName = urlencode($file->getName());
+
+                // if dot exists in file name
+                if (is_int(strrpos($fileName, '.'))) {
+                    // remove file extension in file name
+                    $fileName = substr($fileName, 0, strrpos($fileName, '.'));
+                }
+
                 header("Content-Type: " . $file->getMimeType());
-                header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
+                header("Content-Disposition: attachment; filename=\"" . $fileName . $file->getExtension()->getName() . "\"");
                 flush();
                 readfile($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
             }
@@ -127,87 +135,99 @@ class FileController extends BaseController {
             if ($user === NULL) {
                 return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
             }
-            
-            // if not empty
-            if (!empty($note) && $access instanceof Access && $noteExtension instanceof FileExtension) {
-                do {
-                    $noteFileName = 'note-' . GeneralUtility::generateCode(10) . '.txt';
-                    $noteHashName = GeneralUtility::generateCode(10) . substr(md5($noteFileName), 0, 10);
-                } while (file_exists($this->settings['upload']['path'] . $noteHashName . $noteExtension->getName()));
-                
-                file_put_contents($this->settings['upload']['path'] . $noteHashName . $noteExtension->getName(), $note);
-                
-                $fileNote = new File();
-                $fileNote->setName($noteFileName)
-                    ->setHashName($noteHashName)
-                    ->setMimeType('text/plain')
-                    ->setSize(strlen($note))
-                    ->setExtension($noteExtension)
-                    ->setAccess($access)
-                    ->setHidden(FALSE)
-                    ->setUser($user);
-            }
-            
-            // if "upload" exists
-            if (isset($files['upload']) && $files['upload'] instanceof \Slim\Http\UploadedFile && $access instanceof Access) {
-                $upload = $files['upload'];
-                
-                // if upload is ok
-                if ($upload->getError() === UPLOAD_ERR_OK) {
-                    $uploadFileName = $upload->getClientFilename();
-                    $extension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => strtolower(substr($uploadFileName, strrpos($uploadFileName, '.'))), 'hidden' => 0]);
-                    
-                    // if file extension is allowed and user exists
-                    if ($extension instanceof FileExtension && $user instanceof User) {
-                        do {
-                            $uploadFileHashName = GeneralUtility::generateCode(10) . substr(md5($uploadFileName), 0, 10);
-                        } while (file_exists($this->settings['upload']['path'] . $uploadFileHashName . $extension->getName()));
-                        
-                        $upload->moveTo($this->settings['upload']['path'] . $uploadFileHashName . $extension->getName());
-                        $args['name'] = $user->getName();
-                        
-                        $file = new File();
-                        $file->setName($uploadFileName)
-                            ->setHashName($uploadFileHashName)
-                            ->setMimeType($upload->getClientMediaType())
-                            ->setSize(intval($upload->getSize()))
-                            ->setExtension($extension)
-                            ->setAccess($access)
-                            ->setHidden(FALSE)
-                            ->setUser($user);
-                        
-                        // if file note exists
-                        if ($fileNote instanceof File) {
-                            if ($fileIncluded) {
-                                $file->setFile($fileNote);
-//                                $fileNote->setFile($file);
-                                $fileNote->setFileIncluded(TRUE);
+
+            $userFiles = $user->getFiles()->count();
+            $userDiskUsage = $this->em->getRepository('App\Entity\User')->getDiskUsage($user->getFiles());
+            $userFolders = $user->getFolders()->count();
+
+            if ($userFiles >= $user->getUploadLimit()->getFiles()
+                    || $userDiskUsage >= intval($user->getUploadLimit()->getSize())
+                    || $userFolders >= $user->getUploadLimit()->getFolders()) {
+                $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m6') . ';' . self::STYLE_DANGER);
+            } else {
+                // if not empty
+                if (!empty($note) && $access instanceof Access && $noteExtension instanceof FileExtension) {
+                    do {
+                        $noteFileName = 'note-' . GeneralUtility::generateCode(10) . '.txt';
+                        $noteHashName = GeneralUtility::generateCode(10) . substr(md5($noteFileName), 0, 10);
+                    } while (file_exists($this->settings['upload']['path'] . $noteHashName . $noteExtension->getName()));
+
+                    file_put_contents($this->settings['upload']['path'] . $noteHashName . $noteExtension->getName(), $note);
+
+                    $fileNote = new File();
+                    $fileNote->setName($noteFileName)
+                        ->setHashName($noteHashName)
+                        ->setMimeType('text/plain')
+                        ->setSize(strlen($note))
+                        ->setExtension($noteExtension)
+                        ->setAccess($access)
+                        ->setHidden(FALSE)
+                        ->setUser($user);
+                }
+
+                // if "upload" exists
+                if (isset($files['upload']) && $files['upload'] instanceof \Slim\Http\UploadedFile && $access instanceof Access) {
+                    $upload = $files['upload'];
+
+                    // if upload is ok
+                    if ($upload->getError() === UPLOAD_ERR_OK) {
+                        $uploadFileName = $upload->getClientFilename();
+                        $extension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => strtolower(substr($uploadFileName, strrpos($uploadFileName, '.'))), 'hidden' => 0]);
+                        $uploadSize = $fileNote instanceof File ? intval($upload->getSize()) + strlen($note) : intval($upload->getSize());
+
+                        // if file extension is allowed and user exists
+                        if ($extension instanceof FileExtension && $user instanceof User && ($userDiskUsage + $uploadSize) <= intval($user->getUploadLimit()->getSize())) {
+                            do {
+                                $uploadFileHashName = GeneralUtility::generateCode(10) . substr(md5($uploadFileName), 0, 10);
+                            } while (file_exists($this->settings['upload']['path'] . $uploadFileHashName . $extension->getName()));
+
+                            $upload->moveTo($this->settings['upload']['path'] . $uploadFileHashName . $extension->getName());
+                            $args['name'] = $user->getName();
+
+                            $file = new File();
+                            $file->setName($uploadFileName)
+                                ->setHashName($uploadFileHashName)
+                                ->setMimeType($upload->getClientMediaType())
+                                ->setSize(intval($upload->getSize()))
+                                ->setExtension($extension)
+                                ->setAccess($access)
+                                ->setHidden(FALSE)
+                                ->setUser($user);
+
+                            // if file note exists
+                            if ($fileNote instanceof File) {
+                                if ($fileIncluded) {
+                                    $file->setFile($fileNote);
+                                    $fileNote->setFileIncluded(TRUE);
+                                }
+
+                                $this->em->persist($fileNote);
+                                $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m5', [$fileNote->getName()]) . ';' . self::STYLE_SUCCESS);
                             }
-                            
-                            $this->em->persist($fileNote);
-                            $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m5', [$fileNote->getName()]) . ';' . self::STYLE_SUCCESS);
+
+                            $this->em->persist($file);
+                            $this->em->flush();
+                            $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);
+                            $this->logger->info("User '" . $user->getName() . "' uploaded '" . $file->getName() . "' - FileController:upload");
+                        } elseif (($userDiskUsage + $uploadSize) > intval($user->getUploadLimit()->getSize())) {
+                            $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m6') . ';' . self::STYLE_DANGER);
+                        } else {
+                            $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m2') . ';' . self::STYLE_DANGER);
                         }
-                        
-                        $this->em->persist($file);
-                        $this->em->flush();
-                        $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);
-                        $this->logger->info("User '" . $user->getName() . "' uploaded '" . $file->getName() . "' - FileController:upload");
                     } else {
-                        $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m2') . ';' . self::STYLE_DANGER);
+                        // if file note exists and not included to a parent file
+                        if ($fileNote instanceof File && !$fileIncluded) {
+                            $this->em->persist($fileNote);
+                            $this->em->flush();
+                            $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m5', [$fileNote->getName()]) . ';' . self::STYLE_SUCCESS);
+                            $this->logger->info("User '" . $user->getName() . "' created '" . $fileNote->getName() . "' - FileController:upload");
+                        } else {
+                            $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m3', [$upload->getError()]) . ';' . self::STYLE_DANGER);
+                        }
                     }
                 } else {
-                    // if file note exists and not included to a parent file
-                    if ($fileNote instanceof File && !$fileIncluded) {
-                        $this->em->persist($fileNote);
-                        $this->em->flush();
-                        $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m5', [$fileNote->getName()]) . ';' . self::STYLE_SUCCESS);
-                        $this->logger->info("User '" . $user->getName() . "' created '" . $fileNote->getName() . "' - FileController:upload");
-                    } else {
-                        $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m3', [$upload->getError()]) . ';' . self::STYLE_DANGER);
-                    }
+                    $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m4') . ';' . self::STYLE_DANGER);
                 }
-            } else {
-                $this->flash->addMessage('message', LanguageUtility::trans('file-upload-m4') . ';' . self::STYLE_DANGER);
             }
         }
         

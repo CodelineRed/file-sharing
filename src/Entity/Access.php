@@ -59,6 +59,7 @@ class Access extends Base {
      * Set $name
      * 
      * @param string $name
+     * @return Access
      */
     public function setName($name) {
         $this->name = strtolower(trim($name));
@@ -79,6 +80,7 @@ class Access extends Base {
      * Set $icon
      * 
      * @param string $icon
+     * @return Access
      */
     public function setIcon($icon) {
         $this->icon = trim($icon);
@@ -99,6 +101,7 @@ class Access extends Base {
      * Set $button
      * 
      * @param string $button
+     * @return Access
      */
     public function setButton($button) {
         $this->button = trim($button);

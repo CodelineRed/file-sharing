@@ -13,16 +13,4 @@
             max-height: 210px;
         }
     }
-    
-    .submit-form {
-        &[disabled] {
-            .fas {
-                display: inline-block;
-            }
-        }
-        
-        .fas {
-            display: none;
-        }
-    }
 }

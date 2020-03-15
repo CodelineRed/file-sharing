@@ -70,7 +70,7 @@ class LanguageExtension extends \Twig_Extension {
                 $routeSuffix = $activeLocale;
                 $locale = require $settings['locale']['path'] . $activeLocale . '.php';
                 $routes = require $settings['config_path'] . 'routes/' . $activeLocale . '.php';
-                $domain = $_SERVER['REQUEST_SCHEME'] . '://' . $settings['locale']['active'][$activeLocale];
+                $domain = (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : '') . '://' . $settings['locale']['active'][$activeLocale];
                 
                 if (LanguageUtility::processHas(LanguageUtility::DOMAIN_ENABLED) && !isset($routes[rtrim($currentRouteName, '-')])) {
                     $routeSuffix = $settings['locale']['generic_code'];

@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
-            <h1 class="text-center mb-3">{{ 'file-extension-create-label'|trans }}</h1>
+            <h1 class="text-center mb-4">{{ 'file-extension-create-label'|trans }}</h1>
             <form action="{{ path_for('file-extension-save-' ~ lc) }}" method="post">
                 <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                 <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">

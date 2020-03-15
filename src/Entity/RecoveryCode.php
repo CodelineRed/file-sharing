@@ -19,7 +19,7 @@ class RecoveryCode extends Base {
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="recoveryCodes")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
     
@@ -43,6 +43,7 @@ class RecoveryCode extends Base {
      * Set $user
      * 
      * @param User $user
+     * @return RecoveryCode
      */
     public function setUser($user) {
         $this->user = $user;
@@ -63,6 +64,7 @@ class RecoveryCode extends Base {
      * Set $code
      * 
      * @param string $code
+     * @return RecoveryCode
      */
     public function setCode($code) {
         $this->code = $code;

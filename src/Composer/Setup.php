@@ -131,6 +131,12 @@ class Setup {
             } else {
                 $arrConfig['database']['unix_socket'] = $strUnixSocket;
             }
+            
+            $mysql = new \PDO('mysql:host=' . $arrConfig['database']['host'] . ';port=' . $arrConfig['database']['port'] . ';unix_socket=' . $arrConfig['database']['unix_socket'], $arrConfig['database']['user'], $arrConfig['database']['password']);
+
+            if ($mysql->errorCode()) {
+                echo self::getColoredString("\nConnection failed:\n" . $mysql->errorInfo() . "\n", 'red');
+            }
 
             // reCAPTCHA setting
             echo self::getColoredString("\nSetup Google reCAPTCHA\n", 'yellow', NULL, ['underscore']);
@@ -227,6 +233,7 @@ class Setup {
             echo self::getColoredString("Please enter locale domains\n", 'green');
             echo self::getColoredString("First locale code domain combination will be the default language\n", 'green');
             echo self::getColoredString("To exit the loop press enter at 'Locale code'\n", 'green');
+            echo self::getColoredString("Enter 'default' (default = de-DE and en-US) at anytime to use default settings (recommended)\n", 'green');
             
             do {
                 echo self::getColoredString("Locale code (e.g. en-US): ", 'green');
@@ -238,13 +245,26 @@ class Setup {
                     break;
                 }
                 
-                echo self::getColoredString("Domain: ", 'green');
-                $strHandle = fopen("php://stdin", "r");
-                $strLocaleDomain = trim(fgets($strHandle));
-                fclose($strHandle);
-                echo "\n";
+                if ($strLocaleCode !== 'default') {
+                    echo self::getColoredString("Domain: ", 'green');
+                    $strHandle = fopen("php://stdin", "r");
+                    $strLocaleDomain = trim(fgets($strHandle));
+                    fclose($strHandle);
+                    echo "\n";
+
+                    if (empty($strLocaleDomain)) {
+                        break;
+                    }
+                }
                 
-                if (empty($strLocaleDomain)) {
+                if ($strLocaleCode === 'default' || $strLocaleDomain === 'default') {
+                    unset($arrConfig['locale']['code']);
+                    unset($arrConfig['locale']['active']);
+                    
+                    $arrConfig['locale']['code'] = 'en-US';
+                    $arrConfig['locale']['active']['en-US'] = 'imhh-slim.localhost';
+                    $arrConfig['locale']['active']['de-DE'] = 'imhh-slim.localhost';
+                    
                     break;
                 }
                 

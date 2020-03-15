@@ -1,4 +1,4 @@
-/*global confirmRemove initCookieConsent initCreateFolder initDataTable initUpdateFile initUpdateFolder processLocationHash*/
+/*global confirmRemove initCookieConsent initCreateFolder initDataTable initUpdateFile initUpdateFolder initUploadFileForm processLocationHash*/
 'use strict';
 
 // jQuery.noConflict();
@@ -7,14 +7,9 @@
         $('html').removeClass('no-js');
         $('[data-toggle="tooltip"]').tooltip();
         
-        // display selected file in label tag
-        $('input[type="file"]').change(function(e) {
-            $(this).next().text(e.target.files[0].name);
-        });
-        
         // disable submit button after submit
         $('form').submit(function(e) {
-            $('input[type="submit"],button[type="submit"]').attr('disabled', 'disabled');
+            $('input[type="submit"],button[type="submit"]').prop('disabled', true);
         });
         
         // show confirm message before removing a record
@@ -24,11 +19,20 @@
             }
         });
         
+        $('[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            window.location.hash = $(e.target).data('id');
+        });
+        
+        $('.modal').on('shown.bs.modal', function(e) {
+            $(this).find('input[type="text"]').first().focus();
+        });
+        
         initCookieConsent();
         initCreateFolder();
         initDataTable();
         initUpdateFile();
         initUpdateFolder();
+        initUploadFileForm();
         processLocationHash();
     });
 })(jQuery);
