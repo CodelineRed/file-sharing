@@ -8,12 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.6.0]
 ### Added
-- [`src/app/lint.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/lint.js)
+- [`gulpfiles/app/lint.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/lint.js)
 
 ### Changed
-- [`src/app/js-lint.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/js-lint.json)
+- [`js-lint.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/js-lint.json)
+- [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
+- [`_page.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_page.scss)
+- [`user/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig)
 - [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
 - [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+
+### Fixed
+- non spinning fa-sync-alt
 
 ## [3.5.0] - 2020-03-09
 Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/UPGRADE.md#upgrade-from-340-to-350)!

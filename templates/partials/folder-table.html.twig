@@ -3,7 +3,7 @@
 {% set dataTableId = 'memberFolderTable' %}
 
 {% if user.folders|length > 0 %}
-    <div class="mb-2 text-center">
+    <div class="mb-2 mb-md-0 text-center">
         <a href="#" data-create-folder="{{ path_for('api-create-folder-' ~ glc) }}" data-get-access-list="{{ path_for('api-get-access-list-' ~ glc) }}" data-toggle="modal" data-target="#create-folder" class="btn btn-success btn-sm btn-create-folder" tabindex="-1" role="button" aria-disabled="true">{{ 'create-folder'|trans }}</a>
     </div>
     

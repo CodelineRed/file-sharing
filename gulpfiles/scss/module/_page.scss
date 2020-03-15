@@ -1,4 +1,15 @@
 a {
+    &.btn {
+        &.btn-create-folder {
+            @include media-breakpoint-up('md') {
+                left: 50%;
+                position: absolute;
+                transform: translateX(-50%);
+                z-index: 1;
+            }
+        }
+    }
+    
     &.current {
         color: $theme-color-1;
     }
@@ -19,15 +30,15 @@ a {
 }
 
 button {
-    &[type='submit'] {
-        .fa-sync-alt {
-            display: none;
-        }
+    .fa-sync-alt {
+        display: none;
+    }
 
-        &[disabled] {
-            .fa-sync-alt {
-                display: inline;
-            }
+    &[disabled] {
+        cursor: not-allowed;
+
+        .fa-sync-alt {
+            display: inline-block;
         }
     }
 }

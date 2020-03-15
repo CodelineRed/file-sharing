@@ -167,18 +167,7 @@ function watch() {
 
 // watch files and reload browser on file change
 function watchAndReload() {
-    // watch scss files
-    gulp.watch(config.sourcePath + 'scss/**', gulp.series(scss, scssLint));
-    // watch js files
-    gulp.watch(config.sourcePath + 'js/**', gulp.series(js, jsLint));
-    // watch images
-    gulp.watch(config.sourcePath + 'img/**', img);
-    // watch json files
-    gulp.watch(config.sourcePath + 'json/**', json);
-    // watch fonts
-    gulp.watch(config.sourcePath + 'font/**', font);
-    // watch svg
-    gulp.watch(config.sourcePath + 'svg/**', svg);
+    watch();
     
     gulp.watch(config.publicPath + '**/*.{css,eot,ico,js,json,jpg,otf,png,svg,ttf,woff,woff2}', browserSyncReload);
     gulp.watch('{templates,locale,config,src}/**/*.{php,twig}', browserSyncReload);
