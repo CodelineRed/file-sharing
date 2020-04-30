@@ -53,7 +53,7 @@
         "cssuseragent": "^2.1.31",
         "datatables.net": "^1.10.20",
         "datatables.net-bs4": "^1.10.20",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "string-format-js": "^1.0.0"
     },
     "scripts": {
