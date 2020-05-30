@@ -33,7 +33,7 @@ function scss() {
 
 // lint scss files
 function scssLint() {
-    return lint(gulp, sassLint, [config.sourcePath + 'scss/**/*.scss', '!' + config.sourcePath + 'scss/module/_datatables.scss'], 'scss');
+    return lint(gulp, sassLint, [config.sourcePath + 'scss/**/*.scss'], 'scss');
 }
 
 // concatinate and uglify js files
@@ -186,6 +186,9 @@ exports.watch = watch;
 exports.watchAndReload = watchAndReload;
 exports.browserSyncInit = browserSyncInit;
 exports.browserSyncReload = browserSyncReload;
+
+// lintAll task
+gulp.task('lintAll', gulp.series(scssLint, jsLint));
 
 // build task
 gulp.task('build', gulp.series(cleanUp, scss, js, scssLint, jsLint, json, img, font, svg));

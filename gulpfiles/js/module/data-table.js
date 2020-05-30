@@ -1,26 +1,29 @@
 /*global dataTablesLangUrl*/
 'use strict';
+let dataTables = {};
 
 /**
  * Sets table state to localStorage
  * 
- * @param {object} tables
  * @param {string} id
  * @returns {undefined}
  */
-function setTableState(tables, id) {
+function setTableState(id) {
     let tableState = JSON.parse(localStorage.getItem(id));
 
     if (typeof tableState === 'object' 
-            && tables[id]['init'] === true) {
-        let order = tables[id]['ref'].order();
-        let pageInfo = tables[id]['ref'].page.info();
+            && dataTables[id]['init'] === true) {
+        let order = dataTables[id]['ref'].order();
+        let pageInfo = dataTables[id]['ref'].page.info();
+        let search = dataTables[id]['ref'].search();
         
         tableState = {
+            'init': false,
+            'length': pageInfo.length,
             'orderColumn': order[0][0],
             'orderBy': order[0][1],
             'page': pageInfo.page,
-            'init': false
+            'search': search
         };
         
         localStorage.setItem(id, JSON.stringify(tableState));
@@ -34,13 +37,11 @@ function setTableState(tables, id) {
  */
 function initDataTable() {
     (function($) {
-        let tables = {};
-        
         $('.data-table').each(function() {
             let id = $(this).attr('id');
-            tables[id] = {};
-            tables[id]['init'] = false;
-            tables[id]['ref'] = $('#' + id).DataTable({
+            dataTables[id] = {};
+            dataTables[id]['init'] = false;
+            dataTables[id]['ref'] = $('#' + id).DataTable({
                 'language': {
                     'url': dataTablesLangUrl
                 }
@@ -52,24 +53,40 @@ function initDataTable() {
             let id = $(e.target).attr('id');
             let tableState = JSON.parse(localStorage.getItem(id));
             
-            if (typeof tables[id] === 'object') {
+            if (typeof dataTables[id] === 'object') {
                 if (typeof tableState === 'object' && tableState !== null) {
-                    tables[id]['ref'].order([tableState.orderColumn, tableState.orderBy]).draw(); // eslint-disable-line array-bracket-newline
-                    tables[id]['ref'].page(tableState.page).draw('page');
+                    dataTables[id]['ref'].order([tableState.orderColumn, tableState.orderBy]).draw(); // eslint-disable-line array-bracket-newline
+                    dataTables[id]['ref'].search(tableState.search);
+                    dataTables[id]['ref'].page.len(tableState.length);
+                    dataTables[id]['ref'].page(tableState.page).draw('page');
                 }
-                tables[id]['init'] = true;
                 localStorage.setItem(id, JSON.stringify(tableState));
             }
         });
         
+        // on length change
+        $('.data-table').on('draw.dt', function(e, settings, len) {
+            dataTables[$(e.target).attr('id')]['init'] = true;
+        });
+        
+        // on length change
+        $('.data-table').on('length.dt', function(e, settings, len) {
+            setTableState($(e.target).attr('id'));
+        });
+        
         // on order change
         $('.data-table').on('order.dt', function(e, settings, ordArr) {
-            setTableState(tables, $(e.target).attr('id'));
+            setTableState($(e.target).attr('id'));
         });
         
         // on page change
         $('.data-table').on('page.dt', function(e, settings) {
-            setTableState(tables, $(e.target).attr('id'));
+            setTableState($(e.target).attr('id'));
+        });
+        
+        // on search change
+        $('.data-table').on('search.dt', function(e, settings) {
+            setTableState($(e.target).attr('id'));
         });
     })(jQuery);
 }
