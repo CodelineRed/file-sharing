@@ -26,6 +26,7 @@ $ gulp build
 |---------------|----------------------------------------------------------------------------------------------------------------------------|
 | gulp          | watch files and start [BrowserSync](https://www.npmjs.com/package/browser-sync)                                            |
 | gulp build    | executes following tasks: cleanUp, scss, scssLint, js, jsLint, json, img, font, svg                                        |
+| gulp lintAll  | executes following tasks: scssLint, jsLint                                                                                 |
 | gulp cleanUp  | clean up public folder                                                                                                     |
 | gulp font     | copy font files                                                                                                            |
 | gulp img      | copy and compress images                                                                                                   |

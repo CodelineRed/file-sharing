@@ -6,7 +6,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.6.0]
+## [3.7.0]
+### Added
+- [`npm-postinstall.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/npm-postinstall.js)
+- lintAll task in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+
+### Changed
+- [`data-table.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/data-table.js)
+- [`_datatables.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_datatables.scss)
+- pagination style in [`_variables.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/_variables.scss)
+- [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+- gulp-clean-css 4.2.0 to 4.3.0
+- gulp-sass 4.0.2 to 4.1.0
+- fontawesome 5.12.1 to 5.13.0
+- bootstrap 4.4.1 to 4.5.0
+- datatables.net 1.10.20 to 1.10.21
+- datatables.net-bs4 1.10.20 to 1.10.21
+- jquery 3.4.1 to 3.5.1
+
+### Fixed
+- create folder button in "Edit File" modal
+
+### Removed
+- `npm-postinstall.php`
+
+## [3.6.0] - 2020-03-15
 ### Added
 - [`gulpfiles/app/lint.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/lint.js)
 
