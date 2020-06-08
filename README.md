@@ -25,9 +25,10 @@ $ gulp build
 |               | Description                                                                                                                |
 |---------------|----------------------------------------------------------------------------------------------------------------------------|
 | gulp          | watch files and start [BrowserSync](https://www.npmjs.com/package/browser-sync)                                            |
-| gulp build    | executes following tasks: cleanUp, scss, scssLint, js, jsLint, json, img, font, svg                                        |
-| gulp lintAll  | executes following tasks: scssLint, jsLint                                                                                 |
+| gulp build    | executes following tasks: cleanUp, favicon, font, img, js, jsLint, json, scss, scssLint, svg                               |
+| gulp lintAll  | executes following tasks: jsLint, scssLint                                                                                 |
 | gulp cleanUp  | clean up public folder                                                                                                     |
+| gulp favicon  | generate favicons                                                                                                          |
 | gulp font     | copy font files                                                                                                            |
 | gulp img      | copy and compress images                                                                                                   |
 | gulp js       | uglify, minify and concat js files                                                                                         |

@@ -6,7 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.7.0]
+## [3.8.0]
+### Added
+- gulp-favicons 2.4.0
+- favicon task in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- [`favicon.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/img/favicon.png)
+
+### Changed
+- order in cleanUp task and how to remove files from js/css folder in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- favicon html in [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/layouts/layout.html.twig)
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+
+### Removed
+- `gulpfiles/img/favicons` folder
+- browserSyncInit() config in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js) and moved in [`gulpfile.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/gulpfile.dist.json)
+
+## [3.7.0] - 2020-05-30
 ### Added
 - [`npm-postinstall.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/npm-postinstall.js)
 - lintAll task in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
