@@ -19,16 +19,30 @@
                 <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                 <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
                 <input type="hidden" name="pass_code" value="{{ passCode }}">
+                <input type="hidden" name="tf_code" id="tf_code" value="" />
                 <div class="form-row align-items-center justify-content-center">
-                    <div class="col-6">
+                    <div class="col-12 col-two-factor">
                         <div class="row">
-                            <div class="col-12">
-                                <label class="sr-only" for="tf_code">{{ 'password'|trans }}</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="fas fa-key fa-fw"></i></div>
+                            <div class="col-12 mb-3">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tf_code_1" id="tf_code_1" maxlength="1" autofocus="autofocus" autocomplete="off" />
                                     </div>
-                                    <input type="text" class="form-control" name="tf_code" id="tf_code" placeholder="{{ 'code'|trans }}" autofocus="autofocus" autocomplete="off" />
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tf_code_2" id="tf_code_2" maxlength="1" autocomplete="off" />
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tf_code_3" id="tf_code_3" maxlength="1" autocomplete="off" />
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tf_code_4" id="tf_code_4" maxlength="1" autocomplete="off" />
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tf_code_5" id="tf_code_5" maxlength="1" autocomplete="off" />
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tf_code_6" id="tf_code_6" maxlength="1" autocomplete="off" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12">

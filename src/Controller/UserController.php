@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Entity\File;
 use App\Entity\RecoveryCode;
+use App\Entity\Role;
+use App\Entity\UploadLimit;
 use App\Entity\User;
 use App\Utility\GeneralUtility;
 use App\Utility\LanguageUtility;
@@ -54,13 +56,18 @@ class UserController extends BaseController {
             // if validation passed
             if (GeneralUtility::validateUser($request)) {
                 $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m5') . ';' . self::STYLE_SUCCESS);
+                $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
+                $uploadLimit = $this->em->getRepository('App\Entity\UploadLimit')->findOneBy(['name' => 'general']);
 
-                $user = new User();
-                $user->setName($request->getParam('user_name'))
-                    ->setRole($this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']))
-                    ->setPass($request->getParam('user_pass'));
-                $this->em->persist($user);
-                $this->em->flush();
+                if ($role instanceof Role && $uploadLimit instanceof UploadLimit) {
+                    $user = new User();
+                    $user->setName($request->getParam('user_name'))
+                        ->setPass($request->getParam('user_pass'))
+                        ->setRole($role)
+                        ->setUploadLimit($uploadLimit);
+                    $this->em->persist($user);
+                    $this->em->flush();
+                }
                 
                 return $response->withRedirect($this->router->pathFor('user-login-' . LanguageUtility::getGenericLocale()));
             }

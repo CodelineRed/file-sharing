@@ -6,18 +6,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- editable password
+
 ## [3.8.0]
 ### Added
-- gulp-favicons 2.4.0
+- [`module/two-factor.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/two-factor.js)
+- [`module/_two-factor.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_two-factor.scss)
 - favicon task in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
 - [`favicon.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/img/favicon.png)
+- 2 screenshots
+- gulp-favicons 2.4.0
 
 ### Changed
 - order in cleanUp task and how to remove files from js/css folder in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
-- favicon html in [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/layouts/layout.html.twig)
+- favicon html in [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
+- [`user/enable-two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/enable-two-factor.html.twig)
+- [`user/two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/two-factor.html.twig)
 - [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
 
+### Fixed
+- user registration
+- sql files
+- headline in [`user/recovery-codes.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/recovery-codes.html.twig)
+
 ### Removed
+- options from [`GeneralUtility::encryptPassword()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Utility/GeneralUtility.php) because "Use of the 'salt' option to password_hash is deprecated"
 - `gulpfiles/img/favicons` folder
 - browserSyncInit() config in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js) and moved in [`gulpfile.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/gulpfile.dist.json)
 
@@ -178,7 +191,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 - [`Base.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/MappedSuperclass/Base.php) MappedSuperclass
 - [`file/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/file/show.html.twig)
 - [`file-extension/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/file-extension/show.html.twig)
-- [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/layouts/layout.html.twig)
+- [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - [`alert.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/alert.html.twig) to dismissible
 - [`modal-update-file.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-update-file.html.twig)
 - [`user/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig)

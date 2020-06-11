@@ -1,4 +1,4 @@
-/*global confirmRemove initCookieConsent initCreateFolder initDataTable initUpdateFile initUpdateFolder initUploadFileForm processLocationHash*/
+/*global confirmRemove initCookieConsent initCreateFolder initDataTable initTwoFactor initUpdateFile initUpdateFolder initUploadFileForm processLocationHash*/
 'use strict';
 
 // jQuery.noConflict();
@@ -30,6 +30,7 @@
         initCookieConsent();
         initCreateFolder();
         initDataTable();
+        initTwoFactor();
         initUpdateFile();
         initUpdateFolder();
         initUploadFileForm();

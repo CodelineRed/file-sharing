@@ -8,26 +8,24 @@ use App\Entity\User;
 class GeneralUtility {
     
     /**
+     * Encrypts the password with password_hash()
+     * 
      * @param string $pass
      * @return type
      */
     static function encryptPassword($pass) {
-        $options = [
-            'cost' => 11,
-            'salt' => random_bytes(22),
-        ];
-        return password_hash($pass, PASSWORD_BCRYPT, $options);
+        return password_hash($pass, PASSWORD_BCRYPT);
     }
     
     /**
-     * Generates random codes
+     * Generates a random code
      * 
      * @param integer $length
      * @return string
      */
     static function generateCode($length = 18) {
         $chars = 'abcdefghijkmnopqrstuvwxyz023456789';
-        srand((double)microtime()*1000000);
+        srand((double)microtime() * 1000000);
         $i = 0;
         $code = '' ;
 
