@@ -1,9 +1,9 @@
-{% set naviClassesOne = 'col-6 col-md-8 col-lg-9' %}
-{% set naviClassesTwo = 'col-6 col-md-4 col-lg-3' %}
+{% set naviClassesOne = 'col-6 col-lg-9' %}
+{% set naviClassesTwo = 'col-6 col-lg-3' %}
 
 {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) %}
-    {% set naviClassesOne = 'col-6 col-md-4 col-lg-6' %}
-    {% set naviClassesTwo = 'col-12 col-md-8 col-lg-6' %}
+    {% set naviClassesOne = 'col-6 col-lg-5' %}
+    {% set naviClassesTwo = 'col-12 col-lg-7' %}
 {% endif %}
 
 <div class="row my-3 navigation">
@@ -18,7 +18,7 @@
         <a href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}" class="current">{{ currentUser.name }}</a>
     {% endif %}
     </div>
-    <div class="{{ naviClassesTwo }} text-md-right d-none d-md-block">
+    <div class="{{ naviClassesTwo }} text-md-right d-none d-lg-block">
         {% include('partials/langswitch.html.twig') %}
     {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) %}
         <span class="pl-3"></span>
@@ -30,18 +30,29 @@
             <a class="{% if is_current_path('page-system-' ~ glc) %}current{% endif %}" href="{{ path_for('page-system-' ~ glc) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'page-system-label'|trans }}"><i class="fas fa-microchip"></i></a> &#124;
             <a class="{% if is_current_path('page-log-' ~ glc) %}current{% endif %}" href="{{ path_for('page-log-' ~ glc) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'page-log-label'|trans }}"><i class="fas fa-clipboard-list"></i></a> &#124;
         {% endif %}
-        <a class="{% if is_current_path('user-show-' ~ lc, { 'name': name }) or is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
+        
+        {% if name %}
+            <a class="{% if is_current_path('user-show-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
+        {% else %}
+            <a class="{% if is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
+        {% endif %}
+        
+        {% if name and name is same as(currentUser.name) or has_role({0: 'superadmin'}) %}
+            <a class="{% if is_current_path('user-settings-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-settings-label'|trans }}"><i class="fas fa-user-cog"></i></a> &#124;
+        {% else %}
+            <a class="{% if is_current_path('user-settings-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': currentUser.name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-settings-label'|trans }}"><i class="fas fa-user-cog"></i></a> &#124;
+        {% endif %}
         <a href="{{ path_for('user-logout-' ~ glc) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-logout-label'|trans }}"><i class="fas fa-sign-out-alt"></i></a>
     {% endif %}
     </div>
-    <div class="col-6 text-right d-md-none position-static">
+    <div class="col-6 text-right d-lg-none position-static">
         {% include('partials/langswitch.html.twig') %}
     {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) %}
         <div class="btn-group float-right ml-3">
             <button type="button" class="btn btn-primary btn-burger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
-            <div class="dropdown-menu burger-menu">
+            <div class="dropdown-menu dropdown-menu-right burger-menu">
                 {% if has_role({0: 'superadmin'}) %}
                     <a class="dropdown-item {% if is_current_path('file-extension-show-' ~ lc) %}current{% endif %}" href="{{ path_for('file-extension-show-' ~ lc) }}"><i class="fas fa-fw fa-file text-left"></i> {{ 'file-extension-show-label'|trans }}</a>
                     <a class="dropdown-item {% if is_current_path('file-extension-create-' ~ lc) %}current{% endif %}" href="{{ path_for('file-extension-create-' ~ lc) }}"><i class="fas fa-fw fa-file-medical text-left"></i> {{ 'file-extension-create-label'|trans }}</a>
@@ -50,7 +61,13 @@
                     <a class="dropdown-item {% if is_current_path('page-system-' ~ glc) %}current{% endif %}" href="{{ path_for('page-system-' ~ glc) }}"><i class="fas fa-fw fa-microchip text-left"></i> {{ 'page-system-label'|trans }}</a>
                     <a class="dropdown-item {% if is_current_path('page-log-' ~ glc) %}current{% endif %}" href="{{ path_for('page-log-' ~ glc) }}"><i class="fas fa-fw fa-clipboard-list text-left"></i> {{ 'page-log-label'|trans }}</a>
                 {% endif %}
-                <a class="dropdown-item {% if is_current_path('user-show-' ~ lc, { 'name': name }) or is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}"><i class="fas fa-fw fa-user text-left"></i> {{ 'user-show-label'|trans }}</a>
+                {% if name %}
+                    <a class="dropdown-item {% if is_current_path('user-show-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': name }) }}"><i class="fas fa-fw fa-user text-left"></i> {{ 'user-show-label'|trans }}</a>
+                    <a class="dropdown-item {% if is_current_path('user-settings-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': name }) }}"><i class="fas fa-fw fa-user-cog text-left"></i> {{ 'user-settings-label'|trans }}</a>
+                {% else %}
+                    <a class="dropdown-item {% if is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}"><i class="fas fa-fw fa-user text-left"></i> {{ 'user-show-label'|trans }}</a>
+                    <a class="dropdown-item {% if is_current_path('user-settings-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': currentUser.name }) }}"><i class="fas fa-fw fa-user-cog text-left"></i> {{ 'user-settings-label'|trans }}</a>
+                {% endif %}
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ path_for('user-logout-' ~ glc) }}"><i class="fas fa-fw fa-sign-out-alt text-left"></i> {{ 'user-logout-label'|trans }}</a>
             </div>

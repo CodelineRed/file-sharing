@@ -2,6 +2,7 @@
 # See http://php.net/manual/de/function.sprintf.php if you want to use placeholders in strings
 return [
     '2fa-enabled' => 'Zwei-Faktor-Auth ist aktiviert',
+    '2fa-reset' => 'Zwei-Faktor-Auth zurücksetzen',
     '2fa-secret' => 'Secret',
     '2fa-users' => '2FA-Benutzer',
     'access' => 'Zugriff',
@@ -69,6 +70,8 @@ return [
     'owner' => 'Besitzer',
     'page-not-found' => 'Seite nicht gefunden',
     'password' => 'Passwort',
+    'password-change' => 'Passwort ändern',
+    'password-new' => 'Passwort neu',
     'password-repeat' => 'Passwort wiederholen',
     'php-version' => 'PHP-Version',
     'private' => 'Gesperrt',
@@ -162,6 +165,7 @@ return [
     'register-flash-m11' => 'Passwort muss mind. einen kleinen Buchstaben haben',
     'register-flash-m12' => 'Passwort muss mind. einen großen Buchstaben haben',
     'register-flash-m13' => 'Passwort muss mind. ein Sonderzeichen haben',
+    'register-flash-m14' => 'Fehlercode: RF14',
     'user-hidden-m0' => 'Benutzer "<a href="%2$s" class="alert-link">%1$s</a>" ist jetzt gesperrt',
     'user-hidden-m1' => 'Benutzer "<a href="%2$s" class="alert-link">%1$s</a>" ist jetzt entsperrt',
     'user-hidden-m2' => 'Zugriff verweigert',
@@ -172,6 +176,10 @@ return [
     'user-save-m3' => 'Passwort ist zu kurz (min. %1$s Zeichen)',
     'user-save-m4' => 'Benutzer "<a href="%2$s" class="alert-link">%1$s</a>" wurde erstellt',
     'user-save-m5' => 'Passwort oder Benutzer ist keine Zeichenkette',
+    'user-update-m1' => 'Fehlercode: UU1',
+    'user-update-m2' => 'Passwort wurde geändert',
+    'user-update-m3' => 'Zwei-Faktor-Auth ist deaktiviert',
+    'user-update-m4' => 'Falsches Passwort',
     
     // cookie layer
     'cl-header' => 'Cookies auf der Website verwendet!',
@@ -212,6 +220,7 @@ return [
     'user-create-label' => 'Profil erstellen',
     'user-two-factor-label' => 'Zwei-Faktor-Auth aktivieren',
     'user-register-label' => 'Registrieren',
+    'user-settings-label' => 'Einstellungen',
     'file-extension-show-label' => 'Dateiendungen anzeigen',
     'file-extension-create-label' => 'Dateiendung erstellen',
     'langswitch-label' => 'DE',

@@ -25,9 +25,11 @@ function initTwoFactor() {
             if ($('#tf-form:visible').length) {
                 $('#tf-form').hide();
                 $('#rc-form').show();
+                $('#rc-form input[type="text"]').first().focus();
             } else {
                 $('#tf-form').show();
                 $('#rc-form').hide();
+                $('#tf-form input[type="text"]').first().focus();
             }
         });
     })(jQuery);

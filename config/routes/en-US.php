@@ -102,6 +102,13 @@ return [
         'rolesAllow' => ['guest', 'member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
+    'user-settings' => [
+        'route'      => '/profile/{name}/settings/',
+        'method'     => 'App\Controller\UserController:settingsAction',
+        'methods'    => ['GET'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
+        'rolesDeny'  => [],
+    ],
     'user-show' => [
         'route'      => '/profile/[{name}/]',
         'method'     => 'App\Controller\UserController:showAction',
@@ -114,6 +121,13 @@ return [
         'method'     => 'App\Controller\UserController:showAllAction',
         'methods'    => ['GET'],
         'rolesAllow' => ['superadmin'],
+        'rolesDeny'  => [],
+    ],
+    'user-update' => [
+        'route'      => '/profile/update/{name}/',
+        'method'     => 'App\Controller\UserController:updateAction',
+        'methods'    => ['POST'],
+        'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],
     ],
     'user-update-role' => [

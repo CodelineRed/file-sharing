@@ -9,7 +9,7 @@
         
         // disable submit button after submit
         $('form').submit(function(e) {
-            $('input[type="submit"],button[type="submit"]').prop('disabled', true);
+            $(this).find('input[type="submit"], button[type="submit"]').prop('disabled', true);
         });
         
         // show confirm message before removing a record

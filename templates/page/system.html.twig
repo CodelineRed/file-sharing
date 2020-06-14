@@ -12,7 +12,7 @@
                             <tbody>
                                 <tr>
                                     <td>{{ 'file-sharing-version'|trans }}</td>
-                                    <td>{{ fsVersion }}</td>
+                                    <td>{{ fsVersion }} ({{ fsTimestamp|date('date'|trans, 'timezone'|trans) }})</td>
                                 </tr>
                                 <tr>
                                     <td>{{ 'php-version'|trans }}</td>

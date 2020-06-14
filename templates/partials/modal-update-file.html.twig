@@ -24,7 +24,10 @@
                 </form>
             </div>
             <div class="modal-footer">
+            {# if user is current user #}
+            {% if user.id is same as(current_user()) %}
                 <span class="d-inline-block float-left" data-toggle="tooltip" data-placement="top" title="{{ 'create-folder'|trans }}"><a href="#" data-create-folder="{{ path_for('api-create-folder-' ~ glc) }}" data-get-access-list="{{ path_for('api-get-access-list-' ~ glc) }}" data-file-id="" data-toggle="modal" data-target="#create-folder" class="btn btn-success btn-create-folder" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-fw fa-md fa-folder-plus"></i></a></span>
+            {% endif %}
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'close'|trans }}</button>
                 <button type="button" class="btn btn-primary submit-form" disabled>{{ 'save'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
             </div>

@@ -6,10 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- editable password
-
 ## [3.8.0]
 ### Added
+- user settings page
+- `FILE_SHARING_TIMESTAMP` in [`public/index.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/index.php)
 - [`module/two-factor.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/two-factor.js)
 - [`module/_two-factor.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_two-factor.scss)
 - favicon task in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
@@ -18,14 +18,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - gulp-favicons 2.4.0
 
 ### Changed
+- [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
 - order in cleanUp task and how to remove files from js/css folder in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
 - favicon html in [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - [`user/enable-two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/enable-two-factor.html.twig)
 - [`user/two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/two-factor.html.twig)
 - [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
 
+### Deprecated
+- [`user/create.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/create.html.twig)
+
 ### Fixed
-- user registration
+- superadmin could see the "Create Folder" button for third party accounts
+- dropdown menu position
+- user registration with upload limit
 - sql files
 - headline in [`user/recovery-codes.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/recovery-codes.html.twig)
 
