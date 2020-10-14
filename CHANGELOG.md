@@ -23,7 +23,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - favicon html in [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - [`user/enable-two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/enable-two-factor.html.twig)
 - [`user/two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/two-factor.html.twig)
+- order of dependencies and devDependencies in [`package.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/package.json)
 - [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+- @fortawesome/fontawesome-free 5.13.0 to 5.15.1
+- bootstrap 4.5.0 to 4.5.3
+- browser-sync 2.26.7 to 2.26.12
+- datatables.net 1.10.21 to 1.10.22
+- datatables.net-bs4 1.10.21 to 1.10.22
+- del 5.1.0 to 6.0.0
 
 ### Deprecated
 - [`user/create.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/create.html.twig)
