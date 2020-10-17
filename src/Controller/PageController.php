@@ -51,6 +51,7 @@ class PageController extends BaseController {
         // Render view
         return $this->view->render($response, 'page/system.html.twig', array_merge($args, [
             'fsVersion' => FILE_SHARING_VERSION,
+            'fsTimestamp' => FILE_SHARING_TIMESTAMP,
             'phpVersion' => PHP_VERSION,
             'maxFileSize' => GeneralUtility::getUploadMaxFilesize(),
             'maxExecutionTime' => ini_get('max_execution_time'),

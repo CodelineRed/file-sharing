@@ -6,7 +6,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.7.0]
+## [3.8.0]
+### Added
+- user settings page
+- `FILE_SHARING_TIMESTAMP` in [`public/index.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/index.php)
+- [`module/two-factor.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/module/two-factor.js)
+- [`module/_two-factor.scss`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/scss/module/_two-factor.scss)
+- favicon task in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- [`favicon.png`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/img/favicon.png)
+- 2 screenshots
+- gulp-favicons 2.4.0
+
+### Changed
+- [`scripts.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/js/scripts.js)
+- order in cleanUp task and how to remove files from js/css folder in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+- favicon html in [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
+- [`user/enable-two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/enable-two-factor.html.twig)
+- [`user/two-factor.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/two-factor.html.twig)
+- order of dependencies and devDependencies in [`package.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/package.json)
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+- @fortawesome/fontawesome-free 5.13.0 to 5.15.1
+- bootstrap 4.5.0 to 4.5.3
+- browser-sync 2.26.7 to 2.26.12
+- datatables.net 1.10.21 to 1.10.22
+- datatables.net-bs4 1.10.21 to 1.10.22
+- del 5.1.0 to 6.0.0
+
+### Deprecated
+- [`user/create.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/create.html.twig)
+
+### Fixed
+- superadmin could see the "Create Folder" button for third party accounts
+- dropdown menu position
+- user registration with upload limit
+- sql files
+- headline in [`user/recovery-codes.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/recovery-codes.html.twig)
+
+### Removed
+- options from [`GeneralUtility::encryptPassword()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Utility/GeneralUtility.php) because "Use of the 'salt' option to password_hash is deprecated"
+- `gulpfiles/img/favicons` folder
+- browserSyncInit() config in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js) and moved in [`gulpfile.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/gulpfile.dist.json)
+
+## [3.7.0] - 2020-05-30
 ### Added
 - [`npm-postinstall.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/npm-postinstall.js)
 - lintAll task in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
@@ -163,7 +204,7 @@ Please see [`UPGRADE.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/m
 - [`Base.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/MappedSuperclass/Base.php) MappedSuperclass
 - [`file/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/file/show.html.twig)
 - [`file-extension/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/file-extension/show.html.twig)
-- [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/layouts/layout.html.twig)
+- [`layout.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/layouts/layout.html.twig)
 - [`alert.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/alert.html.twig) to dismissible
 - [`modal-update-file.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/modal-update-file.html.twig)
 - [`user/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/user/show.html.twig)

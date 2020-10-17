@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Entity\File;
 use App\Entity\RecoveryCode;
+use App\Entity\Role;
+use App\Entity\UploadLimit;
 use App\Entity\User;
 use App\Utility\GeneralUtility;
 use App\Utility\LanguageUtility;
@@ -51,16 +53,28 @@ class UserController extends BaseController {
         }
         
         if ($rcRespSuccess || isset($_ENV['docker'])) {
+            $userName = $request->getParam('user_name');
+            $userPass = $request->getParam('user_pass');
+            $userPassRepeat = $request->getParam('user_pass_repeat');
+            $validation = [
+                'user_not_duplicated' => TRUE,
+            ];
+            
             // if validation passed
-            if (GeneralUtility::validateUser($request)) {
-                $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m5') . ';' . self::STYLE_SUCCESS);
+            if (GeneralUtility::validateUser($userName, $userPass, $userPassRepeat, $validation)) {
+                $role = $this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']);
+                $uploadLimit = $this->em->getRepository('App\Entity\UploadLimit')->findOneBy(['name' => 'general']);
 
-                $user = new User();
-                $user->setName($request->getParam('user_name'))
-                    ->setRole($this->em->getRepository('App\Entity\Role')->findOneBy(['name' => 'member']))
-                    ->setPass($request->getParam('user_pass'));
-                $this->em->persist($user);
-                $this->em->flush();
+                if ($role instanceof Role && $uploadLimit instanceof UploadLimit) {
+                    $user = new User();
+                    $user->setName($userName)
+                        ->setPass($userPass)
+                        ->setRole($role)
+                        ->setUploadLimit($uploadLimit);
+                    $this->em->persist($user);
+                    $this->em->flush();
+                    $this->flash->addMessage('message', LanguageUtility::trans('register-flash-m5') . ';' . self::STYLE_SUCCESS);
+                }
                 
                 return $response->withRedirect($this->router->pathFor('user-login-' . LanguageUtility::getGenericLocale()));
             }
@@ -69,6 +83,28 @@ class UserController extends BaseController {
         }
         
         return $response->withRedirect($this->router->pathFor('user-register-' . LanguageUtility::getLocale()));
+    }
+    
+    /**
+     * Shows user settings
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function settingsAction($request, $response, $args) {
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
+        
+        // if user is not allowed to see page
+        if (!($user instanceof User 
+            && (($this->currentUser === $user->getId() && $this->acl->isAllowed($this->currentRole, 'update_user')) 
+            || $this->acl->isAllowed($this->currentRole, 'update_user_other')))) {
+            return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
+        }
+        
+        // Render view
+        return $this->view->render($response, 'user/settings.html.twig', array_merge($args, []));
     }
     
     /**
@@ -487,5 +523,70 @@ class UserController extends BaseController {
 
             return $response->withRedirect($redirectPath);
         }
+    }
+    
+    /**
+     * Update user parameter
+     * 
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function updateAction($request, $response, $args) {
+        $user = $this->em->getRepository('App\Entity\User')->findOneBy(['name' => $args['name']]);
+        $process = $request->getParam('process');
+        
+        if ($user instanceof User 
+            && (($this->currentUser === $user->getId() && $this->acl->isAllowed($this->currentRole, 'update_user')) 
+            || $this->acl->isAllowed($this->currentRole, 'update_user_other'))) {
+            if ($process === 'password-change') {
+                $userName = $user->getName();
+                $userPass = $request->getParam('user_pass');
+                $userPassNew = $request->getParam('user_pass_new');
+                $userPassRepeat = $request->getParam('user_pass_repeat');
+                $validation = [
+                    'max_user_name_length' => 200,
+                    'min_user_name_length' => 0,
+                    'user_not_duplicated' => FALSE,
+                ];
+
+                // if validation passed and password is right
+                if (password_verify($userPass, $user->getPass()) 
+                    && GeneralUtility::validateUser($userName, $userPassNew, $userPassRepeat, $validation)) {
+                    $user->setPass($userPassNew);
+                    $this->em->persist($user);
+                    $this->em->flush();
+                    $this->flash->addMessage('message', LanguageUtility::trans('user-update-m2') . ';' . self::STYLE_SUCCESS);
+                } else {
+                    $this->flash->addMessage('message', LanguageUtility::trans('user-update-m4') . ';' . self::STYLE_DANGER);
+                }
+            }
+            
+            if ($process === '2fa-reset') {
+                $userPass = $request->getParam('user_pass');
+
+                // if password is right
+                if (password_verify($userPass, $user->getPass())) {
+                    // disable old recovery codes
+                    $oldRecoveryCodes = $this->em->getRepository('App\Entity\RecoveryCode')->findBy(['user' => $user]);
+                    foreach ($oldRecoveryCodes as $oldRecoveryCode) {
+                        $this->em->remove($oldRecoveryCode);
+                    }
+                    
+                    $user->setTwoFactor(FALSE)
+                        ->setTwoFactorSecret('');
+                    $this->em->persist($user);
+                    $this->em->flush();
+                    $this->flash->addMessage('message', LanguageUtility::trans('user-update-m3') . ';' . self::STYLE_SUCCESS);
+                } else {
+                    $this->flash->addMessage('message', LanguageUtility::trans('user-update-m4') . ';' . self::STYLE_DANGER);
+                }
+            }
+        } else {
+            $this->flash->addMessage('message', LanguageUtility::trans('user-update-m1') . ';' . self::STYLE_DANGER);
+        }
+        
+        return $response->withRedirect($this->router->pathFor('user-settings-' . LanguageUtility::getLocale(), ['name' => $args['name']]));
     }
 }

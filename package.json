@@ -1,6 +1,7 @@
 {
     "name": "file-sharing",
-    "version": "3.7.0",
+    "version": "3.8.0",
+    "commitDate": "2020-10-17T19:15:00+02:00",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",
@@ -30,32 +31,32 @@
         "url": "git://github.com/InsanityMeetsHH/gulp-templating.git"
     },
     "devDependencies": {
-        "browser-sync": "^2.26.7",
-        "del": "^5.1.0",
+        "@fortawesome/fontawesome-free": "^5.15.1",
+        "bootstrap": "^4.5.3",
+        "browser-sync": "^2.26.12",
+        "cookieconsent": "^3.1.1",
+        "cookieconsent-scss-less": "^3.0.6",
+        "cssuseragent": "^2.1.31",
+        "datatables.net": "^1.10.22",
+        "datatables.net-bs4": "^1.10.22",
+        "del": "^6.0.0",
         "gulp": "^4.0.2",
         "gulp-autoprefixer": "^7.0.1",
         "gulp-clean-css": "^4.3.0",
         "gulp-concat": "^2.6.1",
         "gulp-eslint": "^6.0.0",
+        "gulp-favicons": "^2.4.0",
         "gulp-if": "^3.0.0",
         "gulp-imagemin": "^7.1.0",
         "gulp-jsonminify": "^1.1.0",
         "gulp-sass": "^4.1.0",
         "gulp-sass-lint": "^1.4.0",
         "gulp-sourcemaps": "^2.6.5",
-        "gulp-uglify-es": "^2.0.0"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.13.0",
-        "bootstrap": "^4.5.0",
-        "cookieconsent": "^3.1.1",
-        "cookieconsent-scss-less": "^3.0.6",
-        "cssuseragent": "^2.1.31",
-        "datatables.net": "^1.10.21",
-        "datatables.net-bs4": "^1.10.21",
+        "gulp-uglify-es": "^2.0.0",
         "jquery": "^3.5.1",
         "string-format-js": "^1.0.0"
     },
+    "dependencies": {},
     "scripts": {
         "postinstall": "node npm-postinstall.js"
     }

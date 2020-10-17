@@ -8,26 +8,24 @@ use App\Entity\User;
 class GeneralUtility {
     
     /**
+     * Encrypts the password with password_hash()
+     * 
      * @param string $pass
      * @return type
      */
     static function encryptPassword($pass) {
-        $options = [
-            'cost' => 11,
-            'salt' => random_bytes(22),
-        ];
-        return password_hash($pass, PASSWORD_BCRYPT, $options);
+        return password_hash($pass, PASSWORD_BCRYPT);
     }
     
     /**
-     * Generates random codes
+     * Generates a random code
      * 
      * @param integer $length
      * @return string
      */
     static function generateCode($length = 18) {
         $chars = 'abcdefghijkmnopqrstuvwxyz023456789';
-        srand((double)microtime()*1000000);
+        srand((double)microtime() * 1000000);
         $i = 0;
         $code = '' ;
 
@@ -152,22 +150,22 @@ class GeneralUtility {
     /**
      * Returns TRUE if validation is passed
      * 
-     * @param \Slim\Http\Request $request
+     * @param string $userName
+     * @param string $userPass
+     * @param string $userPassRepeat
+     * @param array $validation (optional) override $settings['validation']
      * @return boolean
      */
-    static function validateUser($request) {
+    static function validateUser($userName, $userPass, $userPassRepeat, $validation) {
         $error = FALSE;
         $em = AppContainer::getInstance()->getContainer()->get('em');
         $settings = AppContainer::getInstance()->getContainer()->get('settings');
+        $settings['validation'] = array_merge($settings['validation'], $validation);
         $flash = AppContainer::getInstance()->getContainer()->get('flash');
-        
-        $userSearch = $em->getRepository('App\Entity\User')->findOneBy(['name' => $request->getParam('user_name')]);
-        $userName = $request->getParam('user_name');
-        $userPass = $request->getParam('user_pass');
-        $userPassRepeat = $request->getParam('user_pass_repeat');
+        $userSearch = $em->getRepository('App\Entity\User')->findOneBy(['name' => $userName]);
 
         // if user already exists
-        if ($userSearch instanceof User) {
+        if ($userSearch instanceof User && $settings['validation']['user_not_duplicated'] === TRUE) {
             $flash->addMessage('message', LanguageUtility::trans('register-flash-m1') . ';' . BaseController::STYLE_DANGER);
             $error = TRUE;
         }
@@ -260,7 +258,7 @@ class GeneralUtility {
                     }
                 }
             } else {
-                $flash->addMessage('message', LanguageUtility::trans('register-flash-mXD') . ';' . BaseController::STYLE_DANGER);
+                $flash->addMessage('message', LanguageUtility::trans('register-flash-m14') . ';' . BaseController::STYLE_DANGER);
                 $error = TRUE;
             }
         }

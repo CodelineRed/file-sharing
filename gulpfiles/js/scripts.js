@@ -1,4 +1,4 @@
-/*global confirmRemove initCookieConsent initCreateFolder initDataTable initUpdateFile initUpdateFolder initUploadFileForm processLocationHash*/
+/*global confirmRemove initCookieConsent initCreateFolder initDataTable initTwoFactor initUpdateFile initUpdateFolder initUploadFileForm processLocationHash*/
 'use strict';
 
 // jQuery.noConflict();
@@ -9,7 +9,7 @@
         
         // disable submit button after submit
         $('form').submit(function(e) {
-            $('input[type="submit"],button[type="submit"]').prop('disabled', true);
+            $(this).find('input[type="submit"], button[type="submit"]').prop('disabled', true);
         });
         
         // show confirm message before removing a record
@@ -30,6 +30,7 @@
         initCookieConsent();
         initCreateFolder();
         initDataTable();
+        initTwoFactor();
         initUpdateFile();
         initUpdateFolder();
         initUploadFileForm();
