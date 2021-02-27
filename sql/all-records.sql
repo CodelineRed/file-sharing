@@ -7,6 +7,7 @@ INSERT INTO `imhhfs_role` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `cre
 INSERT INTO `imhhfs_upload_limit` (`id`, `name`, `size`, `files`, `folders`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1, 'general', '104857600', 250, 250, 0, 0, now(), now());
 
+-- login: user / password
 INSERT INTO `imhhfs_user` (`id`, `role_id`, `upload_limit_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1, 2, 1, 'user', '$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K', 0, '', 0, 0, now(), now());
 

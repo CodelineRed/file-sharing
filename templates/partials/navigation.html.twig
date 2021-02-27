@@ -37,9 +37,9 @@
             <a class="{% if is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
         {% endif %}
         
-        {% if name and name is same as(currentUser.name) or has_role({0: 'superadmin'}) %}
+        {% if name and has_role({0: 'superadmin'}) %}
             <a class="{% if is_current_path('user-settings-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-settings-label'|trans }}"><i class="fas fa-user-cog"></i></a> &#124;
-        {% else %}
+        {% elseif name is same as(currentUser.name) %}
             <a class="{% if is_current_path('user-settings-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': currentUser.name }) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-settings-label'|trans }}"><i class="fas fa-user-cog"></i></a> &#124;
         {% endif %}
         <a href="{{ path_for('user-logout-' ~ glc) }}" data-toggle="tooltip" data-placement="bottom" title="{{ 'user-logout-label'|trans }}"><i class="fas fa-sign-out-alt"></i></a>
