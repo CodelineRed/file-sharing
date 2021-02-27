@@ -12,7 +12,7 @@ This application based on [InsanityMeetsHH/file-sharing](https://github.com/Insa
     - [Install PHP, MySQL and Adminer (optional)](#install-php-mysql-and-adminer-optional)
 - [Project Commands](#project-commands)
 - [`gulpfile.json`](#gulpfilejson)
-- [How to create further localisations](#project-commands)
+- [How to create further localisations](#how-to-create-further-localisations)
 - [How to switch between different url types](#how-to-switch-between-different-url-types)
 - [How to use same url for all languages](#how-to-use-same-url-for-all-languages)
 - [Path generation with Locale code and Generic locale code](#path-generation-with-locale-code-and-generic-locale-code)
@@ -186,4 +186,11 @@ If this happened, go to `public/.htaccess` and enable `RewriteBase /`.
 If project is in sub directory then `RewriteBase /project/public/`.
 
 ## Links
+- [Slim Framework](https://www.slimframework.com/)
+- [Twig](https://twig.symfony.com/)
+- [Doctrine](https://www.doctrine-project.org/)
+- [Slim 3 and Doctrine 2 Website](http://blog.sub85.com/slim-3-with-doctrine-2.html)
+- [Slim 3 and Doctrine 2 Github](https://github.com/matthewfedak/slim-3-doctrine-2)
 - [DataTables Translations](https://datatables.net/plug-ins/i18n/)
+- [ESLint Rules](https://eslint.org/docs/rules/)
+- [Sass Lint Rules](https://github.com/sasstools/sass-lint/tree/develop/docs/rules)
