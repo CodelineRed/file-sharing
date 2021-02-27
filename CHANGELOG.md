@@ -6,7 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.8.0]
+## [3.9.0]
+### Changed
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+- [`.htaccess`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/.htaccess)
+- [`.gitignore`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/.gitignore)
+- @fortawesome/fontawesome-free 5.15.1 to 5.15.2
+- bootstrap 4.5.3 to 4.6.0
+- browser-sync 2.26.12 to 2.26.14
+- datatables.net 1.10.22 to 1.10.23
+- datatables.net-bs4 1.10.22 to 1.10.23
+- gulp-favicons 2.4.0 to 3.0.0
+- gulp-sourcemaps 2.6.5 to 3.0.0
+
+### Fixed
+- user-settings link in [`navigation.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/navigation.html.twig)
+
+## [3.8.0] - 2020-10-17
 ### Added
 - user settings page
 - `FILE_SHARING_TIMESTAMP` in [`public/index.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/index.php)
