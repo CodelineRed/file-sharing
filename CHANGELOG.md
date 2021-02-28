@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.9.0]
+## [3.9.1]
+### Changed
+- [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
+
+## [3.9.0] - 2021-02-27
 ### Changed
 - [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
 - [`.htaccess`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/.htaccess)

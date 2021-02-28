@@ -55,7 +55,7 @@ return [
             'code'        => 'en-US', // default / current language
             'active' => [
                 'en-US' => 'imhh-fs.localhost',
-                'de-DE' => 'de.imhh-fs.localhost',
+                'de-DE' => 'imhh-fs.localhost',
             ],
         ],
     ],
