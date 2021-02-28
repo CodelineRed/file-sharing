@@ -2,7 +2,7 @@
 
 This git is for [fs.imhh.me](http://fs.insanitymeetshh.net). Take a look at [screenshots](https://github.com/InsanityMeetsHH/file-sharing/tree/master/screenshots).
 
-This application based on [InsanityMeetsHH/file-sharing](https://github.com/InsanityMeetsHH/file-sharing) and [InsanityMeetsHH/file-sharing](https://github.com/InsanityMeetsHH/gulp-Skeleton).
+This application based on [Slim Skeleton](https://github.com/InsanityMeetsHH/Slim-Skeleton) and [Gulp Skeleton](https://github.com/InsanityMeetsHH/gulp-Skeleton).
 
 ## Table of contents
 - [Included Third Party Code](#included)
@@ -12,10 +12,12 @@ This application based on [InsanityMeetsHH/file-sharing](https://github.com/Insa
     - [Install PHP, MySQL and Adminer (optional)](#install-php-mysql-and-adminer-optional)
 - [Project Commands](#project-commands)
 - [`gulpfile.json`](#gulpfilejson)
-- [How to create further localisations](#how-to-create-further-localisations)
-- [How to switch between different url types](#how-to-switch-between-different-url-types)
-- [How to use same url for all languages](#how-to-use-same-url-for-all-languages)
 - [Path generation with Locale code and Generic locale code](#path-generation-with-locale-code-and-generic-locale-code)
+- [How to create further localisations](#how-to-create-further-localisations)
+- [How to switch between different url modes](#how-to-switch-between-different-url-modes)
+    - [Mode 1](#mode-1)
+    - [Mode 2](#mode-2)
+    - [Mode 3](#mode-3-default)
 - [ACL settings](#acl-settings)
 - [Troubleshooting](#troubleshooting)
 - [Links](#links)
@@ -53,8 +55,8 @@ $ php doctrine dbal:run-sql "CREATE DATABASE imhh_file_sharing"
 $ php doctrine orm:schema-tool:update --force
 $ php doctrine dbal:import sql/all-records.sql
 ```
-Default frontend login: user = user, pass = password
-If you need PHP, MySQL and Adminer, you have to [klick here](#install-php-mysql-and-adminer-optional).
+Default Website login: user = user, pass = password
+If you need PHP, MySQL and Adminer, you have to [click here](#install-php-mysql-and-adminer-optional).
 
 ## Install Master/ Develop Build
 ### Required
@@ -81,7 +83,7 @@ $ php doctrine dbal:run-sql "CREATE DATABASE imhh_file_sharing"
 $ php doctrine orm:schema-tool:update --force
 $ php doctrine dbal:import sql/all-records.sql
 ```
-Default frontend login: user = user, pass = password
+Default Website login: user = user, pass = password
 
 ## Install PHP, MySQL and Adminer (optional)
 ### Required
@@ -99,8 +101,8 @@ $ docker exec -ti file-sharing-webserver php composer.phar install
 $ docker inspect file-sharing-db 
 $ ---- search for "IPAddress" from "DIRNAME_default" (at the bottom) and set IP as Doctrine "host" in "config\additional-settings.php" ----
 ```
-Open [localhost:3050](http://localhost:3050) for Web UI or [localhost:9999](http://localhost:9999) for Database GUI.
-Adminer login: user = root, pass = rootdockerpw, host = IP from `IPAddress`.
+Open [localhost:3050](http://localhost:3050) for Website or [localhost:9999](http://localhost:9999) for Database GUI.
+Database GUI login: user = root, pass = rootdockerpw, host = IP from `IPAddress`.
 
 ## Project Commands
 |               | Description                                                                                                                            |
@@ -128,60 +130,73 @@ Adminer login: user = root, pass = rootdockerpw, host = IP from `IPAddress`.
 | publicPath          | Required - Path to transpiled files (default: public/)                                                                           |
 | env                 | Required - Environment dev, test or prod (default: prod)                                                                         |
 
-## How to create further localisations
-- Duplicate one existing file in folder [`locale/`](https://github.com/InsanityMeetsHH/file-sharing/tree/master/locale) (e.g. copy `locale/de-DE.php` to `locale/fr-FR.php`)
-- Change route prefix from `/de/` to `/fr/` in `locale/fr-FR.php`
-- You can also define paths like `/fr-be/` (`locale/fr-BE.php`) for example
-- If you want to show language in langswitch [`config/settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php#L38)
-- Add case for `fr/` in [`src/localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/localisation.php#L34)
-
-## How to switch between different url types
-Example: from example.com/de/ to de.example.com or example.de
-- (EN is default language and DE is alternative language for this example)
-- Got to `config\additional-settings.php` `locale`
-- Set `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_ENABLED,`
-- Enter your domains in `active`
-- Go to [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
-- Remove `/de` from every `route`
-- Go to [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php)
-- Insert all routes where the config is equal in [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
-- Remove these equal routes in [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
-
-## How to use same url for all languages
-Examples: [youtube](https://youtube.com) or [twitter](https://twitter.com)
-- (EN is default language and DE is alternative language for this example)
-- Got to `config\additional-settings.php` `locale`
-- Set `'process' => \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
-- Set up all routes in [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php)
-
 ## Path generation with Locale code and Generic locale code
-- example.com/de/ = `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
-- example.de = `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_ENABLED,`
-- example.com (de-DE session) = `'process' => \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
+- Mode 1 - example.com/de/ = `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
+- Mode 2 - example.de = `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_ENABLED,`
+- Mode 3 - example.com (de-DE session) = `'process' => \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED,` (default)
 
 It depends on your configuration what will be returned.
 
-|                     | example.com/de/ | example.de | example.com (de-DE session) |
-|---------------------|-----------------|------------|-----------------------------|
-| locale code         | de-DE           | de-DE      | xx-XX                       |
-| generic locale code | de-DE           | xx-XX      | xx-XX                       |
+|                     | Mode 1 | Mode 2 | Mode 3 |
+|---------------------|--------|--------|--------|
+| locale code         | de-DE  | de-DE  | xx-XX  |
+| generic locale code | de-DE  | xx-XX  | xx-XX  |
 
 |                     | Twig        | PHP                                   | Twig Example                            | PHP Example                                                                   |
 |---------------------|-------------|---------------------------------------|-----------------------------------------|-------------------------------------------------------------------------------|
 | locale code         | `{{ lc }}`  | `LanguageUtility::getLocale()`        | `{{ path_for('user-register-' ~ lc) }}` | `$this->router->pathFor('user-register-' . LanguageUtility::getLocale())`     |
 | generic locale code | `{{ glc }}` | `LanguageUtility::getGenericLocale()` | `{{ path_for('user-login-' ~ glc) }}`   | `$this->router->pathFor('user-login-' . LanguageUtility::getGenericLocale())` |
 
+## How to create further localisations
+- Duplicate one existing file in folder [`locale/`](https://github.com/InsanityMeetsHH/file-sharing/tree/master/locale) (e.g. copy `de-DE.php` to `fr-FR.php`)
+- (if you use Mode 1 or 2) Duplicate one existing file in folder [`config/routes/`](https://github.com/InsanityMeetsHH/file-sharing/tree/master/config/routes) (e.g. copy `de-DE.php` to `fr-FR.php`)
+- (if you use Mode 1 or 2) Change route prefix from `/de/` to `/fr/` in `config/routes/fr-FR.php`
+- You can also define paths like `/fr-be/` (`locale/fr-BE.php`/ `config/routes/fr-BE.php`) for example
+- If you want to show language in langswitch, add `fr-FR` and domain in `locale => active` ([`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L56))
+- (if you use Mode 1 or 2) Add case for `fr/` in [`src/localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/localisation.php#L47)
+
+## How to switch between different url modes
+### Mode 1
+Example: example.com/de/
+- EN is default language and DE is alternative language for this steps
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
+- Set `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
+- Set up english routes with or without `/en` prefix in [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php)
+- Set up german routes with `/de` prefix in [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
+- [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php) can be leave untouched
+
+### Mode 2
+Example: de.example.com or example.de
+- EN is default language and DE is alternative language for this steps
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
+- Set `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_ENABLED,`
+- Enter your domains in `active`
+- Go to [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
+- Remove `/de` prefix from every `route`
+- Go to [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php)
+- Insert all routes where the config is equal between [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
+- Remove these equal routes in [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
+
+### Mode 3 (default)
+Example: example.com
+- EN is default language and DE is alternative language for this steps
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
+- Set `'process' => \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
+- Set up all routes in [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php)
+- [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) can be leave untouched
+- [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php) can be leave untouched
+
 ## ACL settings
 With [Geggleto ACL](https://github.com/geggleto/geggleto-acl), routes are protected by role the current user has. By default every new route is not accessable until you give the route roles.
 Routes are defined in the route files (e.g. [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)).
-Any other resource is defined in [`settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php#L66).
-Inside the Twig templates you can use ACL functions [`has_role`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/navigation.html.twig#L5) and [is_allowed](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/page/index.html.twig#L18).
-Inside controllers you can also use this ACL functions and [many more](https://github.com/geggleto/geggleto-acl/blob/master/src/AclRepository.php) (e.g. [is_allowed](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L24)).
+Any other resource is defined in [`config/settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php#L90).
+Inside the Twig templates you can use ACL functions [`has_role`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/navigation.html.twig#L23) and is_allowed.
+Inside controllers you can also use this ACL functions and [many more](https://github.com/geggleto/geggleto-acl/blob/master/src/AclRepository.php) (e.g. [`isAllowed()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L101)).
 
 ## Troubleshooting
 In some cases you'll get the error message "Internal Server Error".
 
-If this happened, go to `public/.htaccess` and enable `RewriteBase /`.
+If this happened, go to [`public/.htaccess`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/.htaccess) and enable `RewriteBase /`.
 
 If project is in sub directory then `RewriteBase /project/public/`.
 

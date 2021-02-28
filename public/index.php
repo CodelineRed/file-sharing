@@ -12,8 +12,8 @@ if (PHP_SAPI == 'cli-server') {
 error_reporting(E_ALL);
 //ini_set('display_errors', TRUE);
 //ini_set('display_startup_errors', TRUE);
-define('FILE_SHARING_VERSION', '3.9.0');
-define('FILE_SHARING_TIMESTAMP', '2021-02-27T12:15:00+01:00');
+define('FILE_SHARING_VERSION', '3.9.1');
+define('FILE_SHARING_TIMESTAMP', '2021-02-28T13:45:00+01:00');
 
 require __DIR__ . '/../vendor/autoload.php';
 
