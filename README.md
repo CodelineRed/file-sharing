@@ -55,8 +55,8 @@ $ php doctrine dbal:run-sql "CREATE DATABASE imhh_file_sharing"
 $ php doctrine orm:schema-tool:update --force
 $ php doctrine dbal:import sql/all-records.sql
 ```
-Default frontend login: user = user, pass = password
-If you need PHP, MySQL and Adminer, you have to [klick here](#install-php-mysql-and-adminer-optional).
+Default Website login: user = user, pass = password
+If you need PHP, MySQL and Adminer, you have to [click here](#install-php-mysql-and-adminer-optional).
 
 ## Install Master/ Develop Build
 ### Required
@@ -83,7 +83,7 @@ $ php doctrine dbal:run-sql "CREATE DATABASE imhh_file_sharing"
 $ php doctrine orm:schema-tool:update --force
 $ php doctrine dbal:import sql/all-records.sql
 ```
-Default frontend login: user = user, pass = password
+Default Website login: user = user, pass = password
 
 ## Install PHP, MySQL and Adminer (optional)
 ### Required
@@ -101,8 +101,8 @@ $ docker exec -ti file-sharing-webserver php composer.phar install
 $ docker inspect file-sharing-db 
 $ ---- search for "IPAddress" from "DIRNAME_default" (at the bottom) and set IP as Doctrine "host" in "config\additional-settings.php" ----
 ```
-Open [localhost:3050](http://localhost:3050) for Web UI or [localhost:9999](http://localhost:9999) for Database GUI.
-Adminer login: user = root, pass = rootdockerpw, host = IP from `IPAddress`.
+Open [localhost:3050](http://localhost:3050) for Website or [localhost:9999](http://localhost:9999) for Database GUI.
+Database GUI login: user = root, pass = rootdockerpw, host = IP from `IPAddress`.
 
 ## Project Commands
 |               | Description                                                                                                                            |
@@ -196,7 +196,7 @@ Inside controllers you can also use this ACL functions and [many more](https://g
 ## Troubleshooting
 In some cases you'll get the error message "Internal Server Error".
 
-If this happened, go to `public/.htaccess` and enable `RewriteBase /`.
+If this happened, go to [`public/.htaccess`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/.htaccess) and enable `RewriteBase /`.
 
 If project is in sub directory then `RewriteBase /project/public/`.
 
