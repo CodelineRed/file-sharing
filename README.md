@@ -156,19 +156,19 @@ It depends on your configuration what will be returned.
 - (if you use Mode 1 or 2) Add case for `fr/` in [`src/localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/localisation.php#L47)
 
 ## How to switch between different url modes
-# Mode 1
+### Mode 1
 Example: example.com/de/
 - EN is default language and DE is alternative language for this steps
-- Got to `config\additional-settings.php` `locale`
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
 - Set `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
 - Set up english routes with or without `/en` prefix in [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php)
 - Set up german routes with `/de` prefix in [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
 - [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php) can be leave untouched
 
-# Mode 2
+### Mode 2
 Example: de.example.com or example.de
 - EN is default language and DE is alternative language for this steps
-- Got to `config\additional-settings.php` `locale`
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
 - Set `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_ENABLED,`
 - Enter your domains in `active`
 - Go to [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
@@ -177,10 +177,10 @@ Example: de.example.com or example.de
 - Insert all routes where the config is equal between [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
 - Remove these equal routes in [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
 
-# Mode 3 (default)
+### Mode 3 (default)
 Example: example.com
 - EN is default language and DE is alternative language for this steps
-- Got to `config\additional-settings.php` `locale`
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
 - Set `'process' => \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
 - Set up all routes in [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php)
 - [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) can be leave untouched
