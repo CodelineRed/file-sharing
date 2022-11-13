@@ -6,7 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.9.1]
+## [3.10.0]
+### Added
+- `findAccessibleFiles()` in [`FolderRepository.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Repository/FolderRepository.php)
+
+### Changed
+- `showAction()` in [`FolderController.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/FolderController.php)
+
+### Fixed
+- files was not editable in [`folder/show.html.twig`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/folder/show.html.twig)
+- favicon path in [`gulpfile.js`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfile.js)
+
+## [3.9.1] - 2021-02-28
 ### Changed
 - [`README.md`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/README.md)
 

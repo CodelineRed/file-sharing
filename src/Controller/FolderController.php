@@ -28,7 +28,7 @@ class FolderController extends BaseController {
         if ($folder instanceof Folder) {
             $user = $folder->getUser();
             $files = $this->em->getRepository('App\Entity\Folder')->findUniqueFiles($folder);
-            $publicFiles = $this->em->getRepository('App\Entity\Folder')->findPublicFiles($folder);
+            $publicFiles = $this->em->getRepository('App\Entity\Folder')->findAccessibleFiles($folder);
         }
         
         // Render view
