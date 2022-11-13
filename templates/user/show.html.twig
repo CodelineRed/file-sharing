@@ -104,7 +104,6 @@
         </div>
         {% endif %}
     </div>
-    </div>
         {# if is superadmin or user is current user #}
         {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
             {% include('partials/modal-update-file.html.twig') %}

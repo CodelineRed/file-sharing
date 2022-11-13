@@ -47,4 +47,26 @@ class FolderRepository extends EntityRepository {
         
         return $qb->getQuery()->getResult();
     }
+    
+    /**
+     * Find files with access = 3 and file_included = FALSE
+     * If folder has access = 2 than files can be access = 2 too
+     * 
+     * @param Folder $folder
+     * @return boolean|Collection
+     */
+    public function findAccessibleFiles(Folder $folder) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        
+        $qb->select('fi')
+            ->from('App\Entity\File', 'fi')
+            ->leftJoin('App\Entity\FileFolderJoin', 'ffj', 'WITH', 'ffj.file = fi.id')
+            ->leftJoin('App\Entity\Folder', 'fo', 'WITH', 'ffj.folder = fo.id')
+            ->where('fi.fileIncluded = 0')
+            ->andWhere('fi.access = 3 OR (fi.access = 2 AND fo.access = 2)')
+            ->andWhere('fo.id = :foid')
+            ->setParameter('foid', $folder->getId());
+        
+        return $qb->getQuery()->getResult();
+    }
 }
