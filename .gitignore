@@ -2,16 +2,8 @@
 /logs/*
 !/logs/README.md
 /cache/
-/public/svg/
-/public/img/
-/public/css/styles.css
-/public/js/scripts.js
-/public/json/
-/public/font/
 /public/upload/*
 !/public/upload/.gitkeep
-styles.css.map
-scripts.js.map
 composer.lock
 composer.phar
 package-lock.json
