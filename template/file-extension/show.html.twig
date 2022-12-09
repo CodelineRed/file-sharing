@@ -1,0 +1,27 @@
+{% extends "layout/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 text-center">
+        {% if fileExtensions %}
+            <h1 class="text-center mb-4">{{ 'file-extensions'|trans }}</h1>
+            <div class="row">
+            {# loop through database records #}
+            {% if fileExtensions|length > 0 %}
+                {% for fileExtension in fileExtensions %}
+                <div class="col-6 col-sm-3 col-md-3 col-lg-2 pb-4">
+                {% if fileExtension.hidden %}
+                    <a href="{{ path_for('file-extension-hidden-' ~ lc, { 'id': fileExtension.id }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'unlock-file-extension'|trans }}"><i class="fas fa-lock fa-fw"></i></a>
+                {% else %}
+                    <a href="{{ path_for('file-extension-hidden-' ~ lc, { 'id': fileExtension.id }) }}" class="btn btn-warning btn-sm" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'lock-file-extension'|trans }}"><i class="fas fa-unlock fa-fw"></i></a>
+                {% endif %}
+                    <a href="{{ path_for('file-extension-remove-' ~ lc, { 'id': fileExtension.id }) }}" class="btn btn-danger btn-sm ms-2" tabindex="-1" role="button" aria-disabled="true" data-bs-remove="{{ fileExtension.name }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'remove'|trans }}"><i class="fas fa-trash fa-fw"></i></a><br/>
+                    {{ fileExtension.name }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

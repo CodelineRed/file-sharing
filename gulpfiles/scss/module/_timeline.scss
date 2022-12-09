@@ -2,7 +2,7 @@ ul {
     &.timeline {
         list-style-type: none;
         position: relative;
-        
+
         &::before {
             background: $theme-color-4;
             content: ' ';
@@ -13,7 +13,7 @@ ul {
             width: 6px;
             z-index: 400;
         }
-    
+
         > li {
             background-color: $theme-color-4;
             border-radius: 5px;
@@ -28,7 +28,7 @@ ul {
                 color: $black;
                 content: '\f188';
                 display: inline-block;
-                font-family: 'Font Awesome 5 Free';
+                font-family: 'Font Awesome 6 Free';
                 font-style: normal;
                 font-variant: normal;
                 font-weight: 900;

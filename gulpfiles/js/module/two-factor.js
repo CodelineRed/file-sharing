@@ -7,9 +7,15 @@
  */
 function initTwoFactor() {
     (function($) {
-        $('[id^="tf_code_"]').keyup(function() {
+        $('[id^="tf_code_"]').keyup(function(e) {
             let id = $(this).attr('id');
-            id = parseInt(id.substring(id.length - 1, id.length)) + 1;
+            id = parseInt(id.substring(id.length - 1, id.length));
+            // if is backspace
+            if (e.which === 8 && id > 1) {
+                id -= 1;
+            } else if (e.which !== 8) {
+                id += 1;
+            }
             let code = $('[id="tf_code_1"]').val() + $('[id="tf_code_2"]').val() 
                 + $('[id="tf_code_3"]').val() + $('[id="tf_code_4"]').val() 
                 + $('[id="tf_code_5"]').val() + $('[id="tf_code_6"]').val();

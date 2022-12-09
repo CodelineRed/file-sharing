@@ -1,18 +1,18 @@
 <?php
 return [
     'settings' => [
-        'displayErrorDetails' => FALSE, // set to false in production
+        'displayErrorDetails' => false, // set to false in production
 
         // Renderer settings
         'renderer' => [
-            'cache' => FALSE,  // __DIR__ . '/../cache/',
-            'debug' => FALSE,
+            'cache' => false,  // __DIR__ . '/../cache/',
+            'debug' => false,
         ],
         
         // Doctrine settings
         'doctrine' => [
             'connection' => [
-                'dbname'      => isset($_ENV['APP_DB_NAME']) ? $_ENV['APP_DB_NAME'] : 'imhh_file_sharing',
+                'dbname'      => isset($_ENV['APP_DB_NAME']) ? $_ENV['APP_DB_NAME'] : 'file_sharing',
                 'host'        => isset($_ENV['APP_DB_HOST']) ? $_ENV['APP_DB_HOST'] : 'localhost',
                 'port'        => isset($_ENV['APP_DB_PORT']) ? $_ENV['APP_DB_PORT'] : 3306,
                 'user'        => isset($_ENV['APP_DB_USER']) ? $_ENV['APP_DB_USER'] : '',
@@ -32,8 +32,8 @@ return [
         
         // pages for the public
         'active_pages' => [
-            'login'    => TRUE,
-            'register' => TRUE,
+            'login'    => true,
+            'register' => true,
         ],
         
         // User validation
@@ -41,17 +41,17 @@ return [
             'min_user_name_length'    => 4,
             'max_user_name_length'    => 50,
             'min_password_length'     => 6,
-            'password_with_digit'     => TRUE, // digit required
-            'password_with_lcc'       => TRUE, // lowercase character required
-            'password_with_ucc'       => TRUE, // uppercase character required
-            'password_with_nwc'       => TRUE, // non-word character required
+            'password_with_digit'     => true, // digit required
+            'password_with_lcc'       => true, // lowercase character required
+            'password_with_ucc'       => true, // uppercase character required
+            'password_with_nwc'       => true, // non-word character required
             'allowed_user_name_chars' => str_split('abcdefghijklmnopqrstuvwxyz0123456789-_'),
         ],
         
         // Locale settings
         'locale' => [
             'process'     => \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED,
-            'auto_detect' => TRUE,
+            'auto_detect' => true,
             'code'        => 'en-US', // default / current language
             'active' => [
                 'en-US' => 'imhh-fs.localhost',

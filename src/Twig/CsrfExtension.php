@@ -8,7 +8,7 @@ class CsrfExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
     /** @var \Slim\Csrf\Guard $csrf */
     protected $csrf;
-    
+
     public function __construct($container) {
         $this->csrf = $container->get('csrf');
     }
@@ -19,7 +19,7 @@ class CsrfExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         $csrfValueKey = $this->csrf->getTokenValueKey();
         $csrfName = $this->csrf->getTokenName();
         $csrfValue = $this->csrf->getTokenValue();
-        
+
         return [
             'csrf'   => [
                 'keys' => [

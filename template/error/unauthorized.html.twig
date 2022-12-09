@@ -1,0 +1,10 @@
+{% extends "layout/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="h1 text-center">{{ 'unauthorized'|trans }}</div>
+            {% include('partial/error-animation.html.twig') %}
+        </div>
+    </div>
+{% endblock %}

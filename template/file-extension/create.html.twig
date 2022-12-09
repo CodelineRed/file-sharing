@@ -1,0 +1,43 @@
+{% extends "layout/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-4">{{ 'file-extension-create-label'|trans }}</h1>
+            <form action="{{ path_for('file-extension-save-' ~ lc) }}" method="post">
+                <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+                <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-file fa-fw"></i></span>
+                                    <input type="text" class="form-control" name="ext_name" id="ext_name" placeholder="{{ 'file-extension-ph'|trans }}" autofocus="autofocus" aria-label="{{ 'file-extension-ph'|trans }}">
+                                </div>
+                            </div>
+                            <div class="col-12 mb-2">
+                            {% if fileTypes|length > 0 %}
+                                <select class="form-select" name="file_type">
+                                {% for fileType in fileTypes %}
+                                    <option value="{{ fileType.name }}">{{ fileType.name }}</option>
+                                {% endfor %}
+                                </select>
+                            {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="ext_active" name="ext_active" value="1">
+                                    <label class="form-check-label" for="ext_active">{{ 'extension-unlocked'|trans }}</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

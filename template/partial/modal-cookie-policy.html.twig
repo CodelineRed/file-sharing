@@ -1,0 +1,96 @@
+{% htmlcompress %}
+<div class="modal fade" id="cookie-policy" tabindex="-1" role="dialog" aria-labelledby="cookie-policy-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cookie-policy-title">{{ 'cookie-policy-title'|trans }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ 'cookie-policy-text'|trans|raw }}
+                
+                <br/>
+                <button class="btn btn-primary mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#cookie-policy-collapse" aria-expanded="false" aria-controls="cookie-policy-collapse">{{ 'cpm-sdi'|trans }}</button>
+                
+                <div class="collapse" id="cookie-policy-collapse">
+                    <div class="table-responsive my-3">
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><span class="text-nowrap">{{ 'name'|trans }}</span></th>
+                                    <th scope="col"><span class="text-nowrap">{{ 'provider'|trans }}</span></th>
+                                    <th scope="col"><span class="text-nowrap">{{ 'purpose'|trans }}</span></th>
+                                    <th scope="col"><span class="text-nowrap">{{ 'expires'|trans }}</span></th>
+                                    <th scope="col"><span class="text-nowrap">{{ 'type'|trans({0: ''}) }}</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PHPSESSID</td>
+                                    <td>fs.codelinered.net</td>
+                                    <td>{{ 'cpm-php'|trans }}</td>
+                                    <td>{{ 'session'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '1'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>auto_detect</td>
+                                    <td>fs.codelinered.net</td>
+                                    <td>{{ 'cpm-auto-detect'|trans }}</td>
+                                    <td>{{ 'session'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '2'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>cookieconsent_status</td>
+                                    <td>fs.codelinered.net</td>
+                                    <td>{{ 'cpm-cc-status'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'year'|trans({0: '1'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '2'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>current_locale</td>
+                                    <td>fs.codelinered.net</td>
+                                    <td>{{ 'cpm-current-locale'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'year'|trans({0: '1'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '2'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1P_JAR</td>
+                                    <td>Google</td>
+                                    <td>{{ 'cpm-1pjar'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'month'|trans({0: '1'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '4'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>CONSENT</td>
+                                    <td>Google</td>
+                                    <td>{{ 'cpm-consent'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'years'|trans({0: '20'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '4'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>NID</td>
+                                    <td>Google</td>
+                                    <td>{{ 'cpm-nid'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'months'|trans({0: '6'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '4'}) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>OGPC</td>
+                                    <td>Google</td>
+                                    <td>{{ 'cpm-ogpc'|trans }}</td>
+                                    <td><span class="text-nowrap">{{ 'month'|trans({0: '1'}) }}</span></td>
+                                    <td><span class="text-nowrap">{{ 'type'|trans({0: '4'}) }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{ 'cpm-type1'|trans }}<br/>
+                        {{ 'cpm-type2'|trans }}<br/>
+                        {{ 'cpm-type3'|trans }}<br/>
+                        {{ 'cpm-type4'|trans }}<br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endhtmlcompress %}

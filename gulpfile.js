@@ -9,7 +9,7 @@ const favicons    = require('gulp-favicons');
 const gulpIf      = require('gulp-if');
 const minifyImg   = require('gulp-imagemin');
 const minifyJson  = require('gulp-jsonminify');
-const sass        = require('gulp-sass');
+const sass        = require('gulp-sass')(require('sass'));
 const sassLint    = require('gulp-sass-lint');
 const sourcemaps  = require('gulp-sourcemaps');
 const uglify      = require('gulp-uglify-es').default;
@@ -49,11 +49,11 @@ function favicon() {
             appName: 'File Sharing',
             appShortName: 'File Sharing',
             appDescription: 'Platform to upload, download and share files',
-            developerName: 'InsanityMeetsHH',
-            developerURL: 'https://insanitymeetshh.net/',
-            background: '#212121',
+            developerName: 'CodelineRed',
+            developerURL: 'https://codelinered.net/',
+            background: '#ff2525',
             path: '',
-            url: 'https://fs.insanitymeetshh.net/',
+            url: 'https://fs.codelinered.net/',
             display: 'standalone',
             orientation: 'portrait',
             scope: '/',
@@ -103,7 +103,7 @@ function js() {
             'node_modules/cookieconsent/src/cookieconsent.js',
             'node_modules/cssuseragent/cssua.js',
             'node_modules/datatables.net/js/jquery.dataTables.js',
-            'node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js',
+            'node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js',
             'node_modules/string-format-js/format.js',
             config.sourcePath + 'js/plugin/**/*.js',
             config.sourcePath + 'js/module/**/*.js',

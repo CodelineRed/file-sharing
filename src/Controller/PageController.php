@@ -24,16 +24,16 @@ class PageController extends BaseController {
             if ($this->settings['active_pages']['login'] === TRUE) {
                 return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
             }
-            
+
             return $this->view->render($response, 'partials/construction.html.twig', array_merge($args, []));
         } else {
             $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
-            
+
             if ($user instanceof User) {
                 return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), ['name' => $user->getName()]));
             }
         }
-        
+
         // Render view
         return $this->view->render($response, 'user/login.html.twig', array_merge($args, []));
     }
@@ -47,7 +47,7 @@ class PageController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function systemAction($request, $response, $args) {
-        
+
         // Render view
         return $this->view->render($response, 'page/system.html.twig', array_merge($args, [
             'fsVersion' => FILE_SHARING_VERSION,
@@ -85,20 +85,20 @@ class PageController extends BaseController {
         // get all log files in reverse (latest first)
         $logs = array_reverse(glob('../logs/*.log'));
         $rows = [];
-        
+
         foreach ($logs as $log) {
             $logRows = [];
             $handle = fopen($log, 'r');
-            
+
             // read file line by line
             while (($line = fgets($handle)) !== false) {
                 $logRows[] = $line;
             }
-            
+
             fclose($handle);
             // reverse line order (latest first)
             $logRows = array_reverse($logRows);
-            
+
             foreach ($logRows as $logRow) {
                 // extract information
                 if (preg_match('/(\[(.*)\]) ([a-z-]*).(.*): (.*)/', $logRow, $matches) === 1) {
@@ -110,7 +110,7 @@ class PageController extends BaseController {
                 }
             }
         }
-        
+
         // Render view
         return $this->view->render($response, 'page/log.html.twig', array_merge($args, [
             'fsVersion' => FILE_SHARING_VERSION,

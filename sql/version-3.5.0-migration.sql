@@ -4,11 +4,11 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-ALTER TABLE `imhhfs_user` ADD `upload_limit_id` int(11) NOT NULL AFTER `role_id`;
-UPDATE imhhfs_user SET upload_limit_id = 1 WHERE upload_limit_id = 0;
+ALTER TABLE `fs_user` ADD `upload_limit_id` int(11) NOT NULL AFTER `role_id`;
+UPDATE fs_user SET upload_limit_id = 1 WHERE upload_limit_id = 0;
 
-DROP TABLE IF EXISTS `imhhfs_upload_limit`;
-CREATE TABLE `imhhfs_upload_limit` (
+DROP TABLE IF EXISTS `fs_upload_limit`;
+CREATE TABLE `fs_upload_limit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Size in bytes',
@@ -22,5 +22,5 @@ CREATE TABLE `imhhfs_upload_limit` (
   UNIQUE KEY `UNIQ_512E45B65E237E06` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `imhhfs_upload_limit` (`id`, `name`, `size`, `files`, `folders`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `fs_upload_limit` (`id`, `name`, `size`, `files`, `folders`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1,	'general',	'104857600',	250,	250,	0,	0,	now(),	now());

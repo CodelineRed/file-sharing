@@ -12,7 +12,7 @@ use App\Utility\LanguageUtility;
  * FileController
  */
 class FileController extends BaseController {
-    
+
     /**
      * pdf viewer Action
      * 
@@ -23,7 +23,7 @@ class FileController extends BaseController {
      */
     public function pdfViewerAction($request, $response, $args) {
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
-        
+
         // if file exits and accessible or current user is owner of file
         if ($file instanceof File && ($file->getAccessId() === 2 || $file->getAccessId() === 3) || $this->currentUser === $file->getUser()->getId()) {
             if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
@@ -34,11 +34,11 @@ class FileController extends BaseController {
             }
             exit;
         }
-        
+
         // Render view
         return $this->view->render($response, 'file/pdf-viewer.html.twig', array_merge($args, []));
     }
-    
+
     /**
      * download Action
      * 
@@ -49,7 +49,7 @@ class FileController extends BaseController {
      */
     public function downloadAction($request, $response, $args) {
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
-        
+
         // if file exits and accessible or current user is owner of file
         if ($file instanceof File && ($file->getAccessId() === 2 || $file->getAccessId() === 3) || $this->currentUser === $file->getUser()->getId()) {
             if (is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
@@ -70,7 +70,7 @@ class FileController extends BaseController {
         } else {
             return $response->withRedirect($this->router->pathFor('file-show-' . LanguageUtility::getLocale(), $args));
         }
-        
+
         // Render view
         return $this->view->render($response, 'file/show.html.twig', array_merge($args, []));
     }
@@ -86,25 +86,25 @@ class FileController extends BaseController {
     public function showAction($request, $response, $args) {
         $source = $childSource = '';
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
-        
+
         // if file exists and is readable
         if ($file instanceof File && is_readable($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
             $fileTypeName = $file->getExtension()->getFileType()->getName();
             $source = file_get_contents($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
-            
+
             // if file type one of the three
             if (in_array($fileTypeName, ['image', 'audio', 'video', 'other'])) {
                 // encode file content
                 $source = base64_encode($source);
             }
-            
+
             // if file has child file and is readable
             if ($file->getFile() instanceof File && is_readable($this->settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName())) {
                 // get raw file content
                 $childSource = file_get_contents($this->settings['upload']['path'] . $file->getFile()->getHashName() . $file->getFile()->getExtension()->getName());
             }
         }
-        
+
         // Render view
         return $this->view->render($response, 'file/show.html.twig', array_merge($args, [
             'file' => $file,
@@ -112,7 +112,7 @@ class FileController extends BaseController {
             'childSource' => $childSource,
         ]));
     }
-    
+
     /**
      * Upload Action
      * 
@@ -130,7 +130,7 @@ class FileController extends BaseController {
             $fileNote = NULL;
             $fileIncluded = (int)$request->getParam('file_included');
             $note = $request->getParam('note');
-            
+
             // if user not logged in
             if ($user === NULL) {
                 return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
@@ -230,14 +230,14 @@ class FileController extends BaseController {
                 }
             }
         }
-        
+
         if (array_key_exists('name', $args)) {
             return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
         } else {
             return $response->withRedirect($this->router->pathFor('page-index-' . LanguageUtility::getGenericLocale()));
         }
     }
-    
+
     /**
      * toggleAccess Action
      * 
@@ -250,7 +250,7 @@ class FileController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         $args['name'] = $user->getName();
-        
+
         if ($user instanceof User) {
             $files = $user->getFiles();
 
@@ -258,19 +258,19 @@ class FileController extends BaseController {
             if ($files->contains($file) || $this->acl->isAllowed($this->currentRole, 'update_file_other')) {
                 $accessId = ($file->getAccessId() + 1) <= count($this->em->getRepository('App\Entity\Access')->findAllArray()) ? ($file->getAccessId() + 1) : 1;
                 $access = $this->em->getRepository('App\Entity\Access')->findOneBy(['id' => $accessId]);
-                
+
                 if ($access instanceof Access) {
                     $file->setAccess($access);
                     $this->em->persist($file);
                     $this->em->flush();
                 }
-                
+
                 // if owner of file not requested user
                 if ($file->getUser()->getId() !== $user->getId()) {
                     // stay on site from owner of file
                     $args['name'] = $file->getUser()->getName();
                 }
-                
+
                 $this->flash->addMessage('message', LanguageUtility::trans('file-access-m' . $file->getAccessId(), [
                     $file->getName(),
                     $this->router->pathFor('file-show-' . LanguageUtility::getLocale(), $args)
@@ -282,16 +282,16 @@ class FileController extends BaseController {
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('file-access-m5') . ';' . self::STYLE_DANGER);
         }
-        
+
         $redirectPath = $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args);
-        
+
         if (is_string($request->getParam('return'))) {
             $redirectPath = $request->getParam('return');
         }
-        
+
         return $response->withRedirect($redirectPath);
     }
-    
+
     /**
      * remove Action
      * 
@@ -304,7 +304,7 @@ class FileController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $file = $this->em->getRepository('App\Entity\File')->findOneBy(['id' => $args['uuid']]);
         $args['name'] = $user->getName();
-        
+
         if ($user instanceof User) {
             $files = $user->getFiles();
 
@@ -313,28 +313,28 @@ class FileController extends BaseController {
                 $childFile = $file->getFile();
                 $this->em->remove($file);
                 $this->em->flush();
-                
+
                 // if file exists
                 if (file_exists($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName())) {
                     unlink($this->settings['upload']['path'] . $file->getHashName() . $file->getExtension()->getName());
                 }
-                
+
                 // if owner of file not requested user
                 if ($file->getUser()->getId() !== $user->getId()) {
                     // stay on site from owner of file
                     $args['name'] = $file->getUser()->getName();
                 }
-                
+
                 // if child file exists
                 if ($childFile instanceof File) {
                     $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$childFile->getName()]) . ';' . self::STYLE_SUCCESS);
-                
+
                     // if file exists
                     if (file_exists($this->settings['upload']['path'] . $childFile->getHashName() . $childFile->getExtension()->getName())) {
                         unlink($this->settings['upload']['path'] . $childFile->getHashName() . $childFile->getExtension()->getName());
                     }
                 }
-                
+
                 $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m1', [$file->getName()]) . ';' . self::STYLE_SUCCESS);
                 $this->logger->info("User '" . $user->getName() . "' removed '" . $file->getName() . "' - FileController:remove");
             } else {
@@ -343,13 +343,13 @@ class FileController extends BaseController {
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('file-remove-m3') . ';' . self::STYLE_DANGER);
         }
-        
+
         $redirectPath = $this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args);
-        
+
         if (is_string($request->getParam('return'))) {
             $redirectPath = $request->getParam('return');
         }
-        
+
         return $response->withRedirect($redirectPath);
     }
 }

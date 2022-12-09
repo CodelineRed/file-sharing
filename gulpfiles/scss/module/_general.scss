@@ -4,7 +4,7 @@
 
 a {
     @extend .transition-all;
-    
+
     &:hover {
         text-decoration: none;
     }
@@ -31,14 +31,17 @@ label {
     .fa-check {
         display: none;
     }
-    
-    .active {
-        .fa-check {
-            display: inline;
-        }
-        
-        .fa-times {
-            display: none;
+
+    [type='radio'],
+    [type='checkbox'] {
+        &:checked {
+            ~ .fa-check {
+                display: inline;
+            }
+
+            ~ .fa-times {
+                display: none;
+            }
         }
     }
 }

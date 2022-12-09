@@ -6,17 +6,17 @@ use App\Controller\BaseController;
 use App\Entity\User;
 
 class GeneralUtility {
-    
+
     /**
      * Encrypts the password with password_hash()
      * 
      * @param string $pass
-     * @return type
+     * @return string|false
      */
     static function encryptPassword($pass) {
         return password_hash($pass, PASSWORD_BCRYPT);
     }
-    
+
     /**
      * Generates a random code
      * 
@@ -38,7 +38,7 @@ class GeneralUtility {
 
         return $code;
     }
-    
+
     /**
      * Returns max file size for uploads given by php.ini (upload_max_filesize and post_max_size)
      * 
@@ -48,7 +48,7 @@ class GeneralUtility {
         $postMaxSize = ini_get('post_max_size');
         $uploadMaxSize = ini_get('upload_max_filesize');
         $maxFileSize = '';
-        
+
         // upload_max_filesize lower than post_max_size
         if (intval($uploadMaxSize) < intval($postMaxSize)) {
             $unit = substr($uploadMaxSize, -1);
@@ -57,7 +57,7 @@ class GeneralUtility {
             $unit = substr($postMaxSize, -1);
             $maxFileSize = intval($postMaxSize) . ' ' . ($unit === 'B' ? $unit : $unit . 'B');
         }
-        
+
         return $maxFileSize;
     }
 
@@ -65,12 +65,12 @@ class GeneralUtility {
     /**
      * Returns current user id or NULL if user not logged in.
      * 
-     * @return mixed
+     * @return integer|null
      */
     static function getCurrentUser() {
         return isset($_SESSION['currentUser']) ? $_SESSION['currentUser'] : NULL;
     }
-    
+
     /**
      * Set the current user
      * 
@@ -79,7 +79,7 @@ class GeneralUtility {
     static function setCurrentUser($currentUser) {
         $_SESSION['currentUser'] = $currentUser;
     }
-    
+
     /**
      * Returns current role or 'guest' if user not logged in.
      * 
@@ -88,7 +88,7 @@ class GeneralUtility {
     static function getCurrentRole() {
         return isset($_SESSION['currentRole']) ? $_SESSION['currentRole'] : 'guest';
     }
-    
+
     /**
      * Set the current role
      * 
@@ -97,7 +97,7 @@ class GeneralUtility {
     static function setCurrentRole($currentRole) {
         $_SESSION['currentRole'] = $currentRole;
     }
-    
+
     /**
      * Returns flash message array.
      * 
@@ -107,7 +107,7 @@ class GeneralUtility {
         $flash = AppContainer::getInstance()->getContainer()->get('flash');
         $flashMessages = $flash->getMessage('message');
         $messages = [];
-        
+
         if (is_array($flashMessages)) {
             foreach ($flashMessages as $flashMessage) {
                 list($text, $style) = explode(';', $flashMessage);
@@ -117,10 +117,10 @@ class GeneralUtility {
                 ];
             }
         }
-        
+
         return $messages;
     }
-    
+
     /**
      * Get real user ip
      * 
@@ -146,7 +146,7 @@ class GeneralUtility {
 
         return empty(explode(':', explode(',', $forward)[0])[0]) ? $ip : explode(':', explode(',', $forward)[0])[0];
     }
-    
+
     /**
      * Returns TRUE if validation is passed
      * 
@@ -262,7 +262,7 @@ class GeneralUtility {
                 $error = TRUE;
             }
         }
-        
+
         return !$error;
     }
 }

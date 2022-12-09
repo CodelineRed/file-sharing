@@ -10,25 +10,6 @@ use Doctrine\ORM\PersistentCollection;
 class UserRepository extends EntityRepository {
 
     /**
-     * @return array|mixed
-     */
-//    public function findAll() {
-//        $qb = $this->getEntityManager()->createQueryBuilder();
-//        $qb2 = $this->getEntityManager()->createQueryBuilder();
-//
-//        $qb->select('u')
-//            ->addSelect('(' . $qb2->select("COUNT(fi.id)")
-//                ->from("App\Entity\File", "fi")
-//                ->leftJoin('fi.user', 'u2', 'WITH', 'fi.user = u2.id')
-//                ->where("fi.fileIncluded = 0")
-//                ->groupBy('fi.fileIncluded')
-//                ->getDQL() . ') AS uniqueFilesQuantity')
-//            ->from('App\Entity\User', 'u');
-//
-//        return $qb->getQuery()->getResult();
-//    }
-
-    /**
      * Find files with file_included = FALSE
      * 
      * @param PersistentCollection $files
@@ -38,10 +19,10 @@ class UserRepository extends EntityRepository {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('fileIncluded', FALSE))
             ->orderBy(['createdAt' => Criteria::DESC]);
-        
+
         return $files->matching($criteria);
     }
-    
+
     /**
      * Find files with access = 3 and file_included = FALSE
      * 
@@ -50,7 +31,7 @@ class UserRepository extends EntityRepository {
      */
     public function findPublicFiles(PersistentCollection $files) {
         $access = $this->getEntityManager()->getRepository('App\Entity\Access')->findOneBy(['id' => 3]);
-        
+
         if ($access instanceof Access) {
             $criteria = Criteria::create()
                 ->where(Criteria::expr()->eq('access', $access))
@@ -59,7 +40,7 @@ class UserRepository extends EntityRepository {
 
             return $files->matching($criteria);
         }
-        
+
         return FALSE;
     }
 

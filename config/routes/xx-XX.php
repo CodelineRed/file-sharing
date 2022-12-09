@@ -42,7 +42,7 @@ return [
     ],
     'api-update-folder' => [
         'route'      => '/api/folder/{uuid}/',
-        'method'     => 'App\Controller\ApiController:UpdateFolderAction',
+        'method'     => 'App\Controller\ApiController:updateFolderAction',
         'methods'    => ['POST'],
         'rolesAllow' => ['member', 'admin', 'superadmin'],
         'rolesDeny'  => [],

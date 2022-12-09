@@ -2,8 +2,11 @@ git status
 git checkout production
 git pull
 
+# Remove vendor for clean install
+rm -rf vendor
+
 # Install all or some packages
-/usr/bin/php7.4-cli ../composer.phar install
+php composer install --no-dev
 
 # Add changes from entities to database
-/usr/bin/php7.4-cli doctrine orm:schema-tool:update --force
+php doctrine orm:schema-tool:update --force

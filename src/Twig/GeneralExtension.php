@@ -11,10 +11,10 @@ class GeneralExtension extends \Twig_Extension implements \Twig_Extension_Global
 
     /** @var array $settings **/
     protected $settings;
-    
+
     /** @var \Doctrine\ORM\EntityManager $em **/
     protected $em;
-    
+
     public function __construct($container) {
         $this->settings = $container->get('settings');
         $this->em = $container->get('em');

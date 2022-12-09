@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
 
 class FolderRepository extends EntityRepository {
-    
+
     /**
      * Find files with file_included = FALSE
      * 
@@ -15,7 +15,7 @@ class FolderRepository extends EntityRepository {
      */
     public function findUniqueFiles(Folder $folder) {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        
+
         $qb->select('fi')
             ->from('App\Entity\File', 'fi')
             ->leftJoin('App\Entity\FileFolderJoin', 'ffj', 'WITH', 'ffj.file = fi.id')
@@ -23,10 +23,10 @@ class FolderRepository extends EntityRepository {
             ->where('fi.fileIncluded = 0')
             ->andWhere('fo.id = :foid')
             ->setParameter('foid', $folder->getId());
-        
+
         return $qb->getQuery()->getResult();
     }
-    
+
     /**
      * Find files with access = 3 and file_included = FALSE
      * 
@@ -35,7 +35,7 @@ class FolderRepository extends EntityRepository {
      */
     public function findPublicFiles(Folder $folder) {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        
+
         $qb->select('fi')
             ->from('App\Entity\File', 'fi')
             ->leftJoin('App\Entity\FileFolderJoin', 'ffj', 'WITH', 'ffj.file = fi.id')
@@ -44,10 +44,10 @@ class FolderRepository extends EntityRepository {
             ->andWhere('fi.access = 3')
             ->andWhere('fo.id = :foid')
             ->setParameter('foid', $folder->getId());
-        
+
         return $qb->getQuery()->getResult();
     }
-    
+
     /**
      * Find files with access = 3 and file_included = FALSE
      * If folder has access = 2 than files can be access = 2 too
@@ -57,7 +57,7 @@ class FolderRepository extends EntityRepository {
      */
     public function findAccessibleFiles(Folder $folder) {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        
+
         $qb->select('fi')
             ->from('App\Entity\File', 'fi')
             ->leftJoin('App\Entity\FileFolderJoin', 'ffj', 'WITH', 'ffj.file = fi.id')
@@ -66,7 +66,7 @@ class FolderRepository extends EntityRepository {
             ->andWhere('fi.access = 3 OR (fi.access = 2 AND fo.access = 2)')
             ->andWhere('fo.id = :foid')
             ->setParameter('foid', $folder->getId());
-        
+
         return $qb->getQuery()->getResult();
     }
 }

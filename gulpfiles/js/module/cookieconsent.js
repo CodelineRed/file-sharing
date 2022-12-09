@@ -13,7 +13,7 @@ function initCookieConsent() {
                     + '<div class="container"><div class="row align-items-center">{{children}}</div></div></div>',
             elements: {
                 messagelink: '<div class="col-12 col-sm-8 col-lg-10 pb-3 pb-sm-0"><span id="cookieconsent:desc" class="cc-message">{{message}} ' 
-                        + '<a aria-label="' + cookieLayer.messageLink + '" tabindex="0" class="cc-link" href="{{href}}" data-toggle="modal" data-target="#cookie-policy">{{link}}</a></span></div>',
+                        + '<a aria-label="' + cookieLayer.messageLink + '" tabindex="0" class="cc-link" href="{{href}}" data-bs-toggle="modal" data-bs-target="#cookie-policy">{{link}}</a></span></div>',
                 dismiss: '<a aria-label="' + cookieLayer.dismissLink + '" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
                 allow: '<a aria-label="' + cookieLayer.allowLink + '" tabindex="0" class="cc-btn cc-allow">{{allow}}</i></a>'
             },
@@ -37,15 +37,15 @@ function initCookieConsent() {
             onInitialise: function(status) {
                 let type = this.options.type;
                 let didConsent = this.hasConsented();
-                
+
                 if (type === 'opt-in' && didConsent) {
                     // enable cookies
                 }
-                
+
                 if (type === 'opt-out' && !didConsent) {
                     // disable cookies
                 }
-                
+
                 // set .cc-window at the end of body to disable bottom margin on .container
                 setTimeout(function() {
                     $('body').append($('.cc-window'));
@@ -60,15 +60,15 @@ function initCookieConsent() {
             onStatusChange: function(status, chosenBefore) {
                 let type = this.options.type;
                 let didConsent = this.hasConsented();
-                
+
                 if (type === 'opt-in' && didConsent) {
                     // enable cookies
                 }
-                
+
                 if (type ==='opt-out' && !didConsent) {
                     // disable cookies
                 }
-                
+
                 // set .cc-window at the end of body to disable bottom margin on .container
                 setTimeout(function() {
                     $('body').append($('.cc-window'));
@@ -76,11 +76,11 @@ function initCookieConsent() {
             },
             onRevokeChoice: function() {
                 let type = this.options.type;
-                
+
                 if (type === 'opt-in') {
                     // disable cookies
                 }
-                
+
                 if (type === 'opt-out') {
                     // enable cookies
                 }

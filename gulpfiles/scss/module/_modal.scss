@@ -1,16 +1,27 @@
 .modal {
     color: $white;
-    
+
     table {
         @include font-size($font-size-base * .75);
     }
-    
+
+    textarea {
+        &.form-control {
+            height: 200px;
+        }
+    }
+
     .btn-group-toggle {
         max-height: 130px;
         overflow-y: auto;
-        
+
         @include media-breakpoint-up(md) {
             max-height: 210px;
+        }
+
+        .placeholder {
+            position: relative;
+            top: -5px;
         }
     }
 }
