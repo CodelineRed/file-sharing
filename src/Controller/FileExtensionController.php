@@ -38,7 +38,7 @@ class FileExtensionController extends BaseController {
         $fileType = $request->getParam('file_type');
         $extActive = intval($request->getParam('ext_active'));
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
-        
+
         if ($request->isPost()) {
             if (is_string($fileType) && is_string($extName)) {
                 $fileExtensionSearch = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['name' => $extName]);
@@ -67,10 +67,10 @@ class FileExtensionController extends BaseController {
                 $this->flash->addMessage('message', LanguageUtility::trans('file-extension-create-m5') . ';' . self::STYLE_DANGER);
             }
         }
-        
+
         return $response->withRedirect($this->router->pathFor('file-extension-create-' . LanguageUtility::getLocale()));
     }
-    
+
     /**
      * toggleHidden Action
      * 
@@ -82,7 +82,7 @@ class FileExtensionController extends BaseController {
     public function toggleHiddenAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
-        
+
         // if file extension exists
         if ($fileExtension instanceof FileExtension) {
             $hidden = $fileExtension->isHidden();
@@ -94,10 +94,10 @@ class FileExtensionController extends BaseController {
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-hidden-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
-        
+
         return $response->withRedirect($this->router->pathFor('file-extension-show-' . LanguageUtility::getLocale()));
     }
-    
+
     /**
      * remove Action
      * 
@@ -109,7 +109,7 @@ class FileExtensionController extends BaseController {
     public function removeAction($request, $response, $args) {
         $fileExtension = $this->em->getRepository('App\Entity\FileExtension')->findOneBy(['id' => $args['id']]);
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
-        
+
         // if file extension exists
         if ($fileExtension instanceof FileExtension) {
             $this->em->remove($fileExtension);
@@ -119,7 +119,7 @@ class FileExtensionController extends BaseController {
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('file-extension-remove-m2', [$fileExtension->getName()]) . ';' . self::STYLE_SUCCESS);
         }
-        
+
         return $response->withRedirect($this->router->pathFor('file-extension-show-' . LanguageUtility::getLocale()));
     }
 
@@ -133,7 +133,7 @@ class FileExtensionController extends BaseController {
      */
     public function showAction($request, $response, $args) {
         $fileExtensions = $this->em->getRepository('App\Entity\FileExtension')->findBy([], ['name' => 'ASC']);
-        
+
         // Render view
         return $this->view->render($response, 'file-extension/show.html.twig', array_merge($args, [
             'fileExtensions' => $fileExtensions,

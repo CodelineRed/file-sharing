@@ -6,24 +6,26 @@ volumes:
         driver: local
 
 services:
+    # docker exec -ti file-sharing-webserver php doctrine orm:schema-tool:update --force
     database:
         image: mysql:5.7
         restart: always
         container_name: file-sharing-db
         environment:
             MYSQL_ROOT_PASSWORD: rootdockerpw
-            MYSQL_DATABASE: imhh_file_sharing
+            MYSQL_DATABASE: file_sharing
             MYSQL_USER: dockeruser
             MYSQL_PASSWORD: dockerpw
         ports:
-            - 9906:3306
+            - 7711:3306
         volumes:
             - db_data:/var/lib/mysql
             - ./sql/db-dump.sql:/docker-entrypoint-initdb.d/db-dump.sql
-    
-    # http://localhost:3050
+
+    # http://localhost:7710
+    # docker exec -ti file-sharing-webserver php --version
     webserver:
-        #image: php:7-alpine
+        #image: php:8.0-alpine
         container_name: file-sharing-webserver
         restart: always
         working_dir: /var/www
@@ -32,7 +34,7 @@ services:
             docker: "true"
             #APP_DB_HOST: db
             APP_DB_PORT: 3306
-            APP_DB_NAME: imhh_file_sharing
+            APP_DB_NAME: file_sharing
             APP_DB_USER: dockeruser
             APP_DB_PASSWORD: dockerpw
             #APP_DB_SOCKET: /Applications/MAMP/tmp/mysql/mysql.sock
@@ -40,18 +42,26 @@ services:
             context: ./
             dockerfile: Dockerfile
         ports:
-            - 3050:8080
+            - 7710:8080
         volumes:
             - .:/var/www
             - logs:/var/www/logs
             - ./config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
         depends_on:
             - database
-    
-    # http://localhost:9999
+
+    # http://localhost:7712
     adminer:
         image: adminer
         container_name: file-sharing-adminer
         restart: always
         ports:
-            - 9999:8080
+            - 7712:8080
+
+    # docker-compose run composer install --no-dev
+    # docker-compose run composer require user/pack
+    composer:
+        image: composer
+        volumes:
+            - .:/var/www
+        working_dir: /var/www

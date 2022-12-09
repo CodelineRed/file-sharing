@@ -8,15 +8,15 @@ use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="imhhfs_role")
+ * @ORM\Table(name="fs_role")
  */
 class Role extends Base {
-    
+
     /**
      * @ORM\Column(type="string", unique=true)
      */
     protected $name;
-    
+
     /**
      * One Role has many Users.
      * 
@@ -36,7 +36,7 @@ class Role extends Base {
     public function getName() {
         return $this->name;
     }
-    
+
     /**
      * Set $name
      * 
@@ -45,7 +45,7 @@ class Role extends Base {
      */
     public function setName($name) {
         $this->name = strtolower(trim($name));
-        
+
         return $this;
     }
 

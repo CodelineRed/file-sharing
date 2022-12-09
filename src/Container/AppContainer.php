@@ -5,7 +5,7 @@ namespace App\Container;
  * Description of App
  */
 class AppContainer {
-    
+
     /**
      * @var \Slim\App 
      */

@@ -1,4 +1,4 @@
-$theme-color-1: #2e97bf; // turquoise
+$theme-color-1: #ff2525; // red
 $theme-color-2: #212121; // dark grey
 $theme-color-3: lighten($theme-color-2, 50%); // light grey
 $theme-color-4: lighten($theme-color-2, 5%); // grey
@@ -9,26 +9,21 @@ $fa-font-path: '../font';
 // Bootstrap
 $enable-responsive-font-sizes: true;
 $body-bg: $theme-color-2;
-$body-color: $theme-color-3;
+$body-color: #fff;
 
-$blue: $theme-color-1;
 $headings-color: $theme-color-1;
-$info: $theme-color-1;
-$link-color: $theme-color-3;
-$nav-tabs-link-active-color: $theme-color-1;
 $hr-border-color: $theme-color-1;
+$input-group-addon-bg: $theme-color-2;
+$link-color: $body-color;
+$link-decoration: none;
+$nav-tabs-link-active-color: $theme-color-1;
 
-$custom-file-text: (
-  en: 'Browse',
-  de: 'Auswählen'
-);
+$form-check-input-border: 1px solid rgba(255, 255, 255, 1);
+$form-switch-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%28255, 255, 255, 1%29'/%3e%3c/svg%3e"); // sass-lint:disable-line quotes
 
 $modal-content-bg: $theme-color-2;
 $modal-header-border-color: $theme-color-4;
 $modal-md: 800px;
-
-$close-color: #fff;
-$close-text-shadow: none;
 
 $dropdown-bg: $theme-color-4;
 $dropdown-color: #fff;
@@ -38,12 +33,8 @@ $dropdown-link-hover-bg: $theme-color-4;
 
 $pagination-bg: $theme-color-2;
 $pagination-color: #fff;
-$pagination-border-color: $theme-color-1;
 
 $pagination-hover-color: #fff;
-$pagination-hover-bg: $theme-color-1;
-$pagination-hover-border-color: $theme-color-1;
 
 $pagination-disabled-color: $theme-color-3;
 $pagination-disabled-bg: $theme-color-4;
-$pagination-disabled-border-color: $theme-color-1;

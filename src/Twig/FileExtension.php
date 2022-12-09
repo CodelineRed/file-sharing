@@ -8,7 +8,7 @@ use Doctrine\ORM\PersistentCollection;
  * File twig extension
  */
 class FileExtension extends \Twig_Extension {
-    
+
     const B = 1;
     const KB = 1024;
     const MB = 1048576; // 1024 * 1024
@@ -67,7 +67,7 @@ class FileExtension extends \Twig_Extension {
                 $unit = 'PB';
             }
         }
-        
+
         return number_format(intval($bytes) / constant('\App\Twig\FileExtension::' . strtoupper($unit)), $decimals, $decimalPoint, $thousandsSeparator) . ' ' . $unit;
     }
 

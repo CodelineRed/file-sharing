@@ -1,30 +1,23 @@
 <?php
 namespace App\Entity;
 
-use App\MappedSuperclass\Base;
+use App\MappedSuperclass\BaseUuid;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="imhhfs_file")
+ * @ORM\Table(name="fs_file")
  */
-class File extends Base {
-    
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="string")
-     */
-    protected $id;
-    
+class File extends BaseUuid {
+
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="files")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
-    
+
     /**
      * ID of the comment related to the file
      * 
@@ -32,50 +25,50 @@ class File extends Base {
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $file = NULL;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="FileExtension", inversedBy="files")
      * @ORM\JoinColumn(name="file_extension_id", referencedColumnName="id", nullable=false)
      */
     private $extension;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Access", inversedBy="files")
      * @ORM\JoinColumn(name="access_id", referencedColumnName="id", nullable=false)
      */
     protected $access;
-    
+
     /**
      * @ORM\Column(type="string")
      */
     private $name;
-    
+
     /**
      * File name in upload folder
      * 
      * @ORM\Column(type="string", name="hash_name", options={"comment": "File name in upload folder"})
      */
     private $hashName;
-    
+
     /**
      * @ORM\Column(type="string", name="mime_type")
      */
     private $mimeType;
-    
+
     /**
      * Size in bytes
      * 
      * @ORM\Column(type="string", options={"comment": "Size in bytes"})
      */
     private $size;
-    
+
     /**
      * 1 if note is related to a file
      * 
      * @ORM\Column(type="boolean", name="file_included", options={"comment": "1 if note is related to a file"})
      */
     private $fileIncluded = FALSE;
-    
+
     /** 
      * Many Files can have Many Folders.
      * 
@@ -83,11 +76,12 @@ class File extends Base {
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $folderJoins;
-    
+
     public function __construct() {
+        parent::__construct();
         $this->folderJoins = new ArrayCollection();
     }
-    
+
     /**
      * Get $user
      * 
@@ -96,7 +90,7 @@ class File extends Base {
     public function getUser() {
         return $this->user;
     }
-    
+
     /**
      * Set $user
      * 
@@ -105,14 +99,14 @@ class File extends Base {
      */
     public function setUser($user) {
         $this->user = $user;
-        
+
         return $this;
     }
 
     /**
      * Get $file
      * 
-     * @return FileFile
+     * @return File
      */
     public function getFile() {
         return $this->file;
@@ -121,12 +115,12 @@ class File extends Base {
     /**
      * Set $file
      * 
-     * @param FileFile $file
+     * @param File $file
      * @return File
      */
     public function setFile($file) {
         $this->file = $file;
-        
+
         return $this;
     }
 
@@ -147,10 +141,10 @@ class File extends Base {
      */
     public function setExtension($extension) {
         $this->extension = $extension;
-        
+
         return $this;
     }
-    
+
     /**
      * Get access id
      * 
@@ -160,20 +154,20 @@ class File extends Base {
         if ($this->access instanceof Access) {
             return $this->access->getId();
         }
-        
+
         return 1;
     }
-    
+
     /**
      * Get access
      * 
      * @return Access|null
      */
     public function getAccess() {
-        
+
         return $this->access;
     }
-    
+
     /**
      * Set $access
      * 
@@ -182,10 +176,10 @@ class File extends Base {
      */
     public function setAccess(Access $access) {
         $this->access = $access;
-        
+
         return $this;
     }
-    
+
     /**
      * Get $name
      * 
@@ -203,10 +197,10 @@ class File extends Base {
      */
     public function setName($name) {
         $this->name = trim($name);
-        
+
         return $this;
     }
-    
+
     /**
      * Get $hashName
      * 
@@ -224,7 +218,7 @@ class File extends Base {
      */
     public function setHashName($hashName) {
         $this->hashName = $hashName;
-        
+
         return $this;
     }
 
@@ -245,7 +239,7 @@ class File extends Base {
      */
     public function setMimeType($mimeType) {
         $this->mimeType = $mimeType;
-        
+
         return $this;
     }
 
@@ -266,10 +260,10 @@ class File extends Base {
      */
     public function setSize($size) {
         $this->size = (string)$size;
-        
+
         return $this;
     }
-    
+
     /**
      * Is $fileIncluded
      * 
@@ -278,7 +272,7 @@ class File extends Base {
     public function isFileIncluded() {
         return $this->fileIncluded;
     }
-    
+
     /**
      * Set $fileIncluded
      * 
@@ -287,10 +281,10 @@ class File extends Base {
      */
     public function setFileIncluded($fileIncluded) {
         $this->fileIncluded = $fileIncluded;
-        
+
         return $this;
     }
-    
+
     /**
      * Get $folderJoins
      * 
@@ -299,7 +293,7 @@ class File extends Base {
     public function getFolderJoins() {
         return $this->folderJoins;
     }
-    
+
     /**
      * Get $folders
      * 
@@ -311,14 +305,14 @@ class File extends Base {
         foreach ($this->getUser()->getFolders() as $userFolder) {
             $selected = FALSE;
             $access = $userFolder->getAccess();
-            
+
             foreach ($this->folderJoins as $folderJoin) {
                 if ($userFolder->getId() === $folderJoin->getFolderId()) {
                     $selected = TRUE;
                     break;
                 }
             }
-            
+
             $folders[] = [
                 'id' => $userFolder->getId(),
                 'name' => $userFolder->getName(),
@@ -328,14 +322,14 @@ class File extends Base {
                 'selected' => $selected,
             ];
         }
-        
+
         // order by folder name ASC
         if (count($folders)) {
             usort($folders, function ($a, $b) {
                 return ($a['name'] < $b['name']) ? -1 : 1;
             });
         }
-        
+
         return $folders;
     }
 }

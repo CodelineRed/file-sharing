@@ -8,7 +8,7 @@ use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="imhhfs_upload_limit")
+ * @ORM\Table(name="fs_upload_limit")
  */
 class UploadLimit extends Base {
 
@@ -66,7 +66,7 @@ class UploadLimit extends Base {
      */
     public function setName($name) {
         $this->name = trim($name);
-        
+
         return $this;
     }
 
@@ -87,7 +87,7 @@ class UploadLimit extends Base {
      */
     public function setSize($size) {
         $this->size = (string)$size;
-        
+
         return $this;
     }
 
@@ -108,7 +108,7 @@ class UploadLimit extends Base {
      */
     public function setFiles($files) {
         $this->files = $files;
-        
+
         return $this;
     }
 
@@ -129,7 +129,7 @@ class UploadLimit extends Base {
      */
     public function setFolders($folders) {
         $this->folders = $folders;
-        
+
         return $this;
     }
 

@@ -6,24 +6,24 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="imhhfs_file_folder_join")
+ * @ORM\Table(name="fs_file_folder_join")
  */
 class FileFolderJoin extends BaseJoin {
-    
+
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="File", inversedBy="folderJoins")
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=false)
      */
     private $file;
-    
+
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Folder", inversedBy="fileJoins")
      * @ORM\JoinColumn(name="folder_id", referencedColumnName="id", nullable=false)
      */
     private $folder;
-    
+
     /**
      * Get file $id
      * 
@@ -32,7 +32,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFileId() {
         return $this->file->getId();
     }
-    
+
     /**
      * Get file $name
      * 
@@ -41,7 +41,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFileName() {
         return $this->file->getName();
     }
-    
+
     /**
      * Get file $access
      * 
@@ -50,7 +50,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFileAccess() {
         return $this->file->getAccess();
     }
-    
+
     /**
      * Get file $access id
      * 
@@ -59,7 +59,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFileAccessId() {
         return $this->file->getAccessId();
     }
-    
+
     /**
      * Get file $updatedAt
      * 
@@ -68,7 +68,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFileUpdatedAt() {
         return $this->file->updatedAt;
     }
-    
+
     /**
      * Get file $createdAt
      * 
@@ -77,7 +77,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFileCreatedAt() {
         return $this->file->createdAt;
     }
-    
+
     /**
      * Get $file
      * 
@@ -95,10 +95,10 @@ class FileFolderJoin extends BaseJoin {
      */
     public function setFile($file) {
         $this->file = $file;
-        
+
         return $this;
     }
-    
+
     /**
      * Get $file
      * 
@@ -116,10 +116,10 @@ class FileFolderJoin extends BaseJoin {
      */
     public function setFolder($folder) {
         $this->folder = $folder;
-        
+
         return $this;
     }
-    
+
     /**
      * Get folder $id
      * 
@@ -128,7 +128,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFolderId() {
         return $this->folder->getId();
     }
-    
+
     /**
      * Get folder $name
      * 
@@ -137,7 +137,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFolderName() {
         return $this->folder->getName();
     }
-    
+
     /**
      * Get folder $access
      * 
@@ -146,7 +146,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFolderAccess() {
         return $this->folder->getAccess();
     }
-    
+
     /**
      * Get folder $access id
      * 
@@ -155,7 +155,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFolderAccessId() {
         return $this->folder->getAccessId();
     }
-    
+
     /**
      * Get folder $updatedAt
      * 
@@ -164,7 +164,7 @@ class FileFolderJoin extends BaseJoin {
     public function getFolderUpdatedAt() {
         return $this->folder->updatedAt;
     }
-    
+
     /**
      * Get folder $createdAt
      * 

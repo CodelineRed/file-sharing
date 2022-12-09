@@ -1,0 +1,74 @@
+{% extends "layout/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mb-4">{{ 'auth-code'|trans }}</h1>
+            <form id="tf-form" action="{{ path_for('user-two-factor-' ~ lc) }}" method="post">
+                <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}" />
+                <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}" />
+                <input type="hidden" name="tf_code" id="tf_code" value="" />
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-12 col-two-factor">
+                        <div class="mb-2">
+                            {{ 'auth-text'|trans }}
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="row">
+                                    <div class="col px-2">
+                                        <input type="text" class="form-control" name="tf_code_1" id="tf_code_1" maxlength="1" autofocus="autofocus" autocomplete="off" />
+                                    </div>
+                                    <div class="col px-2">
+                                        <input type="text" class="form-control" name="tf_code_2" id="tf_code_2" maxlength="1" autocomplete="off" />
+                                    </div>
+                                    <div class="col px-2">
+                                        <input type="text" class="form-control" name="tf_code_3" id="tf_code_3" maxlength="1" autocomplete="off" />
+                                    </div>
+                                    <div class="col px-2">
+                                        <input type="text" class="form-control" name="tf_code_4" id="tf_code_4" maxlength="1" autocomplete="off" />
+                                    </div>
+                                    <div class="col px-2">
+                                        <input type="text" class="form-control" name="tf_code_5" id="tf_code_5" maxlength="1" autocomplete="off" />
+                                    </div>
+                                    <div class="col px-2">
+                                        <input type="text" class="form-control" name="tf_code_6" id="tf_code_6" maxlength="1" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 px-2">
+                                <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
+                            </div>
+                            <div class="col-12 px-2">
+                                <a href="#" class="toggle-tf-form"><i class="fas fa-chevron-right fa-fw"></i> {{ 'enter-recovery-code'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form id="rc-form" action="{{ path_for('user-two-factor-' ~ lc) }}" method="post">
+                <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+                <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-12 col-two-factor">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="sr-only" for="tf_code">{{ 'password'|trans }}</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-key fa-fw"></i></span>
+                                    <input type="text" class="form-control" name="tf_code" id="tf_code" placeholder="{{ 'recovery-code'|trans }}" autofocus="autofocus" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
+                            </div>
+                            <div class="col-12 ">
+                                <a href="#" class="toggle-tf-form"><i class="fas fa-chevron-right fa-fw"></i> {{ 'enter-2fa-code'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

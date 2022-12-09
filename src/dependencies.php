@@ -65,7 +65,7 @@ $container['view'] = function ($c) {
         'cache' => $settings['renderer']['cache'],
         'debug' => $settings['renderer']['debug'],
     ]);
-    
+
     // Instantiate and add Slim specific extension
     $router = $c->get('router');
     $uri = Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
@@ -74,9 +74,9 @@ $container['view'] = function ($c) {
     $view->addExtension(new App\Twig\FileExtension($c));
     $view->addExtension(new App\Twig\GeneralExtension($c));
     $view->addExtension(new App\Twig\LanguageExtension($c, $router, $uri));
-    $view->addExtension(new nochso\HtmlCompressTwig\Extension());
+    $view->addExtension(new nochso\HtmlCompressTwig\Extension($settings['renderer']['htmlcompress']));
     $view->addExtension(new Slim\Views\TwigExtension($router, $uri));
-    
+
     if ($settings['renderer']['debug']) {
         $view->addExtension(new Twig_Extension_Debug());
     }

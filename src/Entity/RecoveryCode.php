@@ -1,35 +1,28 @@
 <?php
 namespace App\Entity;
 
-use App\MappedSuperclass\Base;
+use App\MappedSuperclass\BaseUuid;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="imhhfs_recovery_code")
+ * @ORM\Table(name="fs_recovery_code")
  */
-class RecoveryCode extends Base {
-    
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="string")
-     */
-    protected $id;
-    
+class RecoveryCode extends BaseUuid {
+
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="recoveryCodes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
-    
+
     /**
      * Encoded recovery code
      * 
      * @ORM\Column(type="string", options={"comment": "Encoded recovery code"})
      */
     private $code;
-    
+
     /**
      * Get $user
      * 
@@ -38,7 +31,7 @@ class RecoveryCode extends Base {
     public function getUser() {
         return $this->user;
     }
-    
+
     /**
      * Set $user
      * 
@@ -47,7 +40,7 @@ class RecoveryCode extends Base {
      */
     public function setUser($user) {
         $this->user = $user;
-        
+
         return $this;
     }
 
@@ -59,7 +52,7 @@ class RecoveryCode extends Base {
     public function getCode() {
         return $this->code;
     }
-    
+
     /**
      * Set $code
      * 
@@ -68,7 +61,7 @@ class RecoveryCode extends Base {
      */
     public function setCode($code) {
         $this->code = $code;
-        
+
         return $this;
     }
 }

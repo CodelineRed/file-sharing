@@ -1,11 +1,10 @@
-/*global confirmRemove initCookieConsent initCreateFolder initDataTable initTwoFactor initUpdateFile initUpdateFolder initUploadFileForm processLocationHash*/
+/*global confirmRemove initCookieConsent initCreateFolder initDataTable initTooltip initTwoFactor initUpdateFile initUpdateFolder initUploadFileForm processLocationHash*/
 'use strict';
 
 // jQuery.noConflict();
 (function($) {
     $(document).ready(function() {
         $('html').removeClass('no-js');
-        $('[data-toggle="tooltip"]').tooltip();
         
         // disable submit button after submit
         $('form').submit(function(e) {
@@ -19,7 +18,7 @@
             }
         });
         
-        $('[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        $('[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
             window.location.hash = $(e.target).data('id');
         });
         
@@ -30,6 +29,7 @@
         initCookieConsent();
         initCreateFolder();
         initDataTable();
+        initTooltip();
         initTwoFactor();
         initUpdateFile();
         initUpdateFolder();

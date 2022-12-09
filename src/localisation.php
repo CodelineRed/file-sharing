@@ -43,7 +43,7 @@ if (($settings['settings']['locale']['process'] & LanguageUtility::DOMAIN_DISABL
         // get the first 3 chars
         $uri = substr($uri, 0, 3);
     }
-    
+
     switch ($uri) {
         // german
         case 'de/':

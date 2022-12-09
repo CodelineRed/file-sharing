@@ -1,0 +1,20 @@
+{% extends "layout/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="mb-4">{{ 'recovery-codes'|trans|raw }}</h1>
+            <br/>
+            {{ 'recovery-codes-text'|trans|raw }}<br/>
+            <br/>
+        {# loop through records #}
+        {% if recoveryCodes %}
+            {% for recoveryCode in recoveryCodes %}
+                <b>{{ recoveryCode }}</b><br/>
+            {% endfor %}
+        {% endif %}
+            <br/>
+            {{ 'back-to'|trans({0: 'm'}) }} <a href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}" class="current">{{ trans('user-show-label') }}</a>.
+        </div>
+    </div>
+{% endblock %}

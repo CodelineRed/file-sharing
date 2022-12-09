@@ -7,7 +7,7 @@ use App\Utility\LanguageUtility;
  * Language twig extension
  */
 class LanguageExtension extends \Twig_Extension {
-    
+
     /** * @var \Slim\Container $container */
     private $container;
 
@@ -47,7 +47,7 @@ class LanguageExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('trans', [$this, 'trans']),
         ];
     }
-    
+
     /**
      * Get language switcher routes for current route
      * Sample: {{ langswitch() }}
@@ -58,32 +58,32 @@ class LanguageExtension extends \Twig_Extension {
         $settings = $this->container->get('settings');
         $currentRouteName = substr($_SESSION['route'], 0, strlen($_SESSION['route']) - 5);
         $langSwitch = [];
-        
+
         foreach ($settings['locale']['active'] as $activeLocale => $domain) {
-            
+
             // if translation file exists, load file to $locale
             if (is_readable($settings['locale']['path'] . $activeLocale . '.php')) {
                 if ($activeLocale === $settings['locale']['generic_code']) {
                     continue;
                 }
-                
+
                 $routeSuffix = $activeLocale;
                 $locale = require $settings['locale']['path'] . $activeLocale . '.php';
                 $routes = require $settings['config_path'] . 'routes/' . $activeLocale . '.php';
                 $domain = (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : '') . '://' . $settings['locale']['active'][$activeLocale];
-                
+
                 if (LanguageUtility::processHas(LanguageUtility::DOMAIN_ENABLED) && !isset($routes[rtrim($currentRouteName, '-')])) {
                     $routeSuffix = $settings['locale']['generic_code'];
                 }
-                
+
                 if (LanguageUtility::processHas(LanguageUtility::DOMAIN_DISABLED)) {
                     $domain = '';
-                    
+
                     if (LanguageUtility::processHas(LanguageUtility::LOCALE_SESSION)) {
                         $routeSuffix = $settings['locale']['generic_code'];
                     }
                 }
-                
+
                 $langSwitch[$currentRouteName . strtolower($activeLocale)] = [
                     'label' => $locale['langswitch-label'],
                     'image' => $locale['langswitch-image'],
@@ -94,10 +94,10 @@ class LanguageExtension extends \Twig_Extension {
                 ];
             }
         }
-        
+
         return $langSwitch;
     }
-    
+
     /**
      * 
      * @param string $locale
@@ -115,10 +115,10 @@ class LanguageExtension extends \Twig_Extension {
         } else {
             $result = $this->router->pathFor($name, $data) === $this->uri->getBasePath() . '/' . ltrim($this->uri->getPath(), '/');
         }
-        
+
         return $result;
     }
-    
+
     /**
      * Returns current language-region or generic code
      * Sample: {{ locale() }}
@@ -128,7 +128,7 @@ class LanguageExtension extends \Twig_Extension {
     public function locale() {
         return LanguageUtility::getLocale();
     }
-    
+
     /**
      * Returns generic language code
      * Sample: {{ generic_locale() }}
@@ -152,7 +152,7 @@ class LanguageExtension extends \Twig_Extension {
     public function trans($key, $vars = []) {
         return LanguageUtility::trans($key, $vars);
     }
-    
+
     /**
      * Returns current locale.
      * Sample: {{ current_locale() }}

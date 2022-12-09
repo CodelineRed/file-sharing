@@ -9,43 +9,43 @@ use App\Utility\LanguageUtility;
  * Base functions for controller
  */
 class BaseController {
-    
+
     const STYLE_DANGER = 'danger';
     const STYLE_SUCCESS = 'success';
-    
+
     /** @var \Geggleto\Acl\AclRepository $acl **/
     protected $acl;
-    
+
     /** @var \Doctrine\ORM\EntityManager $em **/
     protected $em;
-    
+
     /** @var \Slim\Flash\Messages $flash **/
     protected $flash;
-    
+
     /** @var \Slim\Container $container **/
     protected $container;
-    
+
     /** @var \Slim\Csrf\Guard $csrf **/
     protected $csrf;
-    
+
     /** @var string $currentLocale **/
     protected $currentLocale;
-    
+
     /** @var string $currentRole **/
     protected $currentRole;
-    
+
     /** @var integer $currentUser **/
     protected $currentUser;
-    
+
     /** @var \Monolog\Logger $logger **/
     protected $logger;
-    
+
     /** @var \Slim\Router $router **/
     protected $router;
-    
+
     /** @var array $settings **/
     protected $settings;
-    
+
     /** @var \Slim\Views\Twig $view **/
     protected $view;
 

@@ -16,7 +16,7 @@ function setTableState(id) {
         let order = dataTables[id]['ref'].order();
         let pageInfo = dataTables[id]['ref'].page.info();
         let search = dataTables[id]['ref'].search();
-        
+
         tableState = {
             'init': false,
             'length': pageInfo.length,
@@ -25,7 +25,7 @@ function setTableState(id) {
             'page': pageInfo.page,
             'search': search
         };
-        
+
         localStorage.setItem(id, JSON.stringify(tableState));
     }
 }
@@ -47,12 +47,12 @@ function initDataTable() {
                 }
             });
         });
-        
+
         // restore table to last table state
         $('.data-table').on('init.dt', function(e, settings, json) {
             let id = $(e.target).attr('id');
             let tableState = JSON.parse(localStorage.getItem(id));
-            
+
             if (typeof dataTables[id] === 'object') {
                 if (typeof tableState === 'object' && tableState !== null) {
                     dataTables[id]['ref'].order([tableState.orderColumn, tableState.orderBy]).draw(); // eslint-disable-line array-bracket-newline
@@ -63,27 +63,27 @@ function initDataTable() {
                 localStorage.setItem(id, JSON.stringify(tableState));
             }
         });
-        
+
         // on length change
         $('.data-table').on('draw.dt', function(e, settings, len) {
             dataTables[$(e.target).attr('id')]['init'] = true;
         });
-        
+
         // on length change
         $('.data-table').on('length.dt', function(e, settings, len) {
             setTableState($(e.target).attr('id'));
         });
-        
+
         // on order change
         $('.data-table').on('order.dt', function(e, settings, ordArr) {
             setTableState($(e.target).attr('id'));
         });
-        
+
         // on page change
         $('.data-table').on('page.dt', function(e, settings) {
             setTableState($(e.target).attr('id'));
         });
-        
+
         // on search change
         $('.data-table').on('search.dt', function(e, settings) {
             setTableState($(e.target).attr('id'));

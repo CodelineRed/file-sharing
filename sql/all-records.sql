@@ -1,24 +1,29 @@
-INSERT INTO `imhhfs_role` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `fs_access` (`id`, `name`, `icon`, `button`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+(1,	'private',	'lock',	'success',	0,	0,	now(),	now()),
+(2,	'shareable',	'link',	'warning',	0,	0,	now(),	now()),
+(3,	'public',	'eye',	'danger',	0,	0,	now(),	now());
+
+INSERT INTO `fs_role` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1, 'guest', 0, 0, now(), now()),
 (2, 'member', 0, 0, now(), now()),
 (3, 'admin', 0, 0, now(), now()),
 (4, 'superadmin', 0, 0, now(), now());
 
-INSERT INTO `imhhfs_upload_limit` (`id`, `name`, `size`, `files`, `folders`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `fs_upload_limit` (`id`, `name`, `size`, `files`, `folders`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1, 'general', '104857600', 250, 250, 0, 0, now(), now());
 
 -- login: user / password
-INSERT INTO `imhhfs_user` (`id`, `role_id`, `upload_limit_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `fs_user` (`id`, `role_id`, `upload_limit_id`, `name`, `pass`, `two_factor`, `two_factor_secret`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1, 2, 1, 'user', '$2y$11$eVVKcwwsb1UP7RSvdea21OWGJM3cYLBKSoPlAowBa0uQHjkguRB.K', 0, '', 0, 0, now(), now());
 
-INSERT INTO `imhhfs_file_type` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `fs_file_type` (`id`, `name`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (1, 'image', 0, 0, now(), now()),
 (2, 'video', 0, 0, now(), now()),
 (3, 'audio', 0, 0, now(), now()),
 (4, 'text', 0, 0, now(), now()),
 (5, 'other', 0, 0, now(), now());
 
-INSERT INTO `imhhfs_file_extension` (`id`, `name`, `active`, `file_type_id`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
+INSERT INTO `fs_file_extension` (`id`, `name`, `active`, `file_type_id`, `deleted`, `hidden`, `updated_at`, `created_at`) VALUES
 (NULL, '.jpg', 1, 1, 0, 0, now(), now()),
 (NULL, '.jpeg', 1, 1, 0, 0, now(), now()),
 (NULL, '.gif', 1, 1, 0, 0, now(), now()),

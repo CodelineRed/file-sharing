@@ -8,15 +8,15 @@ use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="imhhfs_file_type")
+ * @ORM\Table(name="fs_file_type")
  */
 class FileType extends Base {
-    
+
     /**
      * @ORM\Column(type="string", unique=true)
      */
     protected $name;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="FileExtension", mappedBy="file_type")
      */
@@ -34,7 +34,7 @@ class FileType extends Base {
     public function getName() {
         return $this->name;
     }
-    
+
     /**
      * Set $name
      * 
@@ -43,10 +43,10 @@ class FileType extends Base {
      */
     public function setName($name) {
         $this->name = strtolower(trim($name));
-        
+
         return $this;
     }
-    
+
     /**
      * Get $fileExtensions
      * 

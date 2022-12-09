@@ -1,0 +1,117 @@
+{% extends "layout/layout.html.twig" %}
+
+{% block content %}
+    {% if user %}
+    <div class="row">
+        <div class="col-12 col-md-6 mb-3">
+            <h1 class="mb-3">{{ user.name }}</h1>
+        {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) and user.id == current_user() %}
+            {% if user.hasTwoFactor %}
+                <button type="button" class="btn btn-success"><i class="fas fa-lock me-2"></i> {{ '2fa-enabled'|trans }}</button>
+            {% else %}
+                <a href="{{ path_for('user-enable-two-factor-' ~ lc) }}" class="btn btn-warning" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-unlock me-2"></i> {{ trans('user-two-factor-label') }}</a>
+            {% endif %}
+        {% endif %}
+        {# Admin functions #}
+            <div class="row my-3">
+            {% if has_role({0: 'superadmin'}) %}
+                <div class="col-12">
+                    <div class="h3">{{ 'admin-funcs'|trans }}</div>
+                {% if roles|length > 0 %}
+                    <div class="form-floating mb-2">
+                        <select class="form-select custom-control-inline w-50" id="floatingRoleSelect" aria-label="Select role of user" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                        {% for role in roles %}
+                            {% set selected = '' %}
+                            {% if user.role.id is same as(role.id) %}
+                                {% set selected = 'selected' %}
+                            {% endif %}
+                            {% if loop.index > 1 %}
+                                <option value="{{ path_for('user-update-role-' ~ lc, { 'name': user.name, 'role': role.name }) }}" {{ selected }}>{{ role.name|trans }}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                        <label for="floatingRoleSelect">{{ 'role'|trans }}</label>
+                    </div>
+                {% endif %}
+                    <div class="d-grid gap-2 w-50">
+                        {% if user.hidden %}
+                            <a href="{{ path_for('user-hidden-' ~ lc, { 'name': user.name }) }}" class="btn btn-success btn-sm" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'unlock-user'|trans }}"><i class="fas fa-lock fa-fw"> {{ 'unlock-user'|trans }}</i></a>
+                        {% else %}
+                            <a href="{{ path_for('user-hidden-' ~ lc, { 'name': user.name }) }}" class="btn btn-warning btn-sm" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'lock-user'|trans }}"><i class="fas fa-unlock fa-fw"></i> {{ 'lock-user'|trans }}</a>
+                        {% endif %}
+                        <a href="{{ path_for('user-remove-' ~ lc, { 'name': user.name }) }}" class="btn btn-danger btn-sm" tabindex="-1" role="button" aria-disabled="true" data-remove="{{ user.name }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ 'remove-user'|trans }}"><i class="fas fa-trash fa-fw"></i> {{ 'remove-user'|trans }}</a>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+            
+        {# if is logged in and user is current user #}
+        {% if has_role({0: 'member', 1: 'admin', 2: 'superadmin'}) and user.id is same as(current_user()) %}
+        <div class="col-12 col-md-6 mb-5">
+            <div class="h2 mb-3">{{ 'upload-file'|trans }}</div>
+            <form action="{{ path_for('file-upload-' ~ lc) }}" method="post" enctype="multipart/form-data">
+                <div class="col-12">
+                    <div class="input-group mb-2">
+                        <input type="file" name="upload" class="form-control" id="fileUpload">
+                        <label class="input-group-text d-none d-lg-flex" for="fileUpload">{{ trans('choose-file', {1: maxFileSize}) }}</label>
+                    </div>
+                    <div class="switch">
+                        <input type="hidden" name="file_included" value="0">
+                        <input type="checkbox" name="file_included" id="file_included" value="1" checked>
+                        <div class="d-grid mb-2">
+                            <label class="btn" for="file_included">
+                                <i class="fas fa-check"></i>
+                                <i class="fas fa-times"></i>
+                                {{ 'note-included'|trans }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control mb-3" placeholder="{{ 'note'|trans }}" id="textarea-note" name="note"></textarea>
+                        <label for="textarea-note">{{ 'note'|trans }}</label>
+                    </div>
+                    <div class="d-grid mb-2">
+                        <button type="submit" class="btn btn-primary">{{ 'upload'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+        
+        
+        {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
+        <div class="col-12 mb-5">
+            <ul class="nav nav-tabs" id="detailViewTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-id="fileTableTab" data-bs-toggle="tab" data-bs-target="#fileTable" type="button" role="tab" aria-controls="fileTable" aria-selected="true">{{ 'files'|trans }}</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-id="folderTableTab" data-bs-toggle="tab" data-bs-target="#folderTable" type="button" role="tab" aria-controls="folderTable" aria-selected="false">{{ 'folders'|trans }}</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="detailViewTabsContent">
+                <div class="tab-pane fade pt-3 show active" id="fileTable" role="tabpanel" aria-labelledby="folderTableTab">
+                    {% set returnUrl = '' %}
+                    {% include('partial/file-table.html.twig') %}
+                </div>
+                <div class="tab-pane fade pt-3" id="folderTable" role="tabpanel" aria-labelledby="folderTableTab">
+                    {% set returnUrl = '?return=' ~ path_for('user-show-' ~ lc, { 'name': user.name }) ~ '#folderTableTab' %}
+                    {% include('partial/folder-table.html.twig') %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 mb-5">
+            {{ include('partial/file-table.html.twig') }}
+        </div>
+        {% endif %}
+    </div>
+        {# if is superadmin or user is current user #}
+        {% if has_role({0: 'superadmin'}) or user.id is same as(current_user()) %}
+            {% include('partial/modal-update-file.html.twig') %}
+            {% include('partial/modal-update-folder.html.twig') %}
+            {% include('partial/modal-create-folder.html.twig') %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

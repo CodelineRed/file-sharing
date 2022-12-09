@@ -1,0 +1,36 @@
+{% extends "layout/layout.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mb-4">{{ 'login'|trans }}</h1>
+            <form action="{{ path_for('user-login-validate-' ~ glc) }}" method="post">
+                <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+                <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="sr-only" for="user_name">{{ 'user'|trans }}</label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
+                                    <input type="text" class="form-control" name="user_name" id="user_name" placeholder="{{ 'user'|trans }}" autofocus="autofocus" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="sr-only" for="user_pass">{{ 'password'|trans }}</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-key fa-fw"></i></span>
+                                    <input type="password" class="form-control" name="user_pass" id="user_pass" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary mb-2 btn-block">{{ 'submit'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

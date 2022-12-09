@@ -23,14 +23,14 @@ class FolderController extends BaseController {
         $folder = $this->em->getRepository('App\Entity\Folder')->findOneBy(['id' => $args['uuid']]);
         $files = $publicFiles = [];
         $user = NULL;
-        
+
         // if folder exists
         if ($folder instanceof Folder) {
             $user = $folder->getUser();
             $files = $this->em->getRepository('App\Entity\Folder')->findUniqueFiles($folder);
             $publicFiles = $this->em->getRepository('App\Entity\Folder')->findAccessibleFiles($folder);
         }
-        
+
         // Render view
         return $this->view->render($response, 'folder/show.html.twig', array_merge($args, [
             'user' => $user,
@@ -39,7 +39,7 @@ class FolderController extends BaseController {
             'publicFiles' => $publicFiles,
         ]));
     }
-    
+
     /**
      * toggleAccess Action
      * 
@@ -52,7 +52,7 @@ class FolderController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $folder = $this->em->getRepository('App\Entity\Folder')->findOneBy(['id' => $args['uuid']]);
         $args['name'] = $user->getName();
-        
+
         if ($user instanceof User) {
             $folders = $user->getFolders();
 
@@ -60,19 +60,19 @@ class FolderController extends BaseController {
             if ($folders->contains($folder) || $this->acl->isAllowed($this->currentRole, 'update_folder_other')) {
                 $accessId = ($folder->getAccessId() + 1) <= count($this->em->getRepository('App\Entity\Access')->findAllArray()) ? ($folder->getAccessId() + 1) : 1;
                 $access = $this->em->getRepository('App\Entity\Access')->findOneBy(['id' => $accessId]);
-                
+
                 if ($access instanceof Access) {
                     $folder->setAccess($access);
                     $this->em->persist($folder);
                     $this->em->flush();
                 }
-                
+
                 // if owner of folder not requested user
                 if ($folder->getUser()->getId() !== $user->getId()) {
                     // stay on site from owner of folder
                     $args['name'] = $folder->getUser()->getName();
                 }
-                
+
                 $this->flash->addMessage('message', LanguageUtility::trans('folder-access-m' . $folder->getAccessId(), [
                     $folder->getName(),
                     $this->router->pathFor('folder-show-' . LanguageUtility::getLocale(), $args)
@@ -84,10 +84,10 @@ class FolderController extends BaseController {
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('folder-access-m5') . ';' . self::STYLE_DANGER);
         }
-        
+
         return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
     }
-    
+
     /**
      * remove Action
      * 
@@ -100,7 +100,7 @@ class FolderController extends BaseController {
         $user = $this->em->getRepository('App\Entity\User')->findOneBy(['id' => $this->currentUser]);
         $folder = $this->em->getRepository('App\Entity\Folder')->findOneBy(['id' => $args['uuid']]);
         $args['name'] = $user->getName();
-        
+
         if ($user instanceof User) {
             $folders = $user->getFolders();
 
@@ -108,13 +108,13 @@ class FolderController extends BaseController {
             if ($folders->contains($folder) || $this->acl->isAllowed($this->currentRole, 'remove_folder_other')) {
                 $this->em->remove($folder);
                 $this->em->flush();
-                
+
                 // if owner of folder not requested user
                 if ($folder->getUser()->getId() !== $user->getId()) {
                     // stay on site from owner of folder
                     $args['name'] = $folder->getUser()->getName();
                 }
-                
+
                 $this->flash->addMessage('message', LanguageUtility::trans('folder-remove-m1', [$folder->getName()]) . ';' . self::STYLE_SUCCESS);
                 $this->logger->info("User '" . $user->getName() . "' removed '" . $folder->getName() . "' - FolderController:remove");
             } else {
@@ -123,7 +123,7 @@ class FolderController extends BaseController {
         } else {
             $this->flash->addMessage('message', LanguageUtility::trans('folder-remove-m3') . ';' . self::STYLE_DANGER);
         }
-        
+
         return $response->withRedirect($this->router->pathFor('user-show-' . LanguageUtility::getLocale(), $args));
     }
 }

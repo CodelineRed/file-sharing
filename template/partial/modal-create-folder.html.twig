@@ -1,0 +1,25 @@
+{% htmlcompress %}
+<div class="modal fade" id="create-folder" tabindex="-1" role="dialog" aria-labelledby="create-folder-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="create-folder-title">{{ 'create-folder'|trans }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label for="create-folder-name" class="col-form-label">{{ 'folder-name'|trans }}:</label>
+                    <input type="text" class="form-control is-invalid" id="create-folder-name" autocomplete="off" />
+
+                    <div class="mb-2 mt-2">{{ 'access'|trans }}: </div>
+                    <div class="btn-group-toggle btn-group-radio btn-group-access" data-bs-toggle="buttons"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'close'|trans }}</button>
+                <button type="button" class="btn btn-primary submit-form">{{ 'save'|trans }} <i class="fas fa-spin fa-sync-alt"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endhtmlcompress %}

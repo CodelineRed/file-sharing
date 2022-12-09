@@ -5,7 +5,7 @@ use App\Utility\LanguageUtility;
 use Doctrine\ORM\EntityRepository;
 
 class AccessRepository extends EntityRepository {
-    
+
     /**
      * Find all access states and convert to array
      * 
@@ -14,7 +14,7 @@ class AccessRepository extends EntityRepository {
     public function findAllArray() {
         $accessList = $this->getEntityManager()->getRepository('App\Entity\Access')->findAll();
         $result = [];
-        
+
         foreach ($accessList as $access) {
             $result[] = [
                 'id' => $access->getId(),
@@ -24,7 +24,7 @@ class AccessRepository extends EntityRepository {
                 'trans' => LanguageUtility::trans($access->getName()),
             ];
         }
-        
+
         return $result;
     }
 }
