@@ -6,6 +6,7 @@ volumes:
         driver: local
 
 services:
+    # docker exec -ti file-sharing-webserver php doctrine orm:schema-tool:update --force
     database:
         image: mysql:5.7
         restart: always
@@ -22,6 +23,7 @@ services:
             - ./sql/db-dump.sql:/docker-entrypoint-initdb.d/db-dump.sql
     
     # http://localhost:3050
+    # docker exec -ti file-sharing-webserver php --version
     webserver:
         #image: php:7-alpine
         container_name: file-sharing-webserver
@@ -55,3 +57,11 @@ services:
         restart: always
         ports:
             - 9999:8080
+
+    # docker-compose run composer install --no-dev
+    # docker-compose run composer require user/pack
+    composer:
+        image: composer
+        volumes:
+            - .:/var/www
+        working_dir: /var/www

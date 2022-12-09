@@ -12,7 +12,6 @@ class RecoveryCode extends Base {
     
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="string")
      */
     protected $id;
@@ -29,6 +28,12 @@ class RecoveryCode extends Base {
      * @ORM\Column(type="string", options={"comment": "Encoded recovery code"})
      */
     private $code;
+    
+    public function __construct() {
+        if (!isset($this->id)) {
+            $this->setIdWithRamsey();
+        }
+    }
     
     /**
      * Get $user

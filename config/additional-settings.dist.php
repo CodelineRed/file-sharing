@@ -12,7 +12,7 @@ return [
         // Doctrine settings
         'doctrine' => [
             'connection' => [
-                'dbname'      => isset($_ENV['APP_DB_NAME']) ? $_ENV['APP_DB_NAME'] : 'imhh_file_sharing',
+                'dbname'      => isset($_ENV['APP_DB_NAME']) ? $_ENV['APP_DB_NAME'] : 'clred_file_sharing',
                 'host'        => isset($_ENV['APP_DB_HOST']) ? $_ENV['APP_DB_HOST'] : 'localhost',
                 'port'        => isset($_ENV['APP_DB_PORT']) ? $_ENV['APP_DB_PORT'] : 3306,
                 'user'        => isset($_ENV['APP_DB_USER']) ? $_ENV['APP_DB_USER'] : '',

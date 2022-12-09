@@ -1,15 +1,15 @@
-# File Sharing - InsanityMeetsHH
+# File Sharing - CodelineRed
 
-This git is for [fs.imhh.me](http://fs.insanitymeetshh.net). Take a look at [screenshots](https://github.com/InsanityMeetsHH/file-sharing/tree/master/screenshots).
+This git is for [fs.codelinered.net](http://fs.codelinered.net). Take a look at [screenshots](https://github.com/CodelineRed/file-sharing/tree/master/screenshots).
 
-This application based on [Slim Skeleton](https://github.com/InsanityMeetsHH/Slim-Skeleton) and [Gulp Skeleton](https://github.com/InsanityMeetsHH/gulp-Skeleton).
+This application based on [Slim Skeleton](https://github.com/CodelineRed/Slim-Skeleton) and [Gulp Skeleton](https://github.com/CodelineRed/gulp-Skeleton).
 
 ## Table of contents
 - [Included Third Party Code](#included)
 - Install Guides
     - [Install Production Build (Recommended)](#install-production-build-recommended)
     - [Install Master/ Develop Build](#install-master-develop-build)
-    - [Install PHP, MySQL and Adminer (optional)](#install-php-mysql-and-adminer-optional)
+    - [Install PHP, MySQL, Composer and Adminer (optional)](#install-php-mysql-composer-and-adminer-optional)
 - [Project Commands](#project-commands)
 - [`gulpfile.json`](#gulpfilejson)
 - [Path generation with Locale code and Generic locale code](#path-generation-with-locale-code-and-generic-locale-code)
@@ -37,14 +37,14 @@ This application based on [Slim Skeleton](https://github.com/InsanityMeetsHH/Sli
 
 ## Install Production Build (Recommended)
 ### Required
-- PHP >= 5.5.9
-- MySQL 5 (pdo_mysql)
+- PHP ^7.4
+- MySQL 5.7 (pdo_mysql)
 
-[Download zip](https://github.com/InsanityMeetsHH/file-sharing/archive/production.zip) if you don't have git or composer on your OS.
+[Download zip](https://github.com/CodelineRed/file-sharing/archive/production.zip) if you don't have git or composer on your OS.
 Open console on your OS and navigate to your project folder.
 ```bash
-$ php composer create-project insanitymeetshh/file-sharing file-sharing "dev-production"
-$ (optional) git clone https://github.com/InsanityMeetsHH/file-sharing.git
+$ php composer create-project codelinered/file-sharing file-sharing "dev-production-3.x"
+$ (optional) git clone https://github.com/CodelineRed/file-sharing.git
 $ cd file-sharing
 $ (optional) git checkout production
 $ (optional on unix) rm -rf .git
@@ -56,21 +56,21 @@ $ php doctrine orm:schema-tool:update --force
 $ php doctrine dbal:import sql/all-records.sql
 ```
 Default Website login: user = user, pass = password
-If you need PHP, MySQL and Adminer, you have to [click here](#install-php-mysql-and-adminer-optional).
+If you need PHP, MySQL and Adminer, you have to [click here](#install-php-mysql-composer-and-adminer-optional).
 
 ## Install Master/ Develop Build
 ### Required
 - [Node.js](http://nodejs.org/en/download/)
 - [npm](http://www.npmjs.com/get-npm) `$ npm i npm@latest -g`
 - [gulp-cli](https://www.npmjs.com/package/gulp-cli) `$ npm i gulp-cli@latest -g`
-- PHP >= 5.5.9
-- MySQL 5 (pdo_mysql)
+- PHP ^7.4
+- MySQL 5.7 (pdo_mysql)
 
-[Download zip](https://github.com/InsanityMeetsHH/file-sharing/archive/master.zip) if you don't have git on your OS.
+[Download zip](https://github.com/CodelineRed/file-sharing/archive/master.zip) if you don't have git on your OS.
 Open console on your OS and navigate to your project folder.
 ```bash
-$ php composer create-project insanitymeetshh/file-sharing
-$ (optional) git clone https://github.com/InsanityMeetsHH/file-sharing.git
+$ php composer create-project codelinered/file-sharing file-sharing "3.x-dev"
+$ (optional) git clone https://github.com/CodelineRed/file-sharing.git
 $ cd file-sharing
 $ (optional) git checkout develop
 $ (optional on unix) rm -rf .git
@@ -85,24 +85,29 @@ $ php doctrine dbal:import sql/all-records.sql
 ```
 Default Website login: user = user, pass = password
 
-## Install PHP, MySQL and Adminer (optional)
+## Install PHP, MySQL, Composer and Adminer (optional)
 ### Required
 - [Docker](https://www.docker.com/)
 
 Open console on your OS and navigate to the unziped/ cloned app folder.
 ```bash
-$ (unix) systemctl docker start
+$ (unix)    systemctl docker start
 $ (windows) "c:\path\to\Docker Desktop.exe"
 $ docker-compose build
 $ docker-compose up -d
-$ (optional) ---- Add '"platform": {"php": "7.4.2"}' to "config" in composer.json ----
-$ ---- Follow the 4 steps from "Command-line installation" on https://getcomposer.org/download/ and replace every leading "php" with "docker exec -ti file-sharing-webserver php" ----
-$ docker exec -ti file-sharing-webserver php composer.phar install
-$ docker inspect file-sharing-db 
-$ ---- search for "IPAddress" from "DIRNAME_default" (at the bottom) and set IP as Doctrine "host" in "config\additional-settings.php" ----
+$ docker-compose run composer install --no-dev
+$ (unix)    docker inspect file-sharing-db | grep "IPAddress"
+$ (windows) docker inspect file-sharing-db | findstr "IPAddress"
+$ ---- Add IPAddress as Doctrine "host" in "config\additional-settings.php" ----
 ```
-Open [localhost:3050](http://localhost:3050) for Website or [localhost:9999](http://localhost:9999) for Database GUI.
-Database GUI login: user = root, pass = rootdockerpw, host = IP from `IPAddress`.
+Open [localhost:3050](http://localhost:3050) for Website or [localhost:9999](http://localhost:9999) for Adminer.
+
+| DB Login | [Adminer](http://localhost:9999) |
+|----------|----------------------------------|
+| Server   | IP from `IPAddress`              |
+| Username | root                             |
+| Password | rootdockerpw                     |
+| Database |                                  |
 
 ## Project Commands
 |               | Description                                                                                                                            |
@@ -115,14 +120,14 @@ Database GUI login: user = root, pass = rootdockerpw, host = IP from `IPAddress`
 | gulp font     | copy font files                                                                                                                        |
 | gulp img      | copy and compress images                                                                                                               |
 | gulp js       | uglify, minify and concat js files                                                                                                     |
-| gulp jsLint   | checks js follows [lint rules](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/js-lint.json)                 |
+| gulp jsLint   | checks js follows [lint rules](https://github.com/CodelineRed/file-sharing/blob/master/gulpfiles/app/js-lint.json)                 |
 | gulp json     | copy and minify json files                                                                                                             |
 | gulp scss     | compile, minify and concat scss files                                                                                                  |
-| gulp scssLint | checks scss follows [lint rules](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/scss-lint.json)             |
+| gulp scssLint | checks scss follows [lint rules](https://github.com/CodelineRed/file-sharing/blob/master/gulpfiles/app/scss-lint.json)             |
 | gulp svg      | copy and compress svg files                                                                                                            |
 | gulp watch    | watch scss, js, json, img, font and svg files                                                                                          |
 
-## [`gulpfile.json`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/gulpfiles/app/gulpfile.dist.json)
+## [`gulpfile.json`](https://github.com/CodelineRed/file-sharing/blob/master/gulpfiles/app/gulpfile.dist.json)
 |                     | Description                                                                                                                      |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | browserSyncConfig   | Required - Defines which config is used for [BrowserSync](https://www.npmjs.com/package/browser-sync) (default: browserSyncDocker) |
@@ -148,55 +153,55 @@ It depends on your configuration what will be returned.
 | generic locale code | `{{ glc }}` | `LanguageUtility::getGenericLocale()` | `{{ path_for('user-login-' ~ glc) }}`   | `$this->router->pathFor('user-login-' . LanguageUtility::getGenericLocale())` |
 
 ## How to create further localisations
-- Duplicate one existing file in folder [`locale/`](https://github.com/InsanityMeetsHH/file-sharing/tree/master/locale) (e.g. copy `de-DE.php` to `fr-FR.php`)
-- (if you use Mode 1 or 2) Duplicate one existing file in folder [`config/routes/`](https://github.com/InsanityMeetsHH/file-sharing/tree/master/config/routes) (e.g. copy `de-DE.php` to `fr-FR.php`)
+- Duplicate one existing file in folder [`locale/`](https://github.com/CodelineRed/file-sharing/tree/master/locale) (e.g. copy `de-DE.php` to `fr-FR.php`)
+- (if you use Mode 1 or 2) Duplicate one existing file in folder [`config/routes/`](https://github.com/CodelineRed/file-sharing/tree/master/config/routes) (e.g. copy `de-DE.php` to `fr-FR.php`)
 - (if you use Mode 1 or 2) Change route prefix from `/de/` to `/fr/` in `config/routes/fr-FR.php`
 - You can also define paths like `/fr-be/` (`locale/fr-BE.php`/ `config/routes/fr-BE.php`) for example
-- If you want to show language in langswitch, add `fr-FR` and domain in `locale => active` ([`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L56))
-- (if you use Mode 1 or 2) Add case for `fr/` in [`src/localisation.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/localisation.php#L47)
+- If you want to show language in langswitch, add `fr-FR` and domain in `locale => active` ([`config/additional-settings.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/additional-settings.dist.php#L56))
+- (if you use Mode 1 or 2) Add case for `fr/` in [`src/localisation.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/localisation.php#L47)
 
 ## How to switch between different url modes
 ### Mode 1
 Example: example.com/de/
 - EN is default language and DE is alternative language for this steps
-- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/additional-settings.dist.php#L52)
 - Set `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
-- Set up english routes with or without `/en` prefix in [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php)
-- Set up german routes with `/de` prefix in [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
-- [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php) can be leave untouched
+- Set up english routes with or without `/en` prefix in [`config/routes/en-US.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/en-US.php)
+- Set up german routes with `/de` prefix in [`config/routes/de-DE.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/de-DE.php)
+- [`config/routes/xx-XX.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/xx-XX.php) can be leave untouched
 
 ### Mode 2
 Example: de.example.com or example.de
 - EN is default language and DE is alternative language for this steps
-- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/additional-settings.dist.php#L52)
 - Set `'process' => \App\Utility\LanguageUtility::LOCALE_URL | \App\Utility\LanguageUtility::DOMAIN_ENABLED,`
 - Enter your domains in `active`
-- Go to [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
+- Go to [`config/routes/de-DE.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/de-DE.php)
 - Remove `/de` prefix from every `route`
-- Go to [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php)
-- Insert all routes where the config is equal between [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
-- Remove these equal routes in [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)
+- Go to [`config/routes/xx-XX.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/xx-XX.php)
+- Insert all routes where the config is equal between [`config/routes/en-US.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/de-DE.php)
+- Remove these equal routes in [`config/routes/en-US.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/en-US.php) and [`config/routes/de-DE.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/de-DE.php)
 
 ### Mode 3 (default)
 Example: example.com
 - EN is default language and DE is alternative language for this steps
-- Got to `locale` in [`config/additional-settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/additional-settings.dist.php#L52)
+- Got to `locale` in [`config/additional-settings.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/additional-settings.dist.php#L52)
 - Set `'process' => \App\Utility\LanguageUtility::LOCALE_SESSION | \App\Utility\LanguageUtility::DOMAIN_DISABLED,`
-- Set up all routes in [`config/routes/xx-XX.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/xx-XX.php)
-- [`config/routes/en-US.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/en-US.php) can be leave untouched
-- [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php) can be leave untouched
+- Set up all routes in [`config/routes/xx-XX.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/xx-XX.php)
+- [`config/routes/en-US.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/en-US.php) can be leave untouched
+- [`config/routes/de-DE.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/de-DE.php) can be leave untouched
 
 ## ACL settings
 With [Geggleto ACL](https://github.com/geggleto/geggleto-acl), routes are protected by role the current user has. By default every new route is not accessable until you give the route roles.
-Routes are defined in the route files (e.g. [`config/routes/de-DE.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/routes/de-DE.php)).
-Any other resource is defined in [`config/settings.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/config/settings.php#L90).
-Inside the Twig templates you can use ACL functions [`has_role`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/templates/partials/navigation.html.twig#L23) and is_allowed.
-Inside controllers you can also use this ACL functions and [many more](https://github.com/geggleto/geggleto-acl/blob/master/src/AclRepository.php) (e.g. [`isAllowed()`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Controller/UserController.php#L101)).
+Routes are defined in the route files (e.g. [`config/routes/de-DE.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/de-DE.php)).
+Any other resource is defined in [`config/settings.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/settings.php#L90).
+Inside the Twig templates you can use ACL functions [`has_role`](https://github.com/CodelineRed/file-sharing/blob/master/templates/partials/navigation.html.twig#L23) and is_allowed.
+Inside controllers you can also use this ACL functions and [many more](https://github.com/geggleto/geggleto-acl/blob/master/src/AclRepository.php) (e.g. [`isAllowed()`](https://github.com/CodelineRed/file-sharing/blob/master/src/Controller/UserController.php#L101)).
 
 ## Troubleshooting
 In some cases you'll get the error message "Internal Server Error".
 
-If this happened, go to [`public/.htaccess`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/public/.htaccess) and enable `RewriteBase /`.
+If this happened, go to [`public/.htaccess`](https://github.com/CodelineRed/file-sharing/blob/master/public/.htaccess) and enable `RewriteBase /`.
 
 If project is in sub directory then `RewriteBase /project/public/`.
 

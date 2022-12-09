@@ -15,7 +15,8 @@ class ErrorController extends BaseController {
      */
     public function notFoundAction($request, $response) {
         // Render view
-        $this->logger->warning("Route '" . $_SESSION['notFoundRoute'] . "' not found - ErrorController:notFound");
+        $notFoundRoute = (isset($_SESSION['notFoundRoute']) ? $_SESSION['notFoundRoute'] : '');
+        $this->logger->warning("Route '" . $notFoundRoute . "' not found - ErrorController:notFound");
         return $this->view->render($response, 'error/not-found.html.twig', [])->withStatus(404);
     }
 
@@ -29,9 +30,11 @@ class ErrorController extends BaseController {
      */
     public function notAllowedAction($request, $response, $args) {
         // Render view
-        $this->logger->warning("Route '" . $_SESSION['notAllowedRoute'] . "' not allowed '" . $_SESSION['notAllowedMethod'] . "' - ErrorController:notAllowed");
+        $notAllowedRoute = (isset($_SESSION['notAllowedRoute']) ? $_SESSION['notAllowedRoute'] : '');
+        $allowedMethods = (isset($_SESSION['allowedMethods']) ? $_SESSION['allowedMethods'] : '');
+        $this->logger->warning("Route '" . $notAllowedRoute . "' not allowed '" . $notAllowedRoute . "' - ErrorController:notAllowed");
         return $this->view->render($response, 'error/not-allowed.html.twig', [
-            'methods' => $_SESSION['allowedMethods'],
+            'methods' => $allowedMethods,
         ])->withStatus(405)->withHeader('Allow', str_replace('-', ', ', $_SESSION['allowedMethods']));
     }
 

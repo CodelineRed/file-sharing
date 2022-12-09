@@ -5,8 +5,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [3.11.0]
+### Added
+- `'htmlcompress' => true,` at `renderer` in [`config/settings.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/settings.php)
+- redirect in [`public/.htaccess`](https://github.com/CodelineRed/file-sharing/blob/master/public/.htaccess)
+- [`sql/upload_limit-records.sql`](https://github.com/CodelineRed/file-sharing/blob/master/sql/upload_limit-records.sql)
+- return type at all setter in [`MappedSuperclass/Base.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/MappedSuperclass/Base.php)
+- `$settings['renderer']['htmlcompress']` in [`src/dependencies.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/dependencies.php)
+- `partial/modal-create-folder.html.twig` in [`folder/show.html.twig`](https://github.com/CodelineRed/file-sharing/blob/master/template/folder/show.html.twig)
+- `platform` in [`composer.json`](https://github.com/CodelineRed/file-sharing/blob/master/composer.json)
+- doctrine/annotations 1.13
+- ramsey/uuid-doctrine 1.8
+- symfony/cache 5.4
 
-## [3.10.0]
+### Changed
+- nickname in [`public/.htaccess`](https://github.com/CodelineRed/file-sharing/blob/master/public/.htaccess)
+- [`Composer/Setup.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/Composer/Setup.php)
+- `localeQualityAsc()` for php 8.0 in [`Utility/LanguageUtility.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/Utility/LanguageUtility.php)
+- [`.gitignore`](https://github.com/CodelineRed/file-sharing/blob/master/.gitignore)
+- [`README.md`](https://github.com/CodelineRed/file-sharing/blob/master/README.md)
+- nickname and `datatables.net-bs4` to `datatables.net-bs5` in [`gulpfile.js`](https://github.com/CodelineRed/file-sharing/blob/master/gulpfile.js)
+- symfony/console 3.0|4.0 to 5.4
+
+### Fixed
+- typo in [`routes/xx-XX.php`](https://github.com/CodelineRed/file-sharing/blob/master/config/routes/xx-XX.php)
+- undefined index in [`Controller/ErrorController.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/Controller/ErrorController.php)
+- return type at `getFile()` and `setFile()` in [`Entity/File.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/Entity/File.php)
+- return type at `getCurrentUser()` and `encryptPassword()` in [`Utility/GeneralUtility.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/Utility/GeneralUtility.php)
+
+### Removed
+- unused `findAll()` in [`Repository/UserRepository.php`](https://github.com/CodelineRed/file-sharing/blob/master/src/Repository/UserRepository.php)
+- `composer.lock`
+- `package-lock.json`
+
+## [3.10.0] - 2022-11-13
 ### Added
 - `findAccessibleFiles()` in [`FolderRepository.php`](https://github.com/InsanityMeetsHH/file-sharing/blob/master/src/Repository/FolderRepository.php)
 

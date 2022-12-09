@@ -14,7 +14,6 @@ class File extends Base {
     
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="string")
      */
     protected $id;
@@ -85,6 +84,9 @@ class File extends Base {
     private $folderJoins;
     
     public function __construct() {
+        if (!isset($this->id)) {
+            $this->setIdWithRamsey();
+        }
         $this->folderJoins = new ArrayCollection();
     }
     
@@ -112,7 +114,7 @@ class File extends Base {
     /**
      * Get $file
      * 
-     * @return FileFile
+     * @return File
      */
     public function getFile() {
         return $this->file;
@@ -121,7 +123,7 @@ class File extends Base {
     /**
      * Set $file
      * 
-     * @param FileFile $file
+     * @param File $file
      * @return File
      */
     public function setFile($file) {

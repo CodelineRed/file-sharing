@@ -14,7 +14,6 @@ class Folder extends Base {
     
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="string")
      */
     protected $id;
@@ -45,6 +44,9 @@ class Folder extends Base {
     private $fileJoins;
     
     public function __construct() {
+        if (!isset($this->id)) {
+            $this->setIdWithRamsey();
+        }
         $this->fileJoins = new ArrayCollection();
     }
     

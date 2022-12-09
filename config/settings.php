@@ -12,6 +12,7 @@ return [
         'renderer' => [
             'debug' => FALSE,
             'cache' => FALSE, // FALSE or path to cache folder "__DIR__ . '/../cache/'"
+            'htmlcompress' => TRUE,
             'template_path' => __DIR__ . '/../templates/',
         ],
         

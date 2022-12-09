@@ -11,7 +11,7 @@ class GeneralUtility {
      * Encrypts the password with password_hash()
      * 
      * @param string $pass
-     * @return type
+     * @return string|false
      */
     static function encryptPassword($pass) {
         return password_hash($pass, PASSWORD_BCRYPT);
@@ -65,7 +65,7 @@ class GeneralUtility {
     /**
      * Returns current user id or NULL if user not logged in.
      * 
-     * @return mixed
+     * @return integer|null
      */
     static function getCurrentUser() {
         return isset($_SESSION['currentUser']) ? $_SESSION['currentUser'] : NULL;

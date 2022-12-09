@@ -139,7 +139,10 @@ class LanguageUtility {
      * @return boolean
      */
     static function localeQualityAsc($a, $b) {
-        return $b['quality'] > $a['quality'];
+        if ($b['quality'] === $a['quality']) {
+            return 0;
+        }
+        return $b['quality'] > $a['quality'] ? 1 : -1;
     }
     
     /**

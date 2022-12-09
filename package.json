@@ -1,7 +1,7 @@
 {
     "name": "file-sharing",
-    "version": "3.10.0",
-    "commitDate": "2021-02-28T13:45:00+01:00",
+    "version": "3.11.0-dev",
+    "commitDate": "2022-12-09T18:30:00+01:00",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",

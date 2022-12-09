@@ -13,7 +13,7 @@ class Setup {
      */
     public static function run(Event $event) {
         // if in docker environment
-        if (isset($_ENV['docker'])) {
+        if (isset($_ENV['docker']) || isset($_ENV['COMPOSER_HOME'])) {
             echo self::getColoredString("Skipped App\\Composer\\Setup in Docker environment.\n", 'green');
             return;
         }
@@ -262,8 +262,8 @@ class Setup {
                     unset($arrConfig['locale']['active']);
                     
                     $arrConfig['locale']['code'] = 'en-US';
-                    $arrConfig['locale']['active']['en-US'] = 'imhh-slim.localhost';
-                    $arrConfig['locale']['active']['de-DE'] = 'imhh-slim.localhost';
+                    $arrConfig['locale']['active']['en-US'] = 'imhh-fs.localhost';
+                    $arrConfig['locale']['active']['de-DE'] = 'imhh-fs.localhost';
                     
                     break;
                 }
@@ -573,9 +573,9 @@ class Setup {
      * Returns colored text for CLI
      * 
      * @param string $text
-     * @param string $foreground
-     * @param string $background
-     * @param array $options
+     * @param string|null $foreground name color or hex color
+     * @param string|null $background name color or hex color
+     * @param array $options e.g. ['underscore', 'reverse']
      * @return string
      */
     protected static function getColoredString($text, $foreground = NULL, $background = NULL, array $options = []) {
