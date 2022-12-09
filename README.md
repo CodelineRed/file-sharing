@@ -46,7 +46,7 @@ Open console on your OS and navigate to your project folder.
 $ php composer create-project codelinered/file-sharing file-sharing "dev-production-3.x"
 $ (optional) git clone https://github.com/CodelineRed/file-sharing.git
 $ cd file-sharing
-$ (optional) git checkout production
+$ (optional) git checkout production-3.x
 $ (optional on unix) rm -rf .git
 $ (optional on windows) rmdir .git /s
 $ (optional) cp config\additional-settings.dist.php config\additional-settings.php
@@ -72,7 +72,7 @@ Open console on your OS and navigate to your project folder.
 $ php composer create-project codelinered/file-sharing file-sharing "3.x-dev"
 $ (optional) git clone https://github.com/CodelineRed/file-sharing.git
 $ cd file-sharing
-$ (optional) git checkout develop
+$ (optional) git checkout 3.x
 $ (optional on unix) rm -rf .git
 $ (optional on windows) rmdir .git /s
 $ npm i
