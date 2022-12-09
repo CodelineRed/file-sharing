@@ -1,6 +1,6 @@
 {
     "name": "file-sharing",
-    "version": "4.0.0-dev",
+    "version": "4.0.0",
     "commitDate": "2022-12-09T16:30:00+01:00",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
