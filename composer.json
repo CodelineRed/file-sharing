@@ -1,7 +1,7 @@
 {
     "name": "codelinered/file-sharing",
     "description": "File Sharing - CodelineRed",
-    "version": "4.0.0",
+    "version": "4.1.0",
     "keywords": ["microframework", "rest", "router", "psr7", "doctrine", "twig", "localisation", "acl", "login", "csrf", "2fa", "upload", "download", "share", "files"],
     "homepage": "http://fs.codelinered.net",
     "license": "MIT",

@@ -251,4 +251,7 @@ return [
     'months' => '%1$s Monate',
     'year' => '%1$s Jahr',
     'years' => '%1$s Jahre',
+
+    'DE' => 'Deutsch',
+    'EN' => 'English',
 ];

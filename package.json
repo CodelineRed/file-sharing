@@ -1,7 +1,7 @@
 {
     "name": "file-sharing",
-    "version": "4.0.0",
-    "commitDate": "2022-12-09T16:30:00+01:00",
+    "version": "4.1.0",
+    "commitDate": "2023-09-01T21:15:00+02:00",
     "description": "Third party JS and CSS files for File Sharing",
     "keywords": [
         "gulp",
@@ -18,27 +18,27 @@
         "jquery"
     ],
     "author": {
-        "name": "InsanityMeetsHH",
-        "email": "software@insanitymeetshh.net"
+        "name": "CodelineRed",
+        "email": "software@codelinered.net"
     },
     "bugs": {
-        "url": "https://github.com/InsanityMeetsHH/gulp-templating/issues"
+        "url": "https://github.com/CodelineRed/file-sharing/issues"
     },
     "license": "MIT",
-    "homepage": "http://gulp.insanitymeetshh.net",
+    "homepage": "https://fs.codelinered.net",
     "repository": {
         "type": "git",
-        "url": "git://github.com/InsanityMeetsHH/gulp-templating.git"
+        "url": "git://github.com/CodelineRed/file-sharing.git"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^6.2.1",
-        "bootstrap": "^5.2.3",
-        "browser-sync": "^2.27.10",
+        "@fortawesome/fontawesome-free": "^6.4.2",
+        "bootstrap": "^5.3.1",
+        "browser-sync": "^2.29.3",
         "cookieconsent": "^3.1.1",
         "cookieconsent-scss-less": "^3.0.6",
         "cssuseragent": "^2.1.31",
-        "datatables.net": "^1.13.1",
-        "datatables.net-bs5": "^1.13.1",
+        "datatables.net": "^1.13.6",
+        "datatables.net-bs5": "^1.13.6",
         "del": "^6.1.1",
         "gulp": "^4.0.2",
         "gulp-autoprefixer": "^8.0.0",
@@ -53,8 +53,8 @@
         "gulp-sass-lint": "^1.4.0",
         "gulp-sourcemaps": "^3.0.0",
         "gulp-uglify-es": "^3.0.0",
-        "jquery": "^3.6.1",
-        "sass": "^1.56.1",
+        "jquery": "^3.7.1",
+        "sass": "~1.64.2",
         "string-format-js": "^1.0.0"
     },
     "scripts": {

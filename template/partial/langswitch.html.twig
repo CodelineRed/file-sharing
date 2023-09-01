@@ -1,7 +1,7 @@
 {% set langswitch = langswitch() %}
 {% if langswitch %}
     {% for lang in langswitch %}
-        <a data-locale="{{ lang.locale }}" lang="{{ lang.locale|slice(0, 2) }}" class="langswitch {% if is_current_locale_path(lang.locale, lang.route, lang.args) %}current{% endif %}" href="{{ lang.domain }}{{ path_for(lang.route, lang.args) }}">{{ lang.label }}</a>
+        <a data-locale="{{ lang.locale }}" lang="{{ lang.locale|slice(0, 2) }}" class="langswitch {% if is_current_locale_path(lang.locale, lang.route, lang.args) %}current{% endif %}" href="{{ lang.domain }}{{ path_for(lang.route, lang.args) }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ lang.label|trans }}">{{ lang.label }}</a>
         {% if loop.last %}{% else %}&#124;{% endif %}
     {% endfor %}
 {% endif %}

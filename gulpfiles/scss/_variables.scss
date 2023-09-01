@@ -1,4 +1,4 @@
-$theme-color-1: #ff2525; // red
+$theme-color-1: #b4b4b4; // light grey
 $theme-color-2: #212121; // dark grey
 $theme-color-3: lighten($theme-color-2, 50%); // light grey
 $theme-color-4: lighten($theme-color-2, 5%); // grey
@@ -7,34 +7,7 @@ $theme-color-4: lighten($theme-color-2, 5%); // grey
 $fa-font-path: '../font';
 
 // Bootstrap
-$enable-responsive-font-sizes: true;
-$body-bg: $theme-color-2;
-$body-color: #fff;
-
-$headings-color: $theme-color-1;
-$hr-border-color: $theme-color-1;
-$input-group-addon-bg: $theme-color-2;
-$link-color: $body-color;
+$tooltip-bg: #000;
+$tooltip-color: #fff;
 $link-decoration: none;
-$nav-tabs-link-active-color: $theme-color-1;
-
-$form-check-input-border: 1px solid rgba(255, 255, 255, 1);
-$form-switch-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%28255, 255, 255, 1%29'/%3e%3c/svg%3e"); // sass-lint:disable-line quotes
-
-$modal-content-bg: $theme-color-2;
-$modal-header-border-color: $theme-color-4;
 $modal-md: 800px;
-
-$dropdown-bg: $theme-color-4;
-$dropdown-color: #fff;
-$dropdown-link-color: #fff;
-$dropdown-link-hover-color: $theme-color-1;
-$dropdown-link-hover-bg: $theme-color-4;
-
-$pagination-bg: $theme-color-2;
-$pagination-color: #fff;
-
-$pagination-hover-color: #fff;
-
-$pagination-disabled-color: $theme-color-3;
-$pagination-disabled-bg: $theme-color-4;

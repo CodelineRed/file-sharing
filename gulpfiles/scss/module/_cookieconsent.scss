@@ -43,30 +43,8 @@
     }
 
     .cc-btn {
-        border-width: 1px;
-        padding: .4em;
-        white-space: normal;
-
-        &.cc-dismiss {
-            background-color: $theme-color-1;
-            border-color: $theme-color-1;
-            color: $white;
-        }
-
-        &.cc-allow,
-        &.cc-deny {
-            border-color: $theme-color-1;
-            color: $white;
-        }
-
-        &.cc-allow,
-        &.cc-deny,
-        &.cc-dismiss {
-            &:hover {
-                background-color: darken($theme-color-1, 10%);
-                border-color: darken($theme-color-1, 10%);
-            }
-        }
+        @extend .btn;
+        @extend .btn-primary;
     }
 
     .cc-link {

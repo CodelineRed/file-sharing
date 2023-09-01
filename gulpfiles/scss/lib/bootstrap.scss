@@ -1,10 +1,11 @@
-// https://getbootstrap.com/docs/5.2/getting-started/introduction/
+// https://getbootstrap.com/docs/5.3/getting-started/introduction/
 @import  '../../../node_modules/bootstrap/scss/mixins/banner';
 @include bsBanner(''); // sass-lint:disable-line mixin-name-format
 
 // Configuration
 @import '../../../node_modules/bootstrap/scss/functions';
 @import '../../../node_modules/bootstrap/scss/variables';
+@import '../../../node_modules/bootstrap/scss/variables-dark';
 @import '../../../node_modules/bootstrap/scss/maps';
 @import '../../../node_modules/bootstrap/scss/mixins';
 @import '../../../node_modules/bootstrap/scss/utilities';
