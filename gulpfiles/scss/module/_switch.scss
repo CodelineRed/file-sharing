@@ -3,7 +3,7 @@
         display: none;
 
         &:checked {
-            & + div {
+            &+div {
                 label {
                     background-color: $success;
                     color: $white;
@@ -24,7 +24,7 @@
             }
         }
 
-        & + div {
+        &+div {
             label {
                 background-color: $warning;
                 color: $black;

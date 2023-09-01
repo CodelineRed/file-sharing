@@ -1,3 +1,14 @@
+# ----- Unix -------- #
+# docker run --rm --interactive --tty --volume $PWD:/app composer create-project --ignore-platform-reqs --no-dev codelinered/file-sharing file-sharing "dev-production"
+# cd file-sharing
+# cp -n config/additional-settings.dist.php config/additional-settings.php
+# docker run --rm --interactive --tty --volume $PWD:/app composer update --no-dev
+# ----- Windows ----- #
+# docker run --rm --interactive --tty --volume %cd%:/app composer create-project --ignore-platform-reqs --no-dev codelinered/file-sharing file-sharing "dev-production"
+# cd file-sharing
+# echo n | copy /-y config\additional-settings.dist.php config\additional-settings.php
+# docker run --rm --interactive --tty --volume %cd%:/app composer update --no-dev
+
 version: '3'
 
 volumes:
@@ -5,12 +16,17 @@ volumes:
     logs:
         driver: local
 
+networks:
+    fs:
+
+# docker-compose build
+# docker-compose up -d
 services:
     # docker exec -ti file-sharing-webserver php doctrine orm:schema-tool:update --force
     database:
         image: mysql:5.7
-        restart: always
-        container_name: file-sharing-db
+        restart: 'no'
+        container_name: file-sharing-database
         environment:
             MYSQL_ROOT_PASSWORD: rootdockerpw
             MYSQL_DATABASE: file_sharing
@@ -21,47 +37,53 @@ services:
         volumes:
             - db_data:/var/lib/mysql
             - ./sql/db-dump.sql:/docker-entrypoint-initdb.d/db-dump.sql
+        networks:
+            fs:
+                aliases:
+                    - database
 
     # http://localhost:7710
     # docker exec -ti file-sharing-webserver php --version
     webserver:
         #image: php:8.0-alpine
         container_name: file-sharing-webserver
-        restart: always
+        restart: 'no'
         working_dir: /var/www
         command: php -S 0.0.0.0:8080 -t public
         environment:
             docker: "true"
-            #APP_DB_HOST: db
+            APP_DB_HOST: database
             APP_DB_PORT: 3306
             APP_DB_NAME: file_sharing
             APP_DB_USER: dockeruser
             APP_DB_PASSWORD: dockerpw
             #APP_DB_SOCKET: /Applications/MAMP/tmp/mysql/mysql.sock
         build:
-            context: ./
-            dockerfile: Dockerfile
+            context: ./docker/
+            dockerfile: Webserver.Dockerfile
         ports:
             - 7710:8080
         volumes:
             - .:/var/www
             - logs:/var/www/logs
-            - ./config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+            - ./docker/php.ini:/usr/local/etc/php/conf.d/docker-php.ini
         depends_on:
             - database
+        networks:
+            - fs
 
     # http://localhost:7712
     adminer:
-        image: adminer
+        #image: adminer
         container_name: file-sharing-adminer
-        restart: always
+        restart: 'no'
+        environment:
+            ADMINER_DEFAULT_SERVER: database
+            ADMINER_DESIGN: custom
+        build:
+            context: ./docker/
+            dockerfile: Adminer.Dockerfile
         ports:
             - 7712:8080
-
-    # docker-compose run composer install --no-dev
-    # docker-compose run composer require user/pack
-    composer:
-        image: composer
-        volumes:
-            - .:/var/www
-        working_dir: /var/www
+        networks:
+            - fs

@@ -35,11 +35,11 @@ label {
     [type='radio'],
     [type='checkbox'] {
         &:checked {
-            ~ .fa-check {
-                display: inline;
+            ~.fa-check {
+                display: inline-block;
             }
 
-            ~ .fa-times {
+            ~.fa-times {
                 display: none;
             }
         }

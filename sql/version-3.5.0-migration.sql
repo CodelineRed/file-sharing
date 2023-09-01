@@ -1,4 +1,4 @@
--- Upgrade from 3.2.0 to 3.3.0
+-- Upgrade from 3.4.0 to 3.5.0
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;

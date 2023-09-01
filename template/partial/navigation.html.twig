@@ -34,13 +34,13 @@
         
         {% if name %}
             <a class="{% if is_current_path('user-show-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': name }) }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
-        {% else %}
+        {% elseif currentUser %}
             <a class="{% if is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ 'user-show-label'|trans }}"><i class="fas fa-user"></i></a> &#124;
         {% endif %}
         
         {% if name and has_role({0: 'superadmin'}) %}
             <a class="{% if is_current_path('user-settings-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': name }) }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ 'user-settings-label'|trans }}"><i class="fas fa-user-cog"></i></a> &#124;
-        {% elseif name is same as(currentUser.name) %}
+        {% elseif currentUser %}
             <a class="{% if is_current_path('user-settings-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': currentUser.name }) }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ 'user-settings-label'|trans }}"><i class="fas fa-user-cog"></i></a> &#124;
         {% endif %}
         <a href="{{ path_for('user-logout-' ~ glc) }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ 'user-logout-label'|trans }}"><i class="fas fa-sign-out-alt"></i></a>
@@ -65,7 +65,7 @@
                 {% if name %}
                     <a class="dropdown-item {% if is_current_path('user-show-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': name }) }}"><i class="fas fa-fw fa-user text-start"></i> {{ 'user-show-label'|trans }}</a>
                     <a class="dropdown-item {% if is_current_path('user-settings-' ~ lc, { 'name': name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': name }) }}"><i class="fas fa-fw fa-user-cog text-start"></i> {{ 'user-settings-label'|trans }}</a>
-                {% else %}
+                {% elseif currentUser %}
                     <a class="dropdown-item {% if is_current_path('user-show-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-show-' ~ lc, { 'name': currentUser.name }) }}"><i class="fas fa-fw fa-user text-start"></i> {{ 'user-show-label'|trans }}</a>
                     <a class="dropdown-item {% if is_current_path('user-settings-' ~ lc, { 'name': currentUser.name }) %}current{% endif %}" href="{{ path_for('user-settings-' ~ lc, { 'name': currentUser.name }) }}"><i class="fas fa-fw fa-user-cog text-start"></i> {{ 'user-settings-label'|trans }}</a>
                 {% endif %}
